@@ -54,13 +54,13 @@ public class Duke {
 //            }
 //        }
     }
-//    private static Result getUserInput(Scanner scanner) {
+//    private static Input getUserInput(Scanner scanner) {
 //        String line = scanner.nextLine();
 //
 //        String[] input = line.split(" ", 2);
 //        String command = input[0];
 //        String description = input.length > 1 ? input[1] : "";
-//        return new Result(command, description);
+//        return new Input(command, description);
 //    }
 //    private record Input(String command, String description) {}
 }
