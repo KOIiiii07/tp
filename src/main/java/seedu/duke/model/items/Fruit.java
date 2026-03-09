@@ -3,14 +3,47 @@ package seedu.duke.model.items;
 import seedu.duke.model.Item;
 
 public class Fruit extends Item {
-    String expiryDate;
-    String size;
-    boolean isRipe;
+    private String expiryDate;
+    private String size;
+    private boolean isRipe;
 
-    public Fruit(String name, int quantity, String binLocation, String expiryDate, String size, boolean isRipe) {
+    public Fruit(String name, int quantity, String binLocation,
+                 String expiryDate, String size, boolean isRipe) {
         super(name, quantity, binLocation);
         this.expiryDate = expiryDate;
         this.size = size;
         this.isRipe = isRipe;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public boolean isRipe() {
+        return isRipe;
+    }
+
+    public void setRipe(boolean ripe) {
+        isRipe = ripe;
+    }
+
+    @Override
+    public String toString() {
+        return "[Fruit] " + super.toString()
+                + ", Expiry: " + expiryDate
+                + ", Size: " + size
+                + ", Ripe: " + isRipe;
     }
 }
