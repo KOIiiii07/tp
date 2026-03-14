@@ -3,7 +3,9 @@ package seedu.duke.parser;
 import seedu.duke.command.AddItemCommand;
 import seedu.duke.command.Command;
 import seedu.duke.exception.DukeException;
+import seedu.duke.parser.category.CommonFieldParser;
 import seedu.duke.parser.category.FruitParser;
+import seedu.duke.parser.category.InputValidator;
 import seedu.duke.parser.category.SnackParser;
 import seedu.duke.parser.category.ToiletriesParser;
 import seedu.duke.parser.category.VegetableParser;
@@ -34,64 +36,6 @@ public class AddItemCommandParser {
         isLiquid = false;
     }
 
-    private void validateRequiredFields(String input, String... fields) throws DukeException {
-        for (String field : fields) {
-            if (!input.contains(field)) {
-                throw new DukeException("Missing required field: " + field);
-            }
-        }
-    }
-
-    private void validateOrder(
-            String input, String... fields) throws DukeException {
-        int previous = -1;
-
-        for (String field : fields) {
-            int current = input.indexOf(field);
-
-            if (current != -1) {
-                if (current < previous) {
-                    throw new DukeException(
-                            "Fields must follow the correct order.");
-                }
-                previous = current;
-            }
-        }
-    }
-
-    private void parseCommonFields(String input) throws DukeException {
-        itemName = FieldParser.extractField(
-                input, "item/", "category/");
-        categoryName = FieldParser.extractField(
-                input, "category/", "bin/");
-
-        bin = FieldParser.extractField(input, "bin/", "qty/");
-        if (bin == null || bin.trim().isEmpty()) {
-            throw new DukeException("Missing bin location.");
-        }
-
-        String quantityString = FieldParser.extractField(
-                input, "qty/", null);
-        if (quantityString == null
-                || quantityString.trim().isEmpty()) {
-            throw new DukeException("Missing quantity.");
-        }
-
-        quantityString = quantityString.trim().split(" ", 2)[0];
-
-        try {
-            quantity = Integer.parseInt(quantityString);
-        } catch (NumberFormatException e) {
-            throw new DukeException(
-                    "Quantity must be an integer.");
-        }
-
-        if (quantity <= 0) {
-            throw new DukeException(
-                    "Quantity must be a positive integer.");
-        }
-    }
-
     private Command buildCommand() {
         return new AddItemCommand(
                 itemName, categoryName, bin, quantity,
@@ -101,11 +45,16 @@ public class AddItemCommandParser {
     public Command handleFruit(
             String input) throws DukeException {
         resetFields();
-        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "size/", "isRipe/");
-        validateOrder(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "size/", "isRipe/");
-        parseCommonFields(input);
+
+        CommonFieldParser commonFields = CommonFieldParser.parse(input, "expiryDate/");
+        itemName = commonFields.itemName;
+        categoryName = commonFields.categoryName;
+        bin = commonFields.bin;
+        quantity = commonFields.quantity;
 
         FruitParser fruitFields = FruitParser.parse(input);
         expiryDate = fruitFields.expiryDate;
@@ -118,11 +67,16 @@ public class AddItemCommandParser {
     public Command handleSnack(
             String input) throws DukeException {
         resetFields();
-        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "expiryDate/");
-        validateOrder(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "expiryDate/");
-        parseCommonFields(input);
+
+        CommonFieldParser commonFields = CommonFieldParser.parse(input, "brand/");
+        itemName = commonFields.itemName;
+        categoryName = commonFields.categoryName;
+        bin = commonFields.bin;
+        quantity = commonFields.quantity;
 
         SnackParser snackFields = SnackParser.parse(input);
         brand = snackFields.brand;
@@ -134,11 +88,16 @@ public class AddItemCommandParser {
     public Command handleToiletries(
             String input) throws DukeException {
         resetFields();
-        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "isLiquid/");
-        validateOrder(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "isLiquid/");
-        parseCommonFields(input);
+
+        CommonFieldParser commonFields = CommonFieldParser.parse(input, "brand/");
+        itemName = commonFields.itemName;
+        categoryName = commonFields.categoryName;
+        bin = commonFields.bin;
+        quantity = commonFields.quantity;
 
         ToiletriesParser toiletriesFields = ToiletriesParser.parse(input);
         brand = toiletriesFields.brand;
@@ -150,11 +109,16 @@ public class AddItemCommandParser {
     public Command handleVegetables(
             String input) throws DukeException {
         resetFields();
-        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "isLeafy/");
-        validateOrder(input, "item/", "category/", "bin/", "qty/",
+        InputValidator.validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "isLeafy/");
-        parseCommonFields(input);
+
+        CommonFieldParser commonFields = CommonFieldParser.parse(input, "expiryDate/");
+        itemName = commonFields.itemName;
+        categoryName = commonFields.categoryName;
+        bin = commonFields.bin;
+        quantity = commonFields.quantity;
 
         VegetableParser vegetableFields = VegetableParser.parse(input);
         expiryDate = vegetableFields.expiryDate;
