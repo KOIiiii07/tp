@@ -1,29 +1,45 @@
 package seedu.duke.parser;
 
 import seedu.duke.command.Command;
+import seedu.duke.command.ExitCommand;
+import seedu.duke.command.HelpCommand;
 import seedu.duke.command.ListCommand;
-import seedu.duke.exception.DukeException;
+import seedu.duke.ui.UI;
 
 public class Parser {
 
-    public Command parse(String input) throws DukeException {
+    private final UI ui;
+
+    public Parser(UI ui) {
+        this.ui = ui;
+    }
+
+    public Command parse(String input) {
         String trimmed = input.trim();
 
         if (trimmed.isEmpty()) {
-            throw new DukeException("Input cannot be empty.");
+            ui.showEmptyInput();
+            return null;
         }
 
         String[] parts = trimmed.split(" ", 2);
         String commandWord = parts[0].toLowerCase();
+        String arguments = parts.length > 1 ? parts[1].trim() : "";
 
         switch (commandWord) {
         case "add":
-            String addInput = parts.length > 1 ? parts[1].trim() : "";
-            return new AddCommandParser().parse(addInput);
+            return new AddCommandParser(ui).parse(arguments);
+        case "delete":
+            return new DeleteCommandParser(ui).parse(arguments);
         case "list":
             return new ListCommand();
+        case "help":
+            return new HelpCommand();
+        case "bye":
+            return new ExitCommand();
         default:
-            throw new DukeException("Unknown command");
+            ui.showUnknownCommand();
+            return null;
         }
     }
 }
