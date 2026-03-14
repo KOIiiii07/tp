@@ -4,6 +4,7 @@ import seedu.duke.command.Command;
 import seedu.duke.command.ExitCommand;
 import seedu.duke.command.HelpCommand;
 import seedu.duke.command.ListCommand;
+import seedu.duke.exception.DukeException;
 import seedu.duke.ui.UI;
 
 public class Parser {
@@ -14,7 +15,7 @@ public class Parser {
         this.ui = ui;
     }
 
-    public Command parse(String input) {
+    public Command parse(String input) throws DukeException {
         String trimmed = input.trim();
 
         if (trimmed.isEmpty()) {

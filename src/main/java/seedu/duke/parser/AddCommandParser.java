@@ -12,37 +12,40 @@ public class AddCommandParser {
         this.ui = ui;
     }
 
-    public Command parse(String input) {
-        String category = FieldParser.extractField(
-                input, "category/", "bin/");
-
-        if (category == null || category.trim().isEmpty()) {
-            ui.showInvalidInput("Missing category. "
-                    + "Use: add item/ITEM category/CATEGORY "
-                    + "bin/BIN qty/QTY");
-            return null;
+    public Command parse(String input) throws DukeException {
+        String trimmedInput = input.trim();
+        if (trimmedInput.isEmpty()) {
+            throw new DukeException("Input is empty.");
         }
 
-        category = category.trim();
+        String itemName = FieldParser.extractField(trimmedInput, "item/", "category/");
+        if (itemName == null || itemName.trim().isEmpty()) {
+            throw new DukeException("Missing item name.");
+        }
+
+        String afterCategory = FieldParser.extractField(trimmedInput, "category/", null);
+        if (afterCategory == null || afterCategory.trim().isEmpty()) {
+            throw new DukeException("Missing category.");
+        }
+
+        String category = afterCategory.split(" ", 2)[0].trim().toLowerCase();
+        if (category.isEmpty()) {
+            throw new DukeException("Missing category.");
+        }
+
         AddItemCommandParser parser = new AddItemCommandParser();
 
-        try {
-            switch (category.toLowerCase()) {
-            case "fruits":
-                return parser.handleFruit(input);
-            case "snacks":
-                return parser.handleSnack(input);
-            case "toiletries":
-                return parser.handleToiletries(input);
-            case "vegetables":
-                return parser.handleVegetables(input);
-            default:
-                ui.showUnknownCategory(category);
-                return null;
-            }
-        } catch (DukeException e) {
-            ui.showError(e.getMessage());
-            return null;
+        switch (category) {
+        case "fruits":
+            return parser.handleFruit(trimmedInput);
+        case "snacks":
+            return parser.handleSnack(trimmedInput);
+        case "toiletries":
+            return parser.handleToiletries(trimmedInput);
+        case "vegetables":
+            return parser.handleVegetables(trimmedInput);
+        default:
+            throw new DukeException("Unknown category: " + category);
         }
     }
 }

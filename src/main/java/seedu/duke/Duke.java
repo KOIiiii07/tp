@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import seedu.duke.command.Command;
+import seedu.duke.exception.DukeException;
 import seedu.duke.model.Category;
 import seedu.duke.model.Inventory;
 import seedu.duke.parser.Parser;
@@ -22,29 +23,34 @@ public class Duke {
         inventory.addCategories(new Category("snacks"));
     }
 
-    public void run() {
+    public void run() throws DukeException {
         ui.showWelcome();
 
         String input;
         while ((input = ui.readCommand()) != null) {
-            Command command = parser.parse(input);
+            try {
+                Command command = parser.parse(input);
 
-            if (command == null) {
-                continue;
+                if (command == null) {
+                    continue;
+                }
+
+                if (command.isExit()) {
+                    break;
+                }
+
+                command.execute(inventory, ui);
+            } catch (DukeException e) {
+                ui.showError(e.getMessage());
             }
 
-            if (command.isExit()) {
-                break;
-            }
-
-            command.execute(inventory, ui);
         }
 
         ui.showGoodbye();
         ui.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DukeException {
         new Duke().run();
     }
 }
