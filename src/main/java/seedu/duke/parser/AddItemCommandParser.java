@@ -4,10 +4,6 @@ import seedu.duke.command.AddItemCommand;
 import seedu.duke.command.Command;
 import seedu.duke.exception.DukeException;
 import seedu.duke.parser.category.FruitParser;
-import seedu.duke.parser.category.ParsedFruitFields;
-import seedu.duke.parser.category.ParsedSnackFields;
-import seedu.duke.parser.category.ParsedToiletriesFields;
-import seedu.duke.parser.category.ParsedVegetableFields;
 import seedu.duke.parser.category.SnackParser;
 import seedu.duke.parser.category.ToiletriesParser;
 import seedu.duke.parser.category.VegetableParser;
@@ -111,7 +107,7 @@ public class AddItemCommandParser {
                 "expiryDate/", "size/", "isRipe/");
         parseCommonFields(input);
 
-        ParsedFruitFields fruitFields = FruitParser.parse(input);
+        FruitParser fruitFields = FruitParser.parse(input);
         expiryDate = fruitFields.expiryDate;
         size = fruitFields.size;
         isRipe = fruitFields.isRipe;
@@ -128,7 +124,7 @@ public class AddItemCommandParser {
                 "brand/", "expiryDate/");
         parseCommonFields(input);
 
-        ParsedSnackFields snackFields = SnackParser.parse(input);
+        SnackParser snackFields = SnackParser.parse(input);
         brand = snackFields.brand;
         expiryDate = snackFields.expiryDate;
 
@@ -144,7 +140,7 @@ public class AddItemCommandParser {
                 "brand/", "isLiquid/");
         parseCommonFields(input);
 
-        ParsedToiletriesFields toiletriesFields = ToiletriesParser.parse(input);
+        ToiletriesParser toiletriesFields = ToiletriesParser.parse(input);
         brand = toiletriesFields.brand;
         isLiquid = toiletriesFields.isLiquid;
 
@@ -160,7 +156,7 @@ public class AddItemCommandParser {
                 "expiryDate/", "isLeafy/");
         parseCommonFields(input);
 
-        ParsedVegetableFields vegetableFields = VegetableParser.parse(input);
+        VegetableParser vegetableFields = VegetableParser.parse(input);
         expiryDate = vegetableFields.expiryDate;
         isLeafy = vegetableFields.isLeafy;
 
