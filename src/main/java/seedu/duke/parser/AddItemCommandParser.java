@@ -1,5 +1,6 @@
 package seedu.duke.parser;
 
+import seedu.duke.Duke;
 import seedu.duke.command.AddItemCommand;
 import seedu.duke.command.Command;
 import seedu.duke.exception.DukeException;
@@ -30,6 +31,14 @@ public class AddItemCommandParser {
         isLiquid = false;
     }
 
+    private void validateRequiredFields(String input, String... fields) throws DukeException {
+        for (String field: fields) {
+            if (!input.contains(field)) {
+                throw new DukeException("Missing required field: " + field);
+            }
+        }
+    }
+
     private void validateOrder(String input, String... fields) throws DukeException {
         int previous = -1;
 
@@ -44,6 +53,7 @@ public class AddItemCommandParser {
             }
         }
     }
+
     private void parseCommonFields(String input) throws DukeException {
         itemName = FieldParser.extractField(input, "item/", "category/");
         categoryName = FieldParser.extractField(input, "category/", "bin/");
@@ -71,77 +81,6 @@ public class AddItemCommandParser {
         }
     }
 
-    private void parseFruitFields(String input) throws DukeException {
-        expiryDate = FieldParser.extractField(input, "expiryDate/", "size/");
-        if (expiryDate == null || expiryDate.trim().isEmpty()) {
-            throw new DukeException("Missing expiry date for fruit.");
-        }
-        DateParser.validateDate(expiryDate);
-
-        size = FieldParser.extractField(input, "size/", "isRipe/");
-        if (size == null || size.trim().isEmpty()) {
-            throw new DukeException("Missing size for fruit.");
-        }
-
-        String ripeString = FieldParser.extractField(input, "isRipe/", null);
-        if (ripeString == null || ripeString.trim().isEmpty()) {
-            throw new DukeException("Missing ripeness for fruit.");
-        }
-
-        if (!(ripeString.equalsIgnoreCase("true") || ripeString.equalsIgnoreCase("false"))) {
-            throw new DukeException("Ripeness must be true or false");
-        }
-        isRipe = Boolean.parseBoolean(ripeString);
-    }
-
-    private void parseSnackFields(String input) throws DukeException {
-        brand = FieldParser.extractField(input, "brand/", "expiryDate/");
-        if (brand == null || brand.trim().isEmpty()) {
-            throw new DukeException("Missing brand for snack.");
-        }
-
-        expiryDate = FieldParser.extractField(input, "expiryDate/", null);
-        if (expiryDate == null || expiryDate.trim().isEmpty()) {
-            throw new DukeException("Missing expiry date for snack.");
-        }
-        DateParser.validateDate(expiryDate);
-    }
-
-    private void parseToiletriesFields(String input) throws DukeException {
-        brand = FieldParser.extractField(input, "brand/", "isLiquid/");
-        if (brand == null || brand.trim().isEmpty()) {
-            throw new DukeException("Missing brand for toiletries.");
-        }
-
-        String liquidString = FieldParser.extractField(input, "isLiquid/", null);
-        if (liquidString == null || liquidString.trim().isEmpty()) {
-            throw new DukeException("Missing liquid field for toiletries.");
-        }
-
-        if (!(liquidString.equalsIgnoreCase("true") || liquidString.equalsIgnoreCase("false"))) {
-            throw new DukeException("Liquid field must be true or false.");
-        }
-        isLiquid = Boolean.parseBoolean(liquidString);
-    }
-
-    private void parseVegetableFields(String input) throws DukeException {
-        expiryDate = FieldParser.extractField(input, "expiryDate/", "isLeafy/");
-        if (expiryDate == null || expiryDate.trim().isEmpty()) {
-            throw new DukeException("Missing expiry date for vegetable.");
-        }
-        DateParser.validateDate(expiryDate);
-
-        String leafyString = FieldParser.extractField(input, "isLeafy/", null);
-        if (leafyString == null || leafyString.trim().isEmpty()) {
-            throw new DukeException("Missing leafy field for vegetable.");
-        }
-
-        if (!(leafyString.equalsIgnoreCase("true") || leafyString.equalsIgnoreCase("false"))) {
-            throw new DukeException("Leafy field must be true or false.");
-        }
-        isLeafy = Boolean.parseBoolean(leafyString);
-    }
-
     private Command buildCommand() {
         return new AddItemCommand(itemName, categoryName, bin, quantity,
                 brand, expiryDate, size, isRipe, isLeafy, isLiquid);
@@ -149,37 +88,62 @@ public class AddItemCommandParser {
 
     public Command handleFruit(String input) throws DukeException {
         resetFields();
+        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+                "expiryDate/", "size/", "isRipe/");
         validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "size/", "isRipe/");
         parseCommonFields(input);
-        parseFruitFields(input);
+
+        ParsedFruitFields fruitFields = FruitParser.parse(input);
+        expiryDate = fruitFields.expiryDate;
+        size = fruitFields.size;
+        isRipe = fruitFields.isRipe;
+
         return buildCommand();
     }
 
     public Command handleSnack(String input) throws DukeException {
         resetFields();
+        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+                "brand/", "expiryDate/");
         validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "expiryDate/");
         parseCommonFields(input);
-        parseSnackFields(input);
+
+        ParsedSnackFields snackFields = SnackParser.parse(input);
+        brand = snackFields.brand;
+        expiryDate = snackFields.expiryDate;
+
         return buildCommand();
     }
 
     public Command handleToiletries(String input) throws DukeException {
         resetFields();
+        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+                "brand/", "isLiquid/");
         validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "brand/", "isLiquid/");
         parseCommonFields(input);
-        parseToiletriesFields(input);
+
+        ParsedToiletriesFields toiletriesFields = ToiletriesParser.parse(input);
+        brand = toiletriesFields.brand;
+        isLiquid = toiletriesFields.isLiquid;
+
         return buildCommand();
     }
 
     public Command handleVegetables(String input) throws DukeException {
         resetFields();
+        validateRequiredFields(input, "item/", "category/", "bin/", "qty/",
+                "expiryDate/", "isLeafy/");
         validateOrder(input, "item/", "category/", "bin/", "qty/",
                 "expiryDate/", "isLeafy/");
         parseCommonFields(input);
-        parseVegetableFields(input);
+
+        ParsedVegetableFields vegetableFields = VegetableParser.parse(input);
+        expiryDate = vegetableFields.expiryDate;;
+        isLeafy = vegetableFields.isLeafy;
+
         return buildCommand();
     }
 }

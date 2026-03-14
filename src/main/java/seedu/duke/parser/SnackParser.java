@@ -1,0 +1,20 @@
+package seedu.duke.parser;
+
+import seedu.duke.exception.DukeException;
+
+public class SnackParser {
+    public static ParsedSnackFields parse(String input) throws DukeException {
+        String brand = FieldParser.extractField(input, "brand/", "expiryDate/");
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new DukeException("Missing brand for snack.");
+        }
+
+        String expiryDate = FieldParser.extractField(input, "expiryDate/", null);
+        if (expiryDate == null || expiryDate.trim().isEmpty()) {
+            throw new DukeException("Missing expiry date for snack.");
+        }
+        DateParser.validateDate(expiryDate);
+
+        return new ParsedSnackFields(brand, expiryDate);
+    }
+}
