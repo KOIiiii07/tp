@@ -11,10 +11,12 @@ public class FieldParser {
      *
      * @param input    the full input string
      * @param startKey the start marker e.g. "item/"
-     * @param endKey   the end marker e.g. "category/", or null for end of string
-     * @return the extracted value trimmed, or null if startKey not found
+     * @param endKey   the end marker or null for end of string
+     * @return the extracted value trimmed, or null if not found
      */
-    public static String extractField(String input, String startKey, String endKey) {
+    public static String extractField(String input,
+                                      String startKey,
+                                      String endKey) {
         int startIndex = input.indexOf(startKey);
         if (startIndex == -1) {
             return null;

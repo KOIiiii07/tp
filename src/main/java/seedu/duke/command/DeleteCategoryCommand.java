@@ -13,7 +13,8 @@ public class DeleteCategoryCommand extends Command {
 
     @Override
     public void execute(Inventory inventory, UI ui) {
-        Category category = inventory.findCategoryByName(categoryName);
+        Category category = inventory.findCategoryByName(
+                categoryName);
 
         if (category == null) {
             ui.showCategoryNotFound(categoryName);
@@ -26,7 +27,8 @@ public class DeleteCategoryCommand extends Command {
             String response = ui.readCommand();
 
             if (response == null
-                    || !response.trim().equalsIgnoreCase("yes")) {
+                    || !response.trim()
+                    .equalsIgnoreCase("yes")) {
                 ui.showDeleteCategoryCancelled(categoryName);
                 return;
             }

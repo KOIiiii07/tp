@@ -22,7 +22,8 @@ public class DeleteItemCommand extends Command {
             Item item = category.findItemByName(itemName);
             if (item != null) {
                 category.getItems().remove(item);
-                ui.showItemDeleted(itemName, category.getName());
+                ui.showItemDeleted(itemName,
+                        category.getName());
                 return;
             }
         }

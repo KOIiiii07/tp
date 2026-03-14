@@ -27,19 +27,19 @@ public class Parser {
         String arguments = parts.length > 1 ? parts[1].trim() : "";
 
         switch (commandWord) {
-            case "add":
-                return new AddCommandParser(ui).parse(arguments);
-            case "delete":
-                return new DeleteCommandParser(ui).parse(arguments);
-            case "list":
-                return new ListCommand();
-            case "help":
-                return new HelpCommand();
-            case "bye":
-                return new ExitCommand();
-            default:
-                ui.showUnknownCommand();
-                return null;
+        case "add":
+            return new AddCommandParser(ui).parse(arguments);
+        case "delete":
+            return new DeleteCommandParser(ui).parse(arguments);
+        case "list":
+            return new ListCommand();
+        case "help":
+            return new HelpCommand();
+        case "bye":
+            return new ExitCommand();
+        default:
+            ui.showUnknownCommand();
+            return null;
         }
     }
 }

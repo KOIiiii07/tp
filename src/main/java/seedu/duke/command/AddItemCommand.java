@@ -21,9 +21,12 @@ public class AddItemCommand extends Command {
     private final boolean isLeafy;
     private final boolean isLiquid;
 
-    public AddItemCommand(String itemName, String categoryName, String bin,
-                          int quantity, String brand, String expiryDate,
-                          String size, boolean isRipe, boolean isLeafy,
+    public AddItemCommand(String itemName,
+                          String categoryName,
+                          String bin, int quantity,
+                          String brand, String expiryDate,
+                          String size, boolean isRipe,
+                          boolean isLeafy,
                           boolean isLiquid) {
         this.itemName = itemName;
         this.categoryName = categoryName;
@@ -39,7 +42,8 @@ public class AddItemCommand extends Command {
 
     @Override
     public void execute(Inventory inventory, UI ui) {
-        Category category = inventory.findCategoryByName(categoryName);
+        Category category = inventory.findCategoryByName(
+                categoryName);
 
         if (category == null) {
             ui.showCategoryNotFound(categoryName);
@@ -54,21 +58,26 @@ public class AddItemCommand extends Command {
         }
 
         category.addItem(item);
-        ui.showItemAdded(itemName, quantity, category.getName(), bin);
+        ui.showItemAdded(itemName, quantity,
+                category.getName(), bin);
     }
 
-    private Item createItemByCategory(String categoryName) {
-        switch (categoryName.toLowerCase()) {
-            case "fruits":
-                return new Fruit(itemName, quantity, bin, expiryDate, size, isRipe);
-            case "vegetables":
-                return new Vegetable(itemName, quantity, bin, expiryDate, isLeafy);
-            case "toiletries":
-                return new Toiletries(itemName, quantity, bin, brand, isLiquid);
-            case "snacks":
-                return new Snack(itemName, quantity, bin, brand, expiryDate);
-            default:
-                return null;
+    private Item createItemByCategory(String catName) {
+        switch (catName.toLowerCase()) {
+        case "fruits":
+            return new Fruit(itemName, quantity, bin,
+                    expiryDate, size, isRipe);
+        case "vegetables":
+            return new Vegetable(itemName, quantity, bin,
+                    expiryDate, isLeafy);
+        case "toiletries":
+            return new Toiletries(itemName, quantity, bin,
+                    brand, isLiquid);
+        case "snacks":
+            return new Snack(itemName, quantity, bin,
+                    brand, expiryDate);
+        default:
+            return null;
         }
     }
 }
