@@ -23,7 +23,7 @@ public class FindItemParser {
         if (input.isEmpty()) {
             logger.log(Level.WARNING, "Find command missing target.");
             ui.showInvalidInput("Please specify what to find. "
-                    + "or find category/CATEGORY"
+                    + "or find category/CATEGORY "
                     + "or find expiryDate/DATE");
             return null;
         }
@@ -34,7 +34,7 @@ public class FindItemParser {
             logger.log(Level.WARNING, "Find command missing name.");
             ui.showInvalidInput("Missing name. "
                     + "Use: find item/ITEM "
-                    + "or find category/CATEGORY"
+                    + "or find category/CATEGORY "
                     + "or find expiryDate/DATE");
             return null;
         }
@@ -49,7 +49,7 @@ public class FindItemParser {
 //        case "keyword":
 //            logger.log(Level.INFO, "Parsed find category command for: " + name);
 //            return new FindItemByCategroyCommand(name);
-        case "expiryDate":
+        case "expirydate":
             logger.log(Level.INFO, "Parsed find expiryDate command for: " + name);
             return new FindItemByExpiryDateCommand(name);
         default:
