@@ -21,9 +21,8 @@ import java.util.List;
 public class Storage {
     private final File dataFile;
 
-    public Storage(String filePath) throws IOException {
+    public Storage(String filePath) {
         this.dataFile = new File(filePath);
-        createFile();
     }
 
     private void createFile() throws IOException {
@@ -39,6 +38,7 @@ public class Storage {
 
     public void load(Inventory inventory, UI ui) throws DukeException {
         try {
+            createFile();
             List<String> lines = Files.readAllLines(dataFile.toPath());
             AddItemCommandParser addItemCommandParser = new AddItemCommandParser();
 
@@ -94,6 +94,7 @@ public class Storage {
         }
 
         try {
+            createFile();
             Files.write(dataFile.toPath(), lines);
         } catch (IOException e) {
             throw new DukeException("Unable to save inventory.");

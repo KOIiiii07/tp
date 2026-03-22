@@ -8,8 +8,6 @@ import seedu.duke.parser.Parser;
 import seedu.duke.storage.Storage;
 import seedu.duke.ui.UI;
 
-import java.io.IOException;
-
 public class Duke {
     private final Inventory inventory;
     private final UI ui;
@@ -20,12 +18,7 @@ public class Duke {
         ui = new UI();
         inventory = new Inventory();
         parser = new Parser(ui);
-
-        try {
-            storage = new Storage("./data/inventory.txt");
-        } catch (IOException e) {
-            throw new DukeException("Unable to initialize storage file.");
-        }
+        storage = new Storage("./data/inventory.txt");
 
         inventory.addCategories(new Category("fruits"));
         inventory.addCategories(new Category("vegetables"));
@@ -56,7 +49,6 @@ public class Duke {
             } catch (DukeException e) {
                 ui.showError(e.getMessage());
             }
-
         }
 
         ui.showGoodbye();
