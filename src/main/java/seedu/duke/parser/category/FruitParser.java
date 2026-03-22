@@ -21,8 +21,6 @@ public class FruitParser {
 
     public static FruitParser parse(String input) throws DukeException {
         assert input != null : "FruitParser received null input.";
-        logger.log(Level.FINE, "Processing fruit special fields.");
-
         String expiryDate = FieldParser.extractField(input, "expiryDate/", "size/");
         if (expiryDate == null || expiryDate.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing expiry date for fruit.");
@@ -48,7 +46,6 @@ public class FruitParser {
         }
         boolean isRipe = Boolean.parseBoolean(ripeString);
 
-        logger.log(Level.FINE, "Finished processing fruit special fields.");
         return new FruitParser(expiryDate, size, isRipe);
     }
 }

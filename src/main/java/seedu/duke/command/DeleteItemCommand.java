@@ -23,8 +23,6 @@ public class DeleteItemCommand extends Command {
         assert inventory != null : "DeleteItemCommand received null inventory.";
         assert ui != null : "DeleteItemCommand received null UI.";
         assert itemName != null : "DeleteItemCommand received null item name.";
-        logger.log(Level.FINE, "Executing DeleteItemCommand for item: " + itemName);
-
         List<Category> categories = inventory.getCategories();
 
         for (Category category : categories) {

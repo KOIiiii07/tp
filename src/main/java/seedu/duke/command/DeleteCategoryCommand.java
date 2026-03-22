@@ -21,8 +21,6 @@ public class DeleteCategoryCommand extends Command {
         assert inventory != null : "DeleteCategoryCommand received null inventory.";
         assert ui != null : "DeleteCategoryCommand received null UI.";
         assert categoryName != null : "DeleteCategoryCommand received null category name.";
-        logger.log(Level.FINE, "Executing DeleteCategoryCommand for category: " + categoryName);
-
         Category category = inventory.findCategoryByName(
                 categoryName);
 
@@ -33,7 +31,6 @@ public class DeleteCategoryCommand extends Command {
         }
 
         if (!category.isEmpty()) {
-            logger.log(Level.FINE, "Category '" + categoryName + "' is not empty; requesting confirmation.");
             ui.showDeleteCategoryConfirmation(
                     categoryName, category.getItemCount());
             String response = ui.readCommand();
@@ -47,7 +44,6 @@ public class DeleteCategoryCommand extends Command {
             }
 
             category.getItems().clear();
-            logger.log(Level.FINE, "Cleared items in category: " + categoryName);
             ui.showCategoryItemsCleared(categoryName);
         }
         logger.log(Level.INFO, "Deleted category '" + categoryName + "'.");

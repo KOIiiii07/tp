@@ -28,8 +28,6 @@ public class FindItemByExpiryDateCommand extends Command {
         assert inventory != null : "FindItemCommand received null inventory.";
         assert ui != null : "FindItemCommand received null UI.";
         assert expiryDateInput != null : "FindItemCommand received null expiry date.";
-        logger.log(Level.FINE, "Executing FindItemByExpiryDateCommand for cutoff: " + expiryDateInput);
-
         LocalDate cutoffDate = DateParser.parseDate(expiryDateInput);
         List<String> matches = new ArrayList<>();
 

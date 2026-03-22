@@ -24,8 +24,6 @@ public class AddItemCommand extends Command {
     public void execute(Inventory inventory, UI ui) throws DukeException {
         assert inventory != null : "AddItemCommand received null inventory.";
         assert ui != null : "AddItemCommand received null UI.";
-        logger.log(Level.FINE, "Executing AddItemCommand for category: " + categoryName);
-
         Category category = inventory.findCategoryByName(categoryName);
 
         if (category == null) {

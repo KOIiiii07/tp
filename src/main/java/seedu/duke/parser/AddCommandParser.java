@@ -18,23 +18,17 @@ public class AddCommandParser {
 
     public Command parse(String input) throws DukeException {
         assert input != null : "AddCommandParser received null input.";
-        logger.log(Level.FINE, "Parsing add command input.");
+        if (input.isEmpty()) {
+            logger.log(Level.WARNING, "Add command input is empty.");
+            throw new DukeException("Input is empty.");
+        }
 
-        String trimmedInput = getTrimmedInput(input);
+        String trimmedInput = input.trim();
         validateRequiredFields(trimmedInput);
 
         String category = extractCategory(trimmedInput);
         logger.log(Level.INFO, "Processing add command for category: " + category);
         return parseByCategory(trimmedInput, category);
-    }
-
-    private String getTrimmedInput(String input) throws DukeException {
-        String trimmedInput = input.trim();
-        if (trimmedInput.isEmpty()) {
-            logger.log(Level.WARNING, "Add command input is empty.");
-            throw new DukeException("Input is empty.");
-        }
-        return trimmedInput;
     }
 
     private void validateRequiredFields(String input) throws DukeException {

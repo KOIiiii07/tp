@@ -25,8 +25,6 @@ public class FindItemByCategoryCommand extends Command {
         assert inventory != null : "FindItemByCategoryCommand received null inventory.";
         assert ui != null : "FindItemByCategoryCommand received null UI.";
         assert categoryInput != null : "FindItemByCategoryCommand received null category input.";
-        logger.log(Level.FINE, "Executing FindItemByCategoryCommand for category: " + categoryInput);
-
         Category matched = inventory.findCategoryByName(categoryInput);
 
         if (matched == null) {

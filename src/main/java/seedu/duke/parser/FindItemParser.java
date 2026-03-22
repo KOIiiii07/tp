@@ -19,8 +19,6 @@ public class FindItemParser {
 
     public Command parse(String input) {
         assert input != null : "FindCommandParser received null input.";
-        logger.log(Level.FINE, "Parsing find command.");
-
         if (input.isEmpty()) {
             logger.log(Level.WARNING, "Find command missing target.");
             ui.showInvalidInput("Please specify what to find. "
@@ -45,13 +43,10 @@ public class FindItemParser {
 
         switch (type) {
         case "keyword":
-            logger.log(Level.FINE, "Parsed find item command for: " + name);
 //            return new findItemByKeywordCommand(name);
         case "category":
-            logger.log(Level.FINE, "Parsed find category command for: " + name);
             return new FindItemByCategoryCommand(name);
         case "expirydate":
-            logger.log(Level.FINE, "Parsed find expiryDate command for: " + name);
             return new FindItemByExpiryDateCommand(name);
         default:
             logger.log(Level.WARNING, "Unknown find type: " + type);

@@ -21,8 +21,6 @@ public class ToiletriesParser {
 
     public static ToiletriesParser parse(String input) throws DukeException {
         assert input != null : "ToiletriesParser received null inputs.";
-        logger.log(Level.FINE, "Processing toiletries special fields.");
-
         String brand = FieldParser.extractField(input, "brand/", "isLiquid/");
         if (brand == null || brand.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing brand for toiletries.");
@@ -48,7 +46,6 @@ public class ToiletriesParser {
         }
         DateParser.validateDate(expiryDate);
 
-        logger.log(Level.FINE, "Finished processing toiletries special fields.");
         return new ToiletriesParser(brand, isLiquid, expiryDate);
     }
 }
