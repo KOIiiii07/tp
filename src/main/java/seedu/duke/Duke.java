@@ -21,6 +21,16 @@ public class Duke {
         inventory.addCategories(new Category("vegetables"));
         inventory.addCategories(new Category("toiletries"));
         inventory.addCategories(new Category("snacks"));
+        inventory.addCategories(new Category("drinks"));
+        inventory.addCategories(new Category("icecream"));
+        inventory.addCategories(new Category("sweets"));
+        inventory.addCategories(new Category("burger"));
+        inventory.addCategories(new Category("setmeal"));
+        inventory.addCategories(new Category("seafood"));
+        inventory.addCategories(new Category("meat"));
+        inventory.addCategories(new Category("petfood"));
+        inventory.addCategories(new Category("accessories"));
+
     }
 
     public void run() throws DukeException {
