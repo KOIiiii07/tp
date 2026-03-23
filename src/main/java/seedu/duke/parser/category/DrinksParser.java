@@ -13,13 +13,11 @@ public class DrinksParser {
     public final String expiryDate;
     public final String brand;
     public final String flavour;
-    public final int volume;
 
-    public DrinksParser(String expiryDate, String brand, String flavour, int volume) {
+    public DrinksParser(String expiryDate, String brand, String flavour) {
         this.expiryDate = expiryDate;
         this.brand = brand;
         this.flavour = flavour;
-        this.volume = volume;
     }
 
     public static DrinksParser parse(String input) throws DukeException {
@@ -45,21 +43,7 @@ public class DrinksParser {
             throw new DukeException("Missing flavour for drinks.");
         }
 
-        String volumeString = FieldParser.extractField(input, "volume/", null);
-        if (volumeString == null || volumeString.trim().isEmpty()) {
-            logger.log(Level.WARNING, "Missing volume for drinks.");
-            throw new DukeException("Missing volume for drinks.");
-        }
-
-        int volume;
-        try {
-            volume = Integer.parseInt(volumeString.trim());
-        } catch (NumberFormatException e) {
-            logger.log(Level.WARNING, "Volume must be an integer.");
-            throw new DukeException("Volume must be an integer.");
-        }
-
         logger.log(Level.INFO, "End of processing drinks.");
-        return new DrinksParser(expiryDate, brand, flavour, volume);
+        return new DrinksParser(expiryDate, brand, flavour);
     }
 }

@@ -9,12 +9,10 @@ public class Drinks extends Item {
 
 
     public Drinks(String name, int quantity, String binLocation, String expiryDate,
-                  String brand, String flavour, int volume) {
+                  String brand, String flavour) {
         super(name, quantity, binLocation, expiryDate);
         this.brand = brand;
         this.flavour = flavour;
-        this.volume = volume;
-
     }
 
     public String getBrand() {
@@ -33,20 +31,11 @@ public class Drinks extends Item {
         this.flavour = flavour;
     }
 
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
 
     @Override
     public String toString() {
         return "[Drinks] " + super.toString()
                 + ", Brand: " + brand
-                + ", Flavour: " + flavour
-                + ", Volume: " + volume + "ml";
+                + ", Flavour: " + flavour;
     }
 }
