@@ -43,19 +43,19 @@ public class FindItemParser {
         String name = parts[1].trim().toLowerCase();
 
         switch (type) {
-            case "keyword":
-                return new FindItemByKeywordCommand(name);
-            case "category":
-                return new FindItemByCategoryCommand(name);
-            case "expirydate":
-                return new FindItemByExpiryDateCommand(name);
-            default:
-                logger.log(Level.WARNING, "Unknown find type: " + type);
-                ui.showInvalidInput("Unknown find type: '" + type
-                        + "Use: find item/ITEM "
-                        + "or find category/CATEGORY"
-                        + "or find expiryDate/DATE");
-                return null;
+        case "keyword":
+            return new FindItemByKeywordCommand(name);
+        case "category":
+            return new FindItemByCategoryCommand(name);
+        case "expirydate":
+            return new FindItemByExpiryDateCommand(name);
+        default:
+            logger.log(Level.WARNING, "Unknown find type: " + type);
+            ui.showInvalidInput("Unknown find type: '" + type
+                    + "Use: find item/ITEM "
+                    + "or find category/CATEGORY"
+                    + "or find expiryDate/DATE");
+            return null;
         }
     }
 }
