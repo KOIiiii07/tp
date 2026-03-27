@@ -44,14 +44,14 @@ public class UpdateItemCommand extends Command {
         }
 
         String originalName = item.getName();
-        applyCommonUpdates(item);
+        applyUpdates(item);
         logger.log(Level.INFO, "Updated item '" + originalName
                 + "' in category '" + category.getName()
                 + "' to '" + item.getName() + "'.");
         ui.showItemUpdated(originalName, item.getName(), category.getName());
     }
 
-    private void applyCommonUpdates(Item item) throws DukeException {
+    private void applyUpdates(Item item) throws DukeException {
         for (Map.Entry<String, String> entry : updates.entrySet()) {
             String field = entry.getKey();
             String value = entry.getValue();
