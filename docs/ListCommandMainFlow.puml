@@ -5,12 +5,12 @@ autonumber
 hide footbox
 
 actor User
-participant UI
-participant Duke
-participant Parser
-participant ListCommand
-participant Inventory
-participant Category
+participant ":UI" as UI
+participant ":Duke" as Duke
+participant ":Parser" as Parser
+participant ":ListCommand" as ListCommand
+participant ":Inventory" as Inventory
+participant ":Category" as Category
 
 User -> UI: enter list command
 activate UI
@@ -19,37 +19,33 @@ activate Duke
 Duke -> Parser: parse(input)
 activate Parser
 
-alt input starts with list
-    Parser -> ListCommand: create()
-    activate ListCommand
-    ListCommand --> Parser: command
-    deactivate ListCommand
-    Parser --> Duke: command
-    deactivate Parser
+Parser -> ListCommand ++ : ListCommand()
+ListCommand --> Parser: command
+Parser --> Duke: command
+deactivate Parser
 
-    Duke -> ListCommand: execute(inventory, ui)
-    activate ListCommand
-    ListCommand -> UI: showInventory(inventory)
-    activate UI
-    UI -> Inventory: getCategories()
-    activate Inventory
-    Inventory --> UI: categories
-    deactivate Inventory
+Duke -> ListCommand: execute(inventory, ui)
+activate ListCommand
+ListCommand -> UI: showInventory(inventory)
+activate UI
+UI -> Inventory: getCategories()
+activate Inventory
+Inventory --> UI: categories
+deactivate Inventory
 
-    loop for each category
-        UI -> Category: getName(), getItemCount(), getItems()
-        activate Category
-        Category --> UI: category details
-        deactivate Category
-        loop for each item in category
-            UI --> User: display item line
-        end
+loop for each category
+    UI -> Category: getName(), getItemCount(), getItems()
+    activate Category
+    Category --> UI: category details
+    deactivate Category
+    loop for each item in category
+        UI --> User: display item line
     end
-    UI --> User: display inventory listing
-
-    deactivate UI
-    deactivate ListCommand
 end
+UI --> User: display inventory listing
+
+deactivate UI
+deactivate ListCommand
 
 deactivate Duke
 deactivate UI
