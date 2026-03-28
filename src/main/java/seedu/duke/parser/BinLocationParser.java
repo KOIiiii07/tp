@@ -26,7 +26,6 @@ public class BinLocationParser {
 
         if (dashIndex == -1) {
             if (isSingleLetter(normalizedInput) || isInteger(normalizedInput)) {
-                logger.log(Level.FINE, "Parsed bin search input: " + normalizedInput);
                 return normalizedInput;
             }
 
@@ -46,33 +45,9 @@ public class BinLocationParser {
             logger.log(Level.WARNING, "Invalid bin search input format: " + normalizedInput);
             throw new DukeException(INVALID_BIN_SEARCH_MESSAGE);
         }
-
-        logger.log(Level.FINE, "Parsed bin search input: " + normalizedInput);
         return normalizedInput;
     }
 
-    public static boolean isMatchingBin(String itemBinLocation, String binInput) {
-        assert itemBinLocation != null : "BinLocationParser received null item bin location.";
-        assert binInput != null : "BinLocationParser received null search input.";
-
-        String normalizedBinLocation = itemBinLocation.trim().toLowerCase();
-        String[] binParts = normalizedBinLocation.split("-", 2);
-
-        assert binParts.length == 2 : "Stored bin location is not in LETTER-NUMBER format: " + itemBinLocation;
-
-        String binLetter = binParts[0];
-        String binNumber = binParts[1];
-
-        if (binInput.contains("-")) {
-            return normalizedBinLocation.equals(binInput);
-        }
-
-        if (Character.isLetter(binInput.charAt(0))) {
-            return binLetter.equals(binInput);
-        }
-
-        return binNumber.equals(binInput);
-    }
 
     private static boolean isSingleLetter(String input) {
         assert input != null : "isSingleLetter received null input.";
@@ -95,3 +70,4 @@ public class BinLocationParser {
         return true;
     }
 }
+

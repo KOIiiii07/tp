@@ -5,7 +5,6 @@ import seedu.duke.model.Category;
 import seedu.duke.model.Inventory;
 import seedu.duke.model.Item;
 import seedu.duke.ui.UI;
-import seedu.duke.parser.BinLocationParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +29,9 @@ public class FindItemByBinCommand extends Command {
         List<Item> matches = new ArrayList<>();
         List<Category> categories = inventory.getCategories();
 
-        String[] parts = binInput.split("-", 2);
-
         for (Category category : categories) {
             for (Item item : category.getItems()) {
-                if (BinLocationParser.isMatchingBin(item.getBinLocation(), binInput)) {
+                if (isMatchingBin(item.getBinLocation(), binInput)) {
                     matches.add(item);
                 }
             }
@@ -55,5 +52,28 @@ public class FindItemByBinCommand extends Command {
             ui.showMessage((i + 1) + ". " + matches.get(i));
         }
         ui.showDivider();
+    }
+
+    public static boolean isMatchingBin(String itemBinLocation, String binInput) {
+        assert itemBinLocation != null : "BinLocationParser received null item bin location.";
+        assert binInput != null : "BinLocationParser received null search input.";
+
+        String normalizedBinLocation = itemBinLocation.trim().toLowerCase();
+        String[] binParts = normalizedBinLocation.split("-", 2);
+
+        assert binParts.length == 2 : "Stored bin location is not in LETTER-NUMBER format: " + itemBinLocation;
+
+        String binLetter = binParts[0];
+        String binNumber = binParts[1];
+
+        if (binInput.contains("-")) {
+            return normalizedBinLocation.equals(binInput);
+        }
+
+        if (Character.isLetter(binInput.charAt(0))) {
+            return binLetter.equals(binInput);
+        }
+
+        return binNumber.equals(binInput);
     }
 }

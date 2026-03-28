@@ -1,10 +1,10 @@
 package seedu.duke.parser;
 
 import seedu.duke.command.Command;
-import seedu.duke.command.FindItemByBinCommand;
+import seedu.duke.command.FindItemByKeywordCommand;
 import seedu.duke.command.FindItemByCategoryCommand;
 import seedu.duke.command.FindItemByExpiryDateCommand;
-import seedu.duke.command.FindItemByKeywordCommand;
+import seedu.duke.command.FindItemByBinCommand;
 import seedu.duke.exception.DukeException;
 import seedu.duke.ui.UI;
 
