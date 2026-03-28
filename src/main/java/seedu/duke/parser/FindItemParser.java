@@ -8,7 +8,6 @@ import seedu.duke.command.FindItemByBinCommand;
 import seedu.duke.exception.DukeException;
 import seedu.duke.ui.UI;
 
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

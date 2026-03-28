@@ -48,7 +48,6 @@ public class BinLocationParser {
         return normalizedInput;
     }
 
-
     private static boolean isSingleLetter(String input) {
         assert input != null : "isSingleLetter received null input.";
         return input.length() == 1 && Character.isLetter(input.charAt(0));
@@ -66,7 +65,6 @@ public class BinLocationParser {
                 return false;
             }
         }
-
         return true;
     }
 }

@@ -48,9 +48,7 @@ public class FindItemByBinCommand extends Command {
 
         ui.showDivider();
         ui.showMessage("Items in bin location: " + binInput);
-        for (int i = 0; i < matches.size(); i++) {
-            ui.showMessage((i + 1) + ". " + matches.get(i));
-        }
+        ui.showNumberedList(matches);
         ui.showDivider();
     }
 
@@ -77,3 +75,4 @@ public class FindItemByBinCommand extends Command {
         return binNumber.equals(binInput);
     }
 }
+
