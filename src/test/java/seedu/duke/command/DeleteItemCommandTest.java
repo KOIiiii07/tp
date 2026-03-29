@@ -7,8 +7,10 @@ import seedu.duke.model.Inventory;
 import seedu.duke.model.Item;
 import seedu.duke.ui.UI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DeleteItemCommandTest {
@@ -23,17 +25,21 @@ public class DeleteItemCommandTest {
         fruitsCategory = new Category("fruits");
         vegetablesCategory = new Category("vegetables");
 
-        fruitsCategory.addItem(new Item("apple", 40, "A-10", null));
-        fruitsCategory.addItem(new Item("banana", 30, "B-10", null));
-        vegetablesCategory.addItem(new Item("carrot", 20, "C-5", null));
+        fruitsCategory.addItem(
+                new Item("apple", 40, "A-10", null));
+        fruitsCategory.addItem(
+                new Item("banana", 30, "B-10", null));
+        vegetablesCategory.addItem(
+                new Item("carrot", 20, "C-5", null));
 
         inventory.addCategory(fruitsCategory);
         inventory.addCategory(vegetablesCategory);
     }
 
     @Test
-    public void execute_existingItem_itemDeletedFromCategory() {
-        DeleteItemCommand command = new DeleteItemCommand("apple");
+    public void execute_validIndex_itemDeleted() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("fruits", 1);
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
@@ -45,90 +51,99 @@ public class DeleteItemCommandTest {
     }
 
     @Test
-    public void execute_nonExistingItem_showsItemNotFound() {
-        DeleteItemCommand command = new DeleteItemCommand("mango");
+    public void execute_lastIndex_itemDeleted() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("fruits", 2);
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
 
-        assertEquals("mango", ui.notFoundItemName);
-        assertEquals(2, fruitsCategory.getItemCount());
-        assertEquals(1, vegetablesCategory.getItemCount());
-    }
-
-    @Test
-    public void execute_caseInsensitiveName_itemDeleted() {
-        DeleteItemCommand command = new DeleteItemCommand("APPLE");
-        TestUI ui = new TestUI();
-
-        command.execute(inventory, ui);
-
-        assertNull(fruitsCategory.findItemByName("apple"));
         assertEquals(1, fruitsCategory.getItemCount());
+        assertNull(fruitsCategory.findItemByName("banana"));
+        assertEquals("banana", ui.deletedItemName);
     }
 
     @Test
-    public void execute_itemInSecondCategory_deletedFromCorrectCategory() {
-        DeleteItemCommand command = new DeleteItemCommand("carrot");
+    public void execute_invalidIndexTooHigh_showsError() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("fruits", 5);
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
 
-        assertEquals(0, vegetablesCategory.getItemCount());
-        assertNull(vegetablesCategory.findItemByName("carrot"));
-        assertEquals("carrot", ui.deletedItemName);
-        assertEquals("vegetables", ui.deletedFromCategory);
+        assertEquals(2, fruitsCategory.getItemCount());
+        assertEquals(1, ui.errors.size());
     }
 
     @Test
-    public void execute_deleteAllItemsOneByOne_categoryBecomesEmpty() {
+    public void execute_invalidIndexZero_showsError() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("fruits", 0);
         TestUI ui = new TestUI();
 
-        new DeleteItemCommand("apple").execute(inventory, ui);
-        new DeleteItemCommand("banana").execute(inventory, ui);
+        command.execute(inventory, ui);
+
+        assertEquals(2, fruitsCategory.getItemCount());
+        assertEquals(1, ui.errors.size());
+    }
+
+    @Test
+    public void execute_categoryNotFound_showsCategoryNotFound() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("dairy", 1);
+        TestUI ui = new TestUI();
+
+        command.execute(inventory, ui);
+
+        assertEquals("dairy", ui.notFoundCategoryName);
+    }
+
+    @Test
+    public void execute_deleteAllOneByOne_categoryEmpty() {
+        TestUI ui = new TestUI();
+
+        new DeleteItemCommand("fruits", 1)
+                .execute(inventory, ui);
+        new DeleteItemCommand("fruits", 1)
+                .execute(inventory, ui);
 
         assertEquals(0, fruitsCategory.getItemCount());
     }
 
     @Test
-    public void execute_sameNameDifferentCategories_deletesFirstMatch() {
-        vegetablesCategory.addItem(new Item("apple", 10, "V-1", null));
-        DeleteItemCommand command = new DeleteItemCommand("apple");
+    public void execute_deleteFromSecondCategory_correctCategory() {
+        DeleteItemCommand command =
+                new DeleteItemCommand("vegetables", 1);
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
 
-        // First match (fruits) is deleted; vegetable apple remains
-        assertNull(fruitsCategory.findItemByName("apple"));
-        assertNotNull(vegetablesCategory.findItemByName("apple"));
-    }
-
-    @Test
-    public void execute_deleteThenReAdd_itemReAdded() {
-        TestUI ui = new TestUI();
-
-        new DeleteItemCommand("apple").execute(inventory, ui);
-        assertNull(fruitsCategory.findItemByName("apple"));
-
-        fruitsCategory.addItem(new Item("apple", 50, "A-20", null));
-        assertNotNull(fruitsCategory.findItemByName("apple"));
-        assertEquals(50, fruitsCategory.findItemByName("apple").getQuantity());
+        assertEquals(0, vegetablesCategory.getItemCount());
+        assertEquals("carrot", ui.deletedItemName);
+        assertEquals("vegetables", ui.deletedFromCategory);
     }
 
     private static class TestUI extends UI {
         private String deletedItemName;
         private String deletedFromCategory;
-        private String notFoundItemName;
+        private String notFoundCategoryName;
+        private final List<String> errors = new ArrayList<>();
 
         @Override
-        public void showItemDeleted(String itemName, String categoryName) {
+        public void showItemDeleted(String itemName,
+                                    String categoryName) {
             this.deletedItemName = itemName;
             this.deletedFromCategory = categoryName;
         }
 
         @Override
-        public void showItemNotFound(String itemName) {
-            this.notFoundItemName = itemName;
+        public void showCategoryNotFound(String categoryName) {
+            this.notFoundCategoryName = categoryName;
+        }
+
+        @Override
+        public void showError(String message) {
+            errors.add(message);
         }
     }
 }
