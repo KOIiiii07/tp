@@ -53,30 +53,44 @@ Common required fields:
 
 Supported categories and extra fields:
 
-* `fruits`: `size/SIZE isRipe/BOOL`
-* `snacks`: `brand/BRAND`
-* `toiletries`: `brand/BRAND isLiquid/BOOL`
-* `vegetables`: `isLeafy/BOOL`
-* `drinks`: `brand/BRAND flavour/FLAVOUR`
-* `icecream`: `flavour/FLAVOUR isDairyFree/BOOL`
-* `sweets`: `brand/BRAND sweetnessLevel/LEVEL`
-* `burger`: `isSpicy/BOOL pattyType/TYPE`
-* `setmeal`: `mealType/TYPE foodSize/SIZE`
-* `seafood`: `seafoodType/TYPE origin/ORIGIN`
-* `meat`: `meatType/TYPE origin/ORIGIN`
-* `petfood`: `petType/TYPE brand/BRAND`
-* `accessories`: `type/TYPE material/MATERIAL`
+* Fruits
+  `add category/fruits item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE size/SIZE isRipe/BOOLEAN`
+* Vegetables
+  `add category/vegetables item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isLeafy/BOOLEAN`
+* Toiletries
+  `add category/toiletries item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isLiquid/BOOLEAN`
+* Snacks
+  `add category/snacks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isCrunchy/BOOLEAN`
+* Drinks
+  `add category/drinks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND flavour/FLAVOUR isCarbonated/BOOLEAN`
+* Ice cream
+  `add category/icecream item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE flavour/FLAVOUR isDairyFree/BOOLEAN`
+* Sweets
+  `add category/sweets item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND sweetnessLevel/LEVEL isChewy/BOOLEAN`
+* Burger
+  `add category/burger item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isSpicy/BOOLEAN pattyType/TYPE`
+* Set meal
+  `add category/setmeal item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE mealType/TYPE foodSize/SIZE hasDrinks/BOOLEAN`
+* Seafood
+  `add category/seafood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE seafoodType/TYPE origin/ORIGIN isFrozen/BOOLEAN`
+* Meat
+  `add category/meat item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE meatType/TYPE origin/ORIGIN isFrozen/BOOLEAN`
+* Pet food
+  `add category/petfood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE petType/TYPE brand/BRAND isDryFood/BOOLEAN`
+* Accessories
+  `add category/accessories item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE type/TYPE material/MATERIAL isFragile/BOOLEAN`
 
 Examples:
 
-`add category/fruits item/apple bin/A-10 qty/40 expiryDate/2026-10-03 size/big isRipe/true`
-
-`add category/toiletries item/shampoo bin/E-02 qty/15 expiryDate/2026-10-03 brand/Dove isLiquid/true`
+* `add category/fruits item/apple bin/A-10 qty/40 expiryDate/2026-10-3 size/big isRipe/true`
+* `add category/snacks item/potato chips bin/D-5 qty/50 expiryDate/2026-8-12 brand/Lays isCrunchy/true`
+* `add category/drinks item/apple_juice bin/F-1 qty/24 expiryDate/2026-10-3 brand/Marigold flavour/Apple isCarbonated/false`
+* `add category/setmeal item/chicken_rice_set bin/G-3 qty/12 expiryDate/2026-4-1 mealType/lunch foodSize/large hasDrinks/true`
 
 Expected result:
 
 * The item is added to the specified category.
-* The app shows the item name, quantity, category, and bin location.
+* The app confirms the item name, quantity, category, and bin location.
 
 ### Listing all items: `list`
 Lists the entire inventory grouped by category.
