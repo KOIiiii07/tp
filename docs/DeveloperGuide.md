@@ -2,11 +2,32 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+This project is develop based on the concepts taught in CS2113. The overall architecture were inspired by SE EDU
+AddressBook Level-3 project: https://se-education.org/addressbook-level3/
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+This section describes the overall design of the application and how its main components interact.
+
+The application follows a command-based architecture, where user input is parsed into commands that operate on the 
+underlying data model. The system is structured into several key components:
+
+- Parser: Interprets user input and constructs the appropriate command objects.
+- Command: Encapsulates the logic to execute specific user operations.
+- Model: Stores the inventory data, including categories and items.
+- Storage: Handles reading from and writing to the storage file.
+- UI: Manages all user's input and output.
+  
+When a user enters a command, the `Parser` interprets the input and returns a corresponding `Command` object. 
+The `Command` is then executed, modifying the `Model` if necessary and delegating output to the `UI`. 
+After execution, the updated state of the `Model` is saved by the `Storage` component.
+
+This design enforces separation of concerns:
+- Parsing logic is separated from execution logic.
+- Data persistence is handled independently by the storage layer.
+
+This modular structure improves maintainability and allows new features to be added with minimal impact on 
+existing components.
 
 ### Find Item By Expiry Date Feature
 
@@ -1139,30 +1160,68 @@ If this feature is extended in future versions, the following improvements could
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+- Users who need to manage categorized inventory items
+- Users who are comfortable using a Command Line Interface (CLI)
+- Users who want to track item details such as quantity, location, and expiry date
+- Store managers or individuals managing physical storage systems
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+InventoryDock is a CLI-based inventory management system that allows users to efficiently manage categorized items 
+with attributes such as bin location, quantity, and expiry date. It provides fast command-based operations for adding, 
+updating, deleting, and searching items, enabling users to quickly locate and manage inventory without navigating 
+complex interfaces.
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ... | I want to ...             | So that I can ...                                           |
+|---------|----------|---------------------------|-------------------------------------------------------------|
+| v1.0    | new user | see usage instructions    | refer to them when I forget how to use the application      |
+| v1.0    | user     | add items                 | track inventory                                             |
+| v1.0    | user     | delete items              | remove outdated or incorrect entries                        |
+| v1.0    | user     | list items                | view all inventory at once                                  |
+| v2.0    | user     | find items by keyword     | locate an item without having to go through the entire list |
+| v2.0    | user     | find items by category    | find items in a particular category                         |
+| v2.0    | user     | find items by bin         | find items based on storage location                        |
+| v2.0    | user     | find items by expiry date | identify items expiring soon                                |
+| v2.0    | user     | update items              | correct or modify item details                              |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. The application should run on any system with Java 17 or above installed.
+2. The system should handle small to moderate inventory sizes efficiently using linear scans.
+3. The application should persist data between sessions using file storage.
+4. The system should provide clear error messages for invalid user inputs.
+5. The application should be usable via a Command Line Interface.
+6. The system should not crash when encountering malformed storage data, and should handle such cases.
 
 ## Glossary
 
-* *glossary item* - Definition
+* *Item* - A unit stored in the inventory with attributes such as name, quantity, and expiry date.
+* *Category* - A grouping of items within the inventory.
+* *Bin* - A physical storage location identifier (e.g., A-10).
+* *Inventory* - The overall collection of categories and items managed by the system.
+* *Command* - A user input instruction that triggers an operation in the application.
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+This section provides instructions for manually testing the application.
+
+### Launching the application
+
+1. Ensure that Java 17 or above is installed on your system.
+2. Compile and run the `Duke` class.
+3. Verify that the application starts successfully and displays the welcome message.
+
+### Adding sample data
+
+1. Use the `add` command to insert sample items into different categories.
+2. Example:
+    - `add category/fruits item/apple bin/A1 qty/10 expiryDate/2026-4-01 size/medium isRipe/true`
+    - `add category/drinks item/cola bin/B2 qty/5 expiryDate/2026-6-01 brand/coke flavour/original isCarbonated/true`
+3. Run `list` to verify that the items are correctly added.
+
+After setting up the application, proceed to the individual test cases below.
 
 ### Testing add item
 
