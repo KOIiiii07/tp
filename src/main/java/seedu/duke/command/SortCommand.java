@@ -61,18 +61,18 @@ public class SortCommand extends Command {
 
     private String formatSortLabel() {
         return switch (sortType.toLowerCase()) {
-            case "name" -> "name";
-            case "qty" -> "quantity";
-            case "expirydate" -> "expiry date";
-            default -> sortType;
+        case "name" -> "name";
+        case "qty" -> "quantity";
+        case "expirydate" -> "expiry date";
+        default -> sortType;
         };
     }
 
     private Comparator<Item> getComparator() {
         return switch (sortType.toLowerCase()) {
-            case "qty" -> Comparator.comparing(Item::getQuantity).reversed();
-            case "expirydate" -> Comparator.comparing(item -> parseExpiryDate(item.getExpiryDate()));
-            default -> Comparator.comparing(Item::getName, String.CASE_INSENSITIVE_ORDER);
+        case "qty" -> Comparator.comparing(Item::getQuantity).reversed();
+        case "expirydate" -> Comparator.comparing(item -> parseExpiryDate(item.getExpiryDate()));
+        default -> Comparator.comparing(Item::getName, String.CASE_INSENSITIVE_ORDER);
         };
     }
 
