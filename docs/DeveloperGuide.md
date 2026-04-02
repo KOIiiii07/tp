@@ -1139,7 +1139,7 @@ public String toStorageString(String categoryName) {
 This design ensures that each subclass is responsible for serializing its own data,
 while the `Storage` class remains independent of specific item types.
 
-The main interaction for this flow is illustrated in ![StorageSavingMainFlow.png](diagrams/StorageSavingMainFlow.png).
+The main interaction for this flow is illustrated in [StorageSavingMainFlow.png](diagrams/StorageSavingMainFlow.png).
 
 #### Loading execution flow
 
