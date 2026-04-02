@@ -1,6 +1,7 @@
 package seedu.duke.parser;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.command.SortCommand;
 import seedu.duke.exception.DukeException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
