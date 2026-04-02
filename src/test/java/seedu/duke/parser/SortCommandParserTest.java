@@ -1,6 +1,7 @@
 package seedu.duke.parser;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.command.SortCommand;
 import seedu.duke.exception.DukeException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,19 +27,19 @@ public class SortCommandParserTest {
                 exception.getMessage());
     }
 
-//    @Test
-//    public void parse_expirydate_returnsSortCommand() throws DukeException {
-//        assertInstanceOf(SortCommand.class, parser.parse("expirydate"));
-//    }
-//
-//    @Test
-//    public void parse_qty_returnsSortCommand() throws DukeException {
-//        assertInstanceOf(SortCommand.class, parser.parse("qty"));
-//    }
-//
-//    @Test
-//    public void parse_caseInsensitive_returnsSortCommand() throws DukeException {
-//        assertInstanceOf(SortCommand.class, parser.parse("ExpiryDate"));
-//        assertInstanceOf(SortCommand.class, parser.parse("QTY"));
-//    }
+    @Test
+    public void parse_expirydate_returnsSortCommand() throws DukeException {
+        assertInstanceOf(SortCommand.class, parser.parse("expirydate"));
+    }
+
+    @Test
+    public void parse_qty_returnsSortCommand() throws DukeException {
+        assertInstanceOf(SortCommand.class, parser.parse("qty"));
+    }
+
+    @Test
+    public void parse_caseInsensitive_returnsSortCommand() throws DukeException {
+        assertInstanceOf(SortCommand.class, parser.parse("ExpiryDate"));
+        assertInstanceOf(SortCommand.class, parser.parse("QTY"));
+    }
 }

@@ -1075,6 +1075,105 @@ If this feature is extended in future versions, the following improvements could
 - Add pagination or condensed summaries for larger inventories.
 - Reuse the same command object for alternate UI front ends if the presentation layer expands.
 
+### Sort Feature
+
+The product supports displaying the current inventory with items sorted within each category using the `sort` command.
+
+This feature enhances the `list` command by allowing users to view their inventory in an organized manner. Users can sort items by name (alphabetically), expiry date (earliest first), or quantity (highest first), while maintaining the same grouped-by-category display format as the `list` command.
+
+For example, a user can enter `sort expirydate` to quickly identify items that are expiring soon across all categories.
+
+#### High-level design
+
+The sort feature extends the existing list functionality:
+
+1. The user enters a `sort SORT_TYPE` command.
+2. `Parser` recognises the command word and delegates to `SortCommandParser` to parse the sort type.
+3. `SortCommandParser` validates the sort type and creates a `SortCommand`.
+4. `Duke` executes the command with the current `Inventory` and `UI`.
+5. `SortCommand` delegates rendering to `UI.showSortedInventory(inventory, sortType)`.
+6. `UI` sorts items within each category and prints the formatted listing to the user.
+
+#### Component-level implementation
+
+The feature is implemented using the following classes:
+
+- `Parser`
+- `SortCommandParser`
+- `SortCommand`
+- `Inventory`
+- `Category`
+- `Item`
+- `UI`
+
+The responsibilities are:
+
+- `Parser` detects the `sort` command and delegates parsing to `SortCommandParser`.
+- `SortCommandParser` validates the sort type argument.
+- `SortCommand` represents the sort operation and triggers the display behaviour.
+- `Inventory` provides access to the stored categories.
+- `Category` provides the items for each category.
+- `Item` provides the fields used for sorting.
+- `UI` formats and prints the sorted inventory contents.
+
+#### Command execution flow
+
+When `SortCommand.execute()` is called:
+
+1. Assert that `inventory`, `ui`, and `sortType` are not `null`.
+2. Log the sorting operation.
+3. Call `ui.showSortedInventory(inventory, sortType)`.
+4. Inside the UI layer, retrieve all categories from the `Inventory`.
+5. For each `Category`, sort its items using the appropriate comparator.
+6. Display each category with its sorted items.
+7. Print the combined sorted inventory listing to the user.
+
+#### Sorting logic
+
+The sorting is implemented in `UI.getComparator(String sortType)`:
+
+- `name`: Case-insensitive alphabetical sorting by item name.
+- `expirydate`: Chronological sorting by expiry date (earliest first), with invalid dates treated as latest.
+- `qty`: Descending numerical sorting by quantity (highest first).
+
+Items are sorted in-place within each category to avoid modifying the underlying data structure.
+
+#### Why the feature is implemented this way
+
+The sort feature reuses the existing list display format to maintain consistency. Sorting is performed at display time rather than modifying the stored order, preserving the original inventory state.
+
+This approach keeps the feature lightweight and focused on presentation rather than data modification.
+
+#### Error handling and validation
+
+- `SortCommandParser` validates that a sort type is provided and matches one of the supported types.
+- Invalid sort types result in a clear error message listing valid options.
+- The command handles empty inventories gracefully (same as `list`).
+
+#### Alternatives considered
+
+Alternative 1: Modify the `list` command to accept optional sort parameters.
+
+This was rejected to keep `list` simple and maintain backward compatibility.
+
+Alternative 2: Sort categories in addition to items within categories.
+
+This was not implemented as the primary use case is sorting items within categories, not reordering categories themselves.
+
+#### Current limitations
+
+- Sorting is case-insensitive for names but case-sensitive for other fields.
+- Date parsing errors result in items being sorted to the end rather than failing.
+- No support for multi-level sorting (e.g., sort by expiry date, then by name).
+
+#### Testing
+
+The sort feature includes comprehensive unit tests for:
+
+- `SortCommand` execution with different sort types.
+- `SortCommandParser` input validation and command creation.
+- Sorting logic correctness through UI method testing.
+
 ### Storage feature
 
 This product includes a storage component that is responsible for persisting inventory data

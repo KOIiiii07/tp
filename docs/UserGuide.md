@@ -121,6 +121,27 @@ Expected result:
 * Items under each category are listed with their details.
 * If the inventory is empty, the app shows `Inventory is empty.`
 
+### Sorting items: `sort`
+Lists the entire inventory grouped by category with items sorted within each category.
+
+Format: `sort SORT_TYPE`
+
+Parameters:
+* `SORT_TYPE`: The field to sort by. Valid values are:
+  * `expirydate` - Sort items by expiry date (earliest first)
+  * `qty` - Sort items by quantity (highest first)
+
+Examples:
+
+* `sort expirydate`
+* `sort qty`
+
+Expected result:
+
+* All categories are shown in numbered order.
+* Items under each category are sorted by the specified field and listed with their details.
+* If the inventory is empty, the app shows `Inventory is empty.`
+
 ### Find items by keyword: `find keyword/...`
 Finds items whose names contain the given keyword.
 

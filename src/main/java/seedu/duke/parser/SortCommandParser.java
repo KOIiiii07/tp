@@ -1,6 +1,7 @@
 package seedu.duke.parser;
 
 import seedu.duke.command.Command;
+import seedu.duke.command.SortCommand;
 import seedu.duke.exception.DukeException;
 
 import java.util.logging.Level;
@@ -34,7 +35,7 @@ public class SortCommandParser {
         switch (sortType) {
         case "expirydate":
         case "qty":
-//            return new SortCommand(sortType);
+            return new SortCommand(sortType);
         default:
             logger.log(Level.WARNING, "Unknown sort type: " + sortType);
             throw new DukeException("Unknown sort type: '" + sortType + "'. "
