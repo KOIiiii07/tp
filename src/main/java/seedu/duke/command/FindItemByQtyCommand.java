@@ -52,16 +52,16 @@ public class FindItemByQtyCommand extends Command {
         }
 
         if (matches.isEmpty()) {
-            logger.log(Level.INFO, "No items found with quantity: " + qtyInput);
-            ui.showMessage("No items found with quantity: " + qtyInput + ".");
+            String noItemsMessage = ui.formatNoItemsFoundMessage("with quantity: " + qtyInput);
+            logger.log(Level.INFO, noItemsMessage);
+            ui.showMessage(noItemsMessage);
             return;
         }
 
-        logger.log(Level.INFO, "Found " + matches.size()
-                + " item(s) with quantity '" + qtyInput + "'.");
+        logger.log(Level.INFO, ui.formatFoundItemsMessage(matches.size(), "with quantity '" + qtyInput + "'"));
 
         ui.showDivider();
-        ui.showMessage("Items with quantity: " + qtyInput);
+        ui.showMessage(ui.formatFindResultsHeader("with quantity: " + qtyInput));
         ui.showNumberedList(matches);
         ui.showDivider();
     }
