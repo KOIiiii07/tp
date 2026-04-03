@@ -139,5 +139,12 @@ I also added or updated the following UML sequence diagrams:
 
 ### Review and Mentoring Contributions
 
-- Reviewed and responded to code-review feedback on my feature PRs, especially for parser design, search behaviour, and documentation clarity.
-- Helped smooth integration of related features by refactoring and cleaning up parser and test structure where needed.
+- Reviewed teammates' PRs and gave concrete code-review feedback on parser structure, model design, logging, storage behaviour, and test quality. Examples include:
+- [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28) Suggested combining parser-related classes and extracting shared validation/parsing logic to improve abstraction and readability.
+- [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32) Reviewed the refactor of `AddItemCommandParser` and related UI changes, with feedback on abstraction and code clarity.
+- [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39) Reviewed assertion and logging changes for delete flows, commenting on consistency and debuggability.
+- [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour, logging, error handling, and test coverage.
+- [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55) Gave feedback on storage logging noise, reuse of parsing helpers, and maintainability of category-handling logic.
+- [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
+- [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
+- [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
