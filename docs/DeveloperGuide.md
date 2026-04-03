@@ -2,8 +2,8 @@
 
 ## Acknowledgements
 
-This project is develop based on the concepts taught in CS2113. The overall architecture were inspired by SE EDU
-AddressBook Level-3 project: https://se-education.org/addressbook-level3/
+This project is developed based on the concepts taught in CS2113. The overall architecture were inspired by
+the [SE EDU AddressBook Level 3 project](https://se-education.org/addressbook-level3/).
 
 ## Design & implementation
 
