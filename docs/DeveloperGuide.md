@@ -616,6 +616,8 @@ When `FindItemByQtyCommand.execute()` is called, the implementation performs the
 10. Display a `no items found` message if `matches` is empty, or
 11. Print the list of matching items with numbering and dividers.
 
+The main interaction for this flow is illustrated in [FindItemByQtyCommandMainFlow.png](diagrams/FindItemByQtyCommand_sequence-Sequence_Diagram_for_FindItemByQtyCommand__Main_Control_Flow_.png).
+
 The key comparison is:
 
 ```java
@@ -2354,6 +2356,7 @@ After setting up the application, proceed to the individual test cases below.
 12. Exit the application using the `bye` command.
 13. Delete the storage file before launching the application.
 14. Verify that the application recreates the file automatically and starts without crashing.
+
 
 
 
