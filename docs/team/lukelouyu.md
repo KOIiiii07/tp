@@ -9,7 +9,7 @@ InventoryDock is a Java-based command-line inventory management application desi
 
 My main contributions focused on extending the project’s category-based inventory support and strengthening the command-processing flow for newly added item types. In particular, I implemented and refined category-specific item classes, built and integrated category-specific parsers for structured user input, and contributed to the supporting inventory model through `Category` and `Inventory`. I also contributed test code, JavaDocs, and style-compliance fixes, helping make the codebase more modular, more robust against invalid input, and easier to maintain.
 
-### code contributed ###
+### Code contributed ###
 
 https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=w09&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2026-02-20T00%3A00%3A00&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=lukelouyu&tabRepo=AY2526S2-CS2113-W09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=functional-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false
 
