@@ -1,11 +1,23 @@
 package seedu.duke.model;
 
+/**
+ * Represents an item stored in the inventory.
+ * An <code>Item</code> object stores a name, quantity, bin location, and expiry date.
+ */
 public class Item {
     private String name;
     private int quantity;
     private String binLocation;
     private String expiryDate;
 
+    /**
+     * Creates an item with the specified details.
+     *
+     * @param name Name of the item.
+     * @param quantity Quantity of the item.
+     * @param binLocation Bin location of the item.
+     * @param expiryDate Expiry date of the item.
+     */
     public Item(String name, int quantity, String binLocation,
                 String expiryDate) {
         this.name = name;
@@ -46,6 +58,12 @@ public class Item {
         return expiryDate;
     }
 
+    /**
+     * Returns the storage format used when persisting the item.
+     *
+     * @param categoryName Name of the category containing the item.
+     * @return Storage string containing the category and item fields.
+     */
     public String toStorageString(String categoryName) {
         return "category/" + categoryName
                 + " item/" + name

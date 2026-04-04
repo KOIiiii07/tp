@@ -11,13 +11,13 @@ import java.util.Map;
 /**
  * Parses user input for the update command into an executable command object.
  * An <code>UpdateCommandParser</code> object validates the category, item index,
- * and update fields supplied by the user before creating an update command.
+ * and update fields before creating an update command.
  */
 public class UpdateCommandParser {
     private final UI ui;
 
     /**
-     * Constructs a parser for update commands using the specified user interface.
+     * Creates a parser for update commands using the specified user interface.
      *
      * @param ui User interface used to report invalid input to the user.
      */

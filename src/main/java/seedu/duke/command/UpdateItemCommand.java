@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Updates an existing item in a category using the fields provided by the user.
+ * Updates an existing item in a category using fields provided by the user.
  * An <code>UpdateItemCommand</code> object locates the target item and applies
  * supported updates such as name, bin location, quantity, and expiry date.
  */
@@ -24,11 +24,11 @@ public class UpdateItemCommand extends Command {
     private final Map<String, String> updates;
 
     /**
-     * Constructs an update command for the specified category, item index, and fields.
+     * Creates an update command for the specified category, item index, and fields.
      *
      * @param categoryName Name of the category containing the item to update.
      * @param itemIndex One-based index of the item within the category.
-     * @param updates Fields and values to be applied to the item.
+     * @param updates Fields and values to apply to the item.
      */
     public UpdateItemCommand(String categoryName, int itemIndex,
                              Map<String, String> updates) {
@@ -39,8 +39,8 @@ public class UpdateItemCommand extends Command {
 
     /**
      * Executes the update command on the specified inventory.
-     * The method finds the target category and item, applies all requested updates,
-     * and reports the result through the user interface.
+     * Finds the target category and item, applies the requested updates, and
+     * reports the result through the user interface.
      *
      * @param inventory Inventory containing the item to update.
      * @param ui User interface used to display update results.
@@ -107,10 +107,10 @@ public class UpdateItemCommand extends Command {
 
     /**
      * Validates that the specified value is not empty.
-     * If the value is null or blank, an exception is thrown with the given message.
+     * Throws an exception if the value is null or blank.
      *
      * @param value Value to validate.
-     * @param message Error message used when validation fails.
+     * @param message Error message to use when validation fails.
      * @throws DukeException If the value is null or blank.
      */
     private void validateNonEmpty(String value,

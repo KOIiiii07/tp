@@ -4,6 +4,11 @@ import seedu.duke.exception.DukeException;
 import seedu.duke.parser.DateParser;
 import seedu.duke.parser.FieldParser;
 
+/**
+ * Parses and validates fields shared by item categories.
+ * A <code>CommonFieldParser</code> object stores the parsed values for
+ * category name, item name, bin location, quantity, and expiry date.
+ */
 public class CommonFieldParser {
     public final String itemName;
     public final String categoryName;
@@ -20,6 +25,14 @@ public class CommonFieldParser {
         this.expiryDate = expiryDate;
     }
 
+    /**
+     * Parses the shared item fields from the specified input.
+     *
+     * @param input Input containing the common item fields.
+     * @param fieldAfterExpiry Field marker that follows <code>expiryDate/</code>.
+     * @return Parser result containing the validated field values.
+     * @throws DukeException If any required field is missing or invalid.
+     */
     public static CommonFieldParser parse(String input, String fieldAfterExpiry) throws DukeException {
         assert input != null : "CommonFieldParser received null input.";
 
@@ -48,6 +61,13 @@ public class CommonFieldParser {
         return new CommonFieldParser(itemName, categoryName, bin, quantity, expiryDate);
     }
 
+    /**
+     * Parses the specified quantity string as a positive integer.
+     *
+     * @param quantityString Quantity string to parse.
+     * @return Parsed quantity.
+     * @throws DukeException If the quantity is missing, non-numeric, or not positive.
+     */
     public static int parseQuantity(String quantityString) throws DukeException {
         if (quantityString == null
                 || quantityString.trim().isEmpty()) {
@@ -68,6 +88,12 @@ public class CommonFieldParser {
         return quantity;
     }
 
+    /**
+     * Validates that the specified expiry date is present and in a valid format.
+     *
+     * @param expiryDate Expiry date string to validate.
+     * @throws DukeException If the expiry date is missing or invalid.
+     */
     public static void validateExpiryDate(String expiryDate) throws DukeException {
         if (expiryDate == null || expiryDate.trim().isEmpty()) {
             throw new DukeException("Missing expiry date.");

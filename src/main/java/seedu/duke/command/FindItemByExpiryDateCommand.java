@@ -25,7 +25,7 @@ public class FindItemByExpiryDateCommand extends Command {
     private final String expiryDateInput;
 
     /**
-     * Constructs a command that searches for items expiring by the specified date.
+     * Creates a command that searches for items expiring by the specified date.
      *
      * @param expiryDateInput Cutoff expiry date supplied by the user.
      */
@@ -35,8 +35,8 @@ public class FindItemByExpiryDateCommand extends Command {
 
     /**
      * Executes the expiry-date search on the specified inventory.
-     * The method parses the cutoff date, scans all items, and displays those whose
-     * expiry dates are on or before the specified date.
+     * Parses the cutoff date, scans all items, and displays those whose expiry
+     * dates are on or before the specified date.
      *
      * @param inventory Inventory containing the items to search.
      * @param ui User interface used to display search results.
