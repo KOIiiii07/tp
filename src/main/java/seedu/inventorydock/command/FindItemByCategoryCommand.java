@@ -35,7 +35,8 @@ public class FindItemByCategoryCommand extends Command {
      * @throws MissingArgumentException if the category is empty.
      * @throws InvalidCommandException if the category is numeric.
      */
-    public static String parseCategoryInput(String categoryInput) throws MissingArgumentException, InvalidCommandException {
+    public static String parseCategoryInput(String categoryInput) 
+    throws MissingArgumentException, InvalidCommandException {
         String trimmedCategory = categoryInput.trim();
         if (trimmedCategory.isEmpty()) {
             logger.log(Level.WARNING, "Empty category input received.");

@@ -63,7 +63,9 @@ public class UpdateItemCommand extends Command {
 
         if (itemIndex < 1 || itemIndex > category.getItemCount()) {
             logger.log(Level.WARNING, "Invalid item index while updating item: " + itemIndex);
-            throw new ItemNotFoundException("Item at index " + itemIndex + " not found in category '" + categoryName + "'.");
+            throw new ItemNotFoundException(
+                "Item at index " + itemIndex + 
+                " not found in category '" + categoryName + "'.");
         }
 
         Item item = category.getItem(itemIndex - 1);

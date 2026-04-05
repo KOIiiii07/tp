@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AddItemCommandTest {
 
     @Test
-    public void execute_validCategoryAndItem_itemAddedAndUiUpdated() throws CategoryNotFoundException, MissingArgumentException {
+    public void execute_validCategoryAndItem_itemAddedAndUiUpdated() 
+    throws CategoryNotFoundException, MissingArgumentException {
         Inventory inventory = new Inventory();
         Category fruits = new Category("fruits");
         inventory.addCategory(fruits);

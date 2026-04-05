@@ -101,7 +101,8 @@ public class FindItemByCategoryCommandTest {
     }
 
     @Test
-    public void parseCategoryInput_validCategory_returnsNormalizedCategory() throws InvalidCommandException, MissingArgumentException {
+    public void parseCategoryInput_validCategory_returnsNormalizedCategory() 
+    throws InvalidCommandException, MissingArgumentException {
         assertEquals("fruits", FindItemByCategoryCommand.parseCategoryInput(" Fruits "));
     }
 
