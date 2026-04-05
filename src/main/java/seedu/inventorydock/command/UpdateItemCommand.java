@@ -3,7 +3,7 @@ package seedu.inventorydock.command;
 import seedu.inventorydock.exception.CategoryNotFoundException;
 import seedu.inventorydock.exception.InventoryDockException;
 import seedu.inventorydock.exception.InvalidCommandException;
-import seedu.inventorydock.exception.InvalidIndexException;
+import seedu.inventorydock.exception.ItemNotFoundException;
 import seedu.inventorydock.exception.MissingArgumentException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
@@ -63,7 +63,7 @@ public class UpdateItemCommand extends Command {
 
         if (itemIndex < 1 || itemIndex > category.getItemCount()) {
             logger.log(Level.WARNING, "Invalid item index while updating item: " + itemIndex);
-            throw new InvalidIndexException("Invalid item index: " + itemIndex);
+            throw new ItemNotFoundException("Item at index " + itemIndex + " not found in category '" + categoryName + "'.");
         }
 
         Item item = category.getItem(itemIndex - 1);

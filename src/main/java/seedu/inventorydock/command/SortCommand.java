@@ -1,6 +1,6 @@
 package seedu.inventorydock.command;
 
-import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidDateException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
 import seedu.inventorydock.model.Item;
@@ -102,7 +102,7 @@ public class SortCommand extends Command {
     private LocalDate parseExpiryDate(String expiryDate) {
         try {
             return DateParser.parseDate(expiryDate);
-        } catch (InventoryDockException e) {
+        } catch (InvalidDateException e) {
             return LocalDate.MAX;
         }
     }

@@ -44,6 +44,11 @@ public class FindItemByKeywordCommand extends Command {
         assert ui != null : "FindItemByKeywordCommand received null UI.";
         assert keywordInput != null : "FindItemByKeywordCommand received null keyword input.";
 
+        if (keywordInput.contains(" ")) {
+            ui.showError("Multiple keywords are not supported. Please provide a single keyword.");
+            return;
+        }
+
         List<String> matches = new ArrayList<>();
         List<Category> categories = inventory.getCategories();
 
