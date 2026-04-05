@@ -7,6 +7,7 @@ import seedu.inventorydock.exception.DukeException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
 import seedu.inventorydock.model.items.Fruit;
+import seedu.inventorydock.ui.UI;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
