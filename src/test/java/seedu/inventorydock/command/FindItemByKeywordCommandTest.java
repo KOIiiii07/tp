@@ -88,6 +88,17 @@ public class FindItemByKeywordCommandTest {
     }
 
     @Test
+    public void execute_multipleKeywords_showsError() {
+        FindItemByKeywordCommand command = new FindItemByKeywordCommand("apple banana");
+        TestUI ui = new TestUI();
+
+        command.execute(inventory, ui);
+
+        assertEquals(1, ui.errors.size());
+        assertEquals("Multiple keywords are not supported. Please provide a single keyword.", ui.errors.get(0));
+    }
+
+    @Test
     public void execute_noMatchingKeyword_showsNoItemsFound() {
         FindItemByKeywordCommand command = new FindItemByKeywordCommand("mango");
         TestUI ui = new TestUI();
@@ -95,7 +106,7 @@ public class FindItemByKeywordCommandTest {
         command.execute(inventory, ui);
 
         assertEquals(1, ui.messages.size());
-        assertEquals("No items found matching keyword: " + "mango.", ui.messages.get(0));
+        assertEquals("No items found matching keyword: mango.", ui.messages.get(0));
         assertEquals(0, ui.dividerCount);
     }
 
@@ -125,6 +136,7 @@ public class FindItemByKeywordCommandTest {
     private static class TestUI extends UI {
         private final List<String> messages = new ArrayList<>();
         private int dividerCount;
+        private final List<String> errors = new ArrayList<>();
 
         @Override
         public void showMessage(String message) {
@@ -134,6 +146,11 @@ public class FindItemByKeywordCommandTest {
         @Override
         public void showDivider() {
             dividerCount++;
+        }
+
+        @Override
+        public void showError(String message) {
+            errors.add(message);
         }
     }
 }
