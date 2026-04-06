@@ -91,6 +91,7 @@ public class InventoryDock {
 
                 if (command.isExit()) {
                     logger.log(Level.INFO, "Exit command received. Saving inventory and shutting down.");
+                    command.execute(inventory, ui);
                     storage.save(inventory);
                     break;
                 }
@@ -105,7 +106,6 @@ public class InventoryDock {
         }
 
         logger.log(Level.INFO, "Closing Duke application.");
-        ui.showGoodbye();
         ui.close();
     }
 }
