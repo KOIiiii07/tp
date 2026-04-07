@@ -1,6 +1,8 @@
 package seedu.inventorydock.parser.category;
 
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
+import seedu.inventorydock.exception.MissingArgumentException;
 
 public class InputValidator {
     public static void validate(
@@ -14,11 +16,11 @@ public class InputValidator {
             int current = input.indexOf(field);
 
             if (current == -1) {
-                throw new InventoryDockException("Missing required field: " + field);
+                throw new MissingArgumentException("Missing required field: " + field);
             }
 
             if (current < previous) {
-                throw new InventoryDockException("Fields must follow the correct order. " +
+                throw new InvalidCommandException("Fields must follow the correct order. " +
                         "Run 'help' for supported command.");
             }
             previous = current;
