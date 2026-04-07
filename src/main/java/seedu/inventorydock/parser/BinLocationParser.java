@@ -1,6 +1,8 @@
 package seedu.inventorydock.parser;
 
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
+import seedu.inventorydock.exception.MissingArgumentException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +33,7 @@ public class BinLocationParser {
 
         if (normalizedInput.isEmpty()) {
             logger.log(Level.WARNING, "Bin search input is empty.");
-            throw new InventoryDockException(INVALID_BIN_SEARCH_MESSAGE);
+            throw new MissingArgumentException(INVALID_BIN_SEARCH_MESSAGE);
         }
 
         int dashIndex = normalizedInput.indexOf('-');
@@ -42,12 +44,12 @@ public class BinLocationParser {
             }
 
             logger.log(Level.WARNING, "Invalid bin search input without dash: " + normalizedInput);
-            throw new InventoryDockException(INVALID_BIN_SEARCH_MESSAGE);
+            throw new InvalidCommandException(INVALID_BIN_SEARCH_MESSAGE);
         }
 
         if (dashIndex != normalizedInput.lastIndexOf('-')) {
             logger.log(Level.WARNING, "Invalid bin search input with multiple dashes: " + normalizedInput);
-            throw new InventoryDockException(INVALID_BIN_SEARCH_MESSAGE);
+            throw new InvalidCommandException(INVALID_BIN_SEARCH_MESSAGE);
         }
 
         String firstPart = normalizedInput.substring(0, dashIndex);
@@ -55,7 +57,7 @@ public class BinLocationParser {
 
         if (!isSingleLetter(firstPart) || !isInteger(secondPart)) {
             logger.log(Level.WARNING, "Invalid bin search input format: " + normalizedInput);
-            throw new InventoryDockException(INVALID_BIN_SEARCH_MESSAGE);
+            throw new InvalidCommandException(INVALID_BIN_SEARCH_MESSAGE);
         }
         return normalizedInput;
     }

@@ -3,6 +3,8 @@ package seedu.inventorydock.parser;
 import seedu.inventorydock.command.Command;
 import seedu.inventorydock.command.SortCommand;
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
+import seedu.inventorydock.exception.MissingArgumentException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +28,7 @@ public class SortCommandParser {
         String trimmedInput = input.trim();
         if (trimmedInput.isEmpty()) {
             logger.log(Level.WARNING, "Sort command missing sort type.");
-            throw new InventoryDockException(
+            throw new MissingArgumentException(
                     "Please specify what to sort by. Use: sort name, sort expirydate, or sort qty.");
         }
 
@@ -39,7 +41,7 @@ public class SortCommandParser {
             return new SortCommand(sortType);
         default:
             logger.log(Level.WARNING, "Unknown sort type: " + sortType);
-            throw new InventoryDockException("Unknown sort type: '" + sortType + "'. "
+            throw new InvalidCommandException("Unknown sort type: '" + sortType + "'. "
                     + "Use: sort name, sort expirydate, or sort qty.");
         }
     }
