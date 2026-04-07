@@ -313,3 +313,83 @@ Important:
 
 * This command does not remove the category itself from InventoryDock.
 * If the category is not empty, the app asks for confirmation.
+* Type `yes` to continue.
+* Any other reply cancels the operation.
+
+Example:
+
+`delete category/fruits`
+
+Expected result:
+
+* If confirmed, all items in the category are cleared.
+* The category remains available for future items.
+* If cancelled, no items are removed.
+
+## Error Handling
+
+Common reasons a command may fail:
+
+* missing required fields
+* fields entered in the wrong order for `add`
+* invalid quantity values
+* invalid dates
+* invalid bin search format
+* invalid item index
+* unsupported update fields
+* unknown categories or commands
+
+When an error occurs, the app prints an error message and waits for the next command.
+
+## FAQ
+
+**Q**: How do I transfer my data to another computer?
+
+**A**: Copy the application's data file to the same location on the other computer before starting the app there.
+
+**Q:** Where is my inventory data stored?
+
+**A:** In `data/inventory.txt`.
+
+**Q:** Does the app create new categories?
+
+**A:** No. InventoryDock works with a fixed set of built-in categories.
+
+**Q:** Can I update category-specific fields such as `brand/` or `isFrozen/`?
+
+**A:** No. The `update` command only supports `newItem/`, `bin/`, `qty/`, and `expiryDate/`.
+
+**Q:** What date format should I use?
+
+**A:** Use `yyyy-M-d`, for example `2026-3-21`.
+
+**Q:** What happens if I delete a category?
+
+**A**: The category is cleared, but the category itself remains in the inventory.
+
+## Command Summary
+* View help:
+  `help`
+* Add item:
+  `add category/CATEGORY item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE ...`
+* List all items:
+  `list`
+* Sort items:
+  `sort SORT_TYPE`
+* Find items by keyword:
+  `find keyword/KEYWORD`
+* Find items by category:
+  `find category/CATEGORY`
+* Find items by expiry date:
+  `find expiryDate/DATE`
+* Find items by bin:
+  `find bin/BIN_INPUT`
+* Find items by quantity:
+  `find qty/QUANTITY`
+* Update an item:
+  `update category/CATEGORY index/INDEX [newItem/NEW_NAME] [bin/NEW_BIN] [qty/NEW_QUANTITY] [expiryDate/NEW_DATE]`
+* Delete an item
+  `delete category/CATEGORY index/INDEX`
+* Clear a category
+  `delete category/CATEGORY`
+
