@@ -309,7 +309,7 @@ It is an extension of the existing command pipeline rather than a separate subsy
 
 The main interaction for this flow is illustrated below.
 
-![FindItemByExpiryDateCommandMainFlow](diagrams/FindItemByExpiryDateCommandMainFlow.png)
+![FindItemByExpiryDateCommandMainFlow](diagrams/sequence/FindItemByExpiryDateCommandMainFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -987,7 +987,7 @@ a separate editing subsystem.
 
 The main interaction for this flow is illustrated below.
 
-![UpdateItemCommandMainFlow](diagrams/UpdateItemCommandMainFlow.png)
+![UpdateItemCommandMainFlow](diagrams/sequence/UpdateItemCommandMainFlow.png)
 
 The main structural relationships for this feature are shown below.
 
