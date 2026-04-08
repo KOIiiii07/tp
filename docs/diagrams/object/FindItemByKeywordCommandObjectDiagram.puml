@@ -1,0 +1,39 @@
+@startuml
+title Object Diagram for FindItemByKeywordCommand Feature
+hide circle
+left to right direction
+
+object "<u>findParser:FindItemParser</u>" as parser
+object "<u>cmd:FindItemByKeywordCommand</u>" as command {
+  keywordInput = "apple"
+}
+object "<u>inventory:Inventory</u>" as inventory
+object "<u>fruits:Category</u>" as fruits {
+  name = "fruits"
+}
+object "<u>snacks:Category</u>" as snacks {
+  name = "snacks"
+}
+object "<u>apple:Item</u>" as apple {
+  name = "apple"
+  quantity = 10
+}
+object "<u>pineapple:Item</u>" as pineapple {
+  name = "pineapple"
+  quantity = 5
+}
+object "<u>chips:Item</u>" as chips {
+  name = "chips"
+  quantity = 8
+}
+object "<u>:UI</u>" as ui
+
+parser --> command : creates >
+command --> inventory : scans >
+command --> ui : displays through >
+inventory --> fruits : contains >
+inventory --> snacks : contains >
+fruits --> apple : contains >
+fruits --> pineapple : contains >
+snacks --> chips : contains >
+@enduml

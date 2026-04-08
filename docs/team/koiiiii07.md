@@ -85,20 +85,35 @@ I contributed the technical documentation for the features I implemented. Specif
 - Find Item By Keyword feature — covering feature motivation, high-level design, component-level implementation, command execution flow with case-insensitive substring matching, error handling and validation, alternatives considered, and manual testing instructions.
 - Help feature — covering feature motivation, high-level design, component-level implementation, command execution flow, alternatives considered, and current limitations.
 
-I also added the following UML sequence diagrams:
+I also added the following UML diagrams:
 
-- [DeleteItemCommandMainFlow.puml](../diagrams/DeleteItemCommandMainFlow.puml)
-- [DeleteCategoryCommandMainFlow.puml](../diagrams/DeleteCategoryCommandMainFlow.puml)
-- [FindItemByKeywordCommandMainFlow.puml](../diagrams/FindItemByKeywordCommandMainFlow.puml)
-- [HelpCommandMainFlow.puml](../diagrams/HelpCommandMainFlow.puml)
+Sequence diagrams:
+- [DeleteItemCommandMainFlow.puml](../diagrams/sequence/DeleteItemCommandMainFlow.puml)
+- [DeleteCategoryCommandMainFlow.puml](../diagrams/sequence/DeleteCategoryCommandMainFlow.puml)
+- [FindItemByKeywordCommandMainFlow.puml](../diagrams/sequence/FindItemByKeywordCommandMainFlow.puml)
+- [HelpCommandMainFlow.puml](../diagrams/sequence/HelpCommandMainFlow.puml)
+
+Class diagrams:
+- [DeleteItemCommandClassDiagram.puml](../diagrams/class/DeleteItemCommandClassDiagram.puml)
+- [DeleteCategoryCommandClassDiagram.puml](../diagrams/class/DeleteCategoryCommandClassDiagram.puml)
+- [FindItemByKeywordCommandClassDiagram.puml](../diagrams/class/FindItemByKeywordCommandClassDiagram.puml)
+- [HelpCommandClassDiagram.puml](../diagrams/class/HelpCommandClassDiagram.puml)
+
+Object diagrams:
+- [DeleteItemCommandObjectDiagram.puml](../diagrams/object/DeleteItemCommandObjectDiagram.puml)
+- [DeleteCategoryCommandObjectDiagram.puml](../diagrams/object/DeleteCategoryCommandObjectDiagram.puml)
+- [FindItemByKeywordCommandObjectDiagram.puml](../diagrams/object/FindItemByKeywordCommandObjectDiagram.puml)
+- [HelpCommandObjectDiagram.puml](../diagrams/object/HelpCommandObjectDiagram.puml)
 
 ### Contributions to Team-Based 
 
 - Maintained the `UI` class as a shared component, updating it when teammates needed new output methods for their features.
 - Helped fix Checkstyle and code style issues during integration.
+- Expanded JUnits Test as features are updated.
 
 ### Review and Mentoring Contributions
 
 - [PR #101 review comment](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/101#issuecomment-4174049960)
 - [PR #103 review comment](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/103#issuecomment-4174048971)
 - Helped merge teammates' PRs after reviewing them.
+- Helped teammates with PR settings.

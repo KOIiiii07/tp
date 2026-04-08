@@ -1,0 +1,10 @@
+@startuml
+title Object Diagram for HelpCommand Feature
+hide circle
+left to right direction
+
+object "<u>cmd:HelpCommand</u>" as command
+object "<u>:UI</u>" as ui
+
+command --> ui : delegates to >
+@enduml

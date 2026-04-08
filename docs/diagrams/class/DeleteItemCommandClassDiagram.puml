@@ -1,0 +1,51 @@
+@startuml
+title Class Diagram for DeleteItemCommand Feature
+skinparam classAttributeIconSize 0
+hide circle
+left to right direction
+
+class "{abstract}\nCommand" as Command {
+  + execute(inventory: Inventory, ui: UI)
+}
+
+class DeleteCommandParser {
+  + parse(input: String)
+  - parseDeleteItem(categoryName: String, indexString: String)
+}
+
+class DeleteItemCommand {
+  - categoryName: String
+  - itemIndex: int
+  + execute(inventory: Inventory, ui: UI)
+}
+
+class Inventory {
+  + findCategoryByName(categoryName: String)
+}
+
+class Category {
+  - name: String
+  + getItem(index: int)
+  + removeItem(index: int)
+  + getItemCount(): int
+}
+
+class Item {
+  - name: String
+  - quantity: int
+}
+
+class UI {
+  + showItemDeleted(...)
+  + showCategoryNotFound(...)
+  + showError(...)
+}
+
+Command <|-- DeleteItemCommand
+DeleteCommandParser ..> DeleteItemCommand : creates
+DeleteItemCommand --> Inventory : queries
+DeleteItemCommand --> Category : modifies
+DeleteItemCommand --> UI : displays through
+Inventory "1" o-- "*" Category
+Category "1" o-- "*" Item
+@enduml

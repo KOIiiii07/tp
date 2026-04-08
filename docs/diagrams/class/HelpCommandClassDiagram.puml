@@ -1,0 +1,26 @@
+@startuml
+title Class Diagram for HelpCommand Feature
+skinparam classAttributeIconSize 0
+hide circle
+left to right direction
+
+class "{abstract}\nCommand" as Command {
+  + execute(inventory: Inventory, ui: UI)
+}
+
+class Parser {
+  + parse(input: String)
+}
+
+class HelpCommand {
+  + execute(inventory: Inventory, ui: UI)
+}
+
+class UI {
+  + showHelp()
+}
+
+Command <|-- HelpCommand
+Parser ..> HelpCommand : creates
+HelpCommand --> UI : delegates to
+@enduml
