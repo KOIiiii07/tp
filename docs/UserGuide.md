@@ -392,4 +392,3 @@ When an error occurs, the app prints an error message and waits for the next com
   `delete category/CATEGORY index/INDEX`
 * Clear a category
   `delete category/CATEGORY`
-
