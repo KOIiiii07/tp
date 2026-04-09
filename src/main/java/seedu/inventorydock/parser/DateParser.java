@@ -17,18 +17,14 @@ public class DateParser {
      * Validates that the given date string is nonempty and follows the expected format of yyyy-M-d.
      *
      * @param date The date string to validate.
-     * @throws InventoryDockException If the date is missing or invalid.
+     * @throws InvalidDateException If the date is missing or invalid.
      */
     public static void validateDate(String date) throws InvalidDateException {
         if (date == null || date.trim().isEmpty()) {
             throw new InvalidDateException("Missing expiry date");
         }
 
-        try {
-            parseDate(date);
-        } catch (DateTimeParseException e) {
-            throw new InvalidDateException("Invalid date. Please use yyyy-M-d.");
-        }
+        parseDate(date);
     }
 
     /**
@@ -36,7 +32,7 @@ public class DateParser {
      *
      * @param date The date string to parse.
      * @return The corresponding LocalDate object.
-     * @throws InventoryDockException If the date is missing or invalid.
+     * @throws InvalidDateException If the date is missing or invalid.
      */
     public static LocalDate parseDate(String date) throws InvalidDateException {
         if (date == null || date.trim().isEmpty()) {

@@ -28,7 +28,7 @@ public class UpdateCommandParser {
     public Command parse(String input) throws InventoryDockException {
         assert input != null : "UpdateCommandParser received null input.";
 
-        if (input.isEmpty()) {
+        if (input.trim().isEmpty()) {
             throw new MissingArgumentException("Use: update category/CATEGORY index/INDEX "
                     + "[newItem/NAME] [bin/BIN] [qty/QTY] [expiryDate/DATE] ...");
         }

@@ -1,16 +1,17 @@
-package seedu.inventorydock;
+package seedu.inventorydock.parser;
 
 import org.junit.jupiter.api.Test;
 import seedu.inventorydock.command.UpdateItemCommand;
-import seedu.inventorydock.exception.InventoryDockException;
-import seedu.inventorydock.parser.UpdateCommandParser;
+import seedu.inventorydock.exception.InvalidIndexException;
+import seedu.inventorydock.exception.MissingArgumentException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UpdateCommandParserTest {
     @Test
-    public void parse_validInput_returnsUpdateItemCommand() throws InventoryDockException {
+    public void parse_validInput_returnsUpdateItemCommand() throws Exception {
         UpdateCommandParser parser = new UpdateCommandParser();
 
         assertInstanceOf(UpdateItemCommand.class, parser.parse(
@@ -21,15 +22,36 @@ public class UpdateCommandParserTest {
     public void parse_missingCategory_throwsException() {
         UpdateCommandParser parser = new UpdateCommandParser();
 
-        assertThrows(InventoryDockException.class,
+        MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("index/1 qty/25"));
+        assertEquals("Missing category.", exception.getMessage());
     }
 
     @Test
     public void parse_noFieldsToUpdate_throwsException() {
         UpdateCommandParser parser = new UpdateCommandParser();
 
-        assertThrows(InventoryDockException.class,
+        MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("category/vegetables index/1"));
+        assertEquals("Provide at least one field to update.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_blankInput_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        MissingArgumentException exception = assertThrows(MissingArgumentException.class,
+                () -> parser.parse("   "));
+        assertEquals("Use: update category/CATEGORY index/INDEX "
+                + "[newItem/NAME] [bin/BIN] [qty/QTY] [expiryDate/DATE] ...", exception.getMessage());
+    }
+
+    @Test
+    public void parse_nonIntegerIndex_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        InvalidIndexException exception = assertThrows(InvalidIndexException.class,
+                () -> parser.parse("category/vegetables index/abc qty/25"));
+        assertEquals("Item index must be an integer.", exception.getMessage());
     }
 }

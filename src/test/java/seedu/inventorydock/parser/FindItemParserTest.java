@@ -105,10 +105,4 @@ public class FindItemParserTest {
                 () -> parser.parse("qty/-2"));
         assertEquals("Quantity must be a positive integer.", exception.getMessage());
     }
-
-
-
 }
-
-
-

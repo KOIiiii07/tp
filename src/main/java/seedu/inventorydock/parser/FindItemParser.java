@@ -29,7 +29,7 @@ public class FindItemParser {
      * @throws InventoryDockException if the search mode or target value is missing or invalid.
      */
     public Command parse(String input) throws InventoryDockException {
-        assert input != null : "FindCommandParser received null input.";
+        assert input != null : "FindItemParser received null input.";
         if (input.trim().isEmpty()) {
             logger.log(Level.WARNING, "Find command missing target.");
             throw new MissingArgumentException("Please specify what to find. Use: find keyword/KEYWORD, "
@@ -66,9 +66,3 @@ public class FindItemParser {
         }
     }
 }
-
-
-
-
-
-

@@ -1,9 +1,9 @@
-package seedu.inventorydock;
+package seedu.inventorydock.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import seedu.inventorydock.command.UpdateItemCommand;
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
 import seedu.inventorydock.model.items.Fruit;
@@ -32,7 +32,7 @@ public class UpdateItemCommandTest {
     }
 
     @Test
-    public void execute_commonFields_itemUpdated() throws InventoryDockException {
+    public void execute_commonFields_itemUpdated() throws Exception {
         Map<String, String> updates = new LinkedHashMap<>();
         updates.put("qty", "25");
         updates.put("bin", "A-02");
@@ -59,8 +59,9 @@ public class UpdateItemCommandTest {
         UpdateItemCommand command = new UpdateItemCommand(
                 "fruits", 1, updates);
 
-        assertThrows(InventoryDockException.class,
+        InvalidCommandException exception = assertThrows(InvalidCommandException.class,
                 () -> command.execute(inventory, new UI()));
+        assertEquals("Only newItem/, bin/, qty/, and expiryDate/ can be updated.", exception.getMessage());
     }
 
     @Test
@@ -71,7 +72,8 @@ public class UpdateItemCommandTest {
         UpdateItemCommand command = new UpdateItemCommand(
                 "fruits", 1, updates);
 
-        assertThrows(InventoryDockException.class,
+        InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> command.execute(inventory, new UI()));
+        assertEquals("Quantity must be a positive integer.", exception.getMessage());
     }
 }
