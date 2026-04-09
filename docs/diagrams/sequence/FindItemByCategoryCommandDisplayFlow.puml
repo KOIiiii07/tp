@@ -1,0 +1,30 @@
+@startuml
+title Sequence Diagram for FindItemByCategoryCommand (Result Display)
+
+autonumber
+hide footbox
+
+actor User
+participant ":FindItemByCategoryCommand" as FindItemByCategoryCommand
+participant ":UI" as UI
+
+alt category not found
+    FindItemByCategoryCommand -> UI: showCategoryNotFound(categoryInput)
+    activate UI
+    UI --> User: display error
+    deactivate UI
+else category found and items is empty
+    FindItemByCategoryCommand -> UI: showMessage("No items found ...")
+    activate UI
+    UI --> User: display no-match message
+    deactivate UI
+else items found
+    FindItemByCategoryCommand -> UI: showDivider()
+    activate UI
+    FindItemByCategoryCommand -> UI: showMessage("Items in category ...")
+    FindItemByCategoryCommand -> UI: showNumberedList(items)
+    FindItemByCategoryCommand -> UI: showDivider()
+    UI --> User: display matching items
+    deactivate UI
+end
+@enduml

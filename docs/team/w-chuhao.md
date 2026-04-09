@@ -139,9 +139,9 @@ My contributions covered:
 I also added and updated the UML diagrams used to support these Developer Guide sections. These diagrams document both the dynamic execution flow and the static relationships behind the features I implemented.
 
 Sequence diagrams I contributed:
-- [AddItemCommandMainFlow.puml](../diagrams/sequence/AddItemCommandMainFlow.puml)
-- [ListCommandMainFlow.puml](../diagrams/sequence/ListCommandMainFlow.puml)
-- [FindItemByCategoryCommandMainFlow.puml](../diagrams/sequence/FindItemByCategoryCommandMainFlow.puml)
+- [AddItemCommandParseFlow.puml](../diagrams/sequence/AddItemCommandParseFlow.puml)`r`n- [AddItemCommandExecuteFlow.puml](../diagrams/sequence/AddItemCommandExecuteFlow.puml)`r`n- [AddItemCommandDisplayFlow.puml](../diagrams/sequence/AddItemCommandDisplayFlow.puml)
+- [ListCommandParseFlow.puml](../diagrams/sequence/ListCommandParseFlow.puml)`r`n- [ListCommandTraversalFlow.puml](../diagrams/sequence/ListCommandTraversalFlow.puml)`r`n- [ListCommandDisplayFlow.puml](../diagrams/sequence/ListCommandDisplayFlow.puml)
+- [FindItemByCategoryCommandParseFlow.puml](../diagrams/sequence/FindItemByCategoryCommandParseFlow.puml)`r`n- [FindItemByCategoryCommandMatchingFlow.puml](../diagrams/sequence/FindItemByCategoryCommandMatchingFlow.puml)`r`n- [FindItemByCategoryCommandDisplayFlow.puml](../diagrams/sequence/FindItemByCategoryCommandDisplayFlow.puml)
 - [FindItemByBinCommandMainFlow.puml](../diagrams/sequence/FindItemByBinCommandMainFlow.puml)
 
 Class diagrams I contributed:
@@ -175,3 +175,4 @@ I also updated the diagram set later to keep the generated documentation consist
 - [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
 - [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
 - [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
+

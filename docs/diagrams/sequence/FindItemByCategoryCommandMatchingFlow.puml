@@ -1,0 +1,26 @@
+@startuml
+title Sequence Diagram for FindItemByCategoryCommand (Category Lookup)
+
+autonumber
+hide footbox
+
+participant ":FindItemByCategoryCommand" as FindItemByCategoryCommand
+participant ":Inventory" as Inventory
+participant ":Category" as Category
+
+FindItemByCategoryCommand -> Inventory: findCategoryByName(categoryInput)
+activate Inventory
+loop for each category in inventory
+    Inventory -> Category: getName()
+    activate Category
+    Category --> Inventory: name
+    deactivate Category
+end
+Inventory --> FindItemByCategoryCommand: matchingCategory
+deactivate Inventory
+
+FindItemByCategoryCommand -> Category: getItems(), getName()
+activate Category
+Category --> FindItemByCategoryCommand: items, categoryName
+deactivate Category
+@enduml

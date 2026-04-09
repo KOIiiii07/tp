@@ -1,0 +1,15 @@
+@startuml
+title Sequence Diagram for AddItemCommand (Result Display)
+
+autonumber
+hide footbox
+
+actor User
+participant ":AddItemCommand" as AddItemCommand
+participant ":UI" as UI
+
+AddItemCommand -> UI: showItemAdded(...)
+activate UI
+UI --> User: display confirmation
+deactivate UI
+@enduml

@@ -1,5 +1,5 @@
 @startuml
-title Sequence Diagram for AddItemCommand (Main Control Flow Only)
+title Sequence Diagram for AddItemCommand (Parse and Command Creation)
 
 autonumber
 hide footbox
@@ -14,8 +14,6 @@ participant ":InputValidator" as InputValidator
 participant ":CommonFieldParser" as CommonFieldParser
 participant ":FruitParser" as FruitParser
 participant ":AddItemCommand" as AddItemCommand
-participant ":Inventory" as Inventory
-participant ":Category" as Category
 
 User -> UI: enter add command
 activate UI
@@ -26,7 +24,6 @@ activate Parser
 
 Parser -> AddCommandParser: parse(arguments)
 activate AddCommandParser
-
 AddCommandParser -> AddCommandParser: validateRequiredFields(trimmedInput)
 activate AddCommandParser
 AddCommandParser --> AddCommandParser
@@ -40,27 +37,23 @@ deactivate AddCommandParser
 alt category == fruits
     AddCommandParser -> AddItemCommandParser: handleFruit(trimmedInput)
     activate AddItemCommandParser
-
     AddItemCommandParser -> InputValidator: validate(input, ...)
     activate InputValidator
     InputValidator --> AddItemCommandParser
     deactivate InputValidator
-
     AddItemCommandParser -> CommonFieldParser: parse(input, "size/")
     activate CommonFieldParser
     CommonFieldParser --> AddItemCommandParser: commonFields
     deactivate CommonFieldParser
-
     AddItemCommandParser -> FruitParser: parse(input)
     activate FruitParser
     FruitParser --> AddItemCommandParser: fruitFields
     deactivate FruitParser
-
     create AddItemCommand
     AddItemCommandParser -> AddItemCommand: AddItemCommand(categoryName, item)
     activate AddItemCommand
     AddItemCommand --> AddItemCommandParser: command
-
+    deactivate AddItemCommand
     AddItemCommandParser --> AddCommandParser: command
     deactivate AddItemCommandParser
 else other supported category
@@ -70,43 +63,12 @@ else other supported category
     deactivate AddItemCommandParser
 else else
     AddCommandParser --> Parser: throw InvalidCommandException("Unknown category: " + category)
-    deactivate AddCommandParser
-    Parser --> InventoryDock: exception
-    deactivate Parser
-    deactivate InventoryDock
-    deactivate UI
 end
 
 AddCommandParser --> Parser: command
 deactivate AddCommandParser
 Parser --> InventoryDock: command
 deactivate Parser
-
-InventoryDock -> AddItemCommand: execute(inventory, ui)
-activate AddItemCommand
-AddItemCommand -> Inventory: findCategoryByName(categoryName)
-activate Inventory
-loop for each category in inventory
-    Inventory -> Category: getName()
-    activate Category
-    Category --> Inventory: name
-    deactivate Category
-end
-Inventory --> AddItemCommand: matchingCategory
-deactivate Inventory
-
-AddItemCommand -> Category: addItem(item)
-activate Category
-Category --> AddItemCommand
-deactivate Category
-
-AddItemCommand -> UI: showItemAdded(...)
-activate UI
-UI --> User: display confirmation
-deactivate UI
-deactivate AddItemCommand
-
 deactivate InventoryDock
 deactivate UI
 @enduml
-

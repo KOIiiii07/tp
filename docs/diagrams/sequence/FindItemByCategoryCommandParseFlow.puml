@@ -1,0 +1,33 @@
+@startuml
+title Sequence Diagram for FindItemByCategoryCommand (Parse and Command Creation)
+
+autonumber
+hide footbox
+
+actor User
+participant ":UI" as UI
+participant ":InventoryDock" as InventoryDock
+participant ":Parser" as Parser
+participant ":FindItemParser" as FindItemParser
+participant ":FindItemByCategoryCommand" as FindItemByCategoryCommand
+
+User -> UI: enter find category command
+activate UI
+UI -> InventoryDock: input
+activate InventoryDock
+InventoryDock -> Parser: parse(input)
+activate Parser
+Parser -> FindItemParser: parse(arguments)
+activate FindItemParser
+create FindItemByCategoryCommand
+FindItemParser -> FindItemByCategoryCommand: FindItemByCategoryCommand(name)
+activate FindItemByCategoryCommand
+FindItemByCategoryCommand --> FindItemParser: command
+deactivate FindItemByCategoryCommand
+FindItemParser --> Parser: command
+deactivate FindItemParser
+Parser --> InventoryDock: command
+deactivate Parser
+deactivate InventoryDock
+deactivate UI
+@enduml

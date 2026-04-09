@@ -111,9 +111,19 @@ application. The feature follows this flow:
 5. An `AddItemCommand` is created and executed with access to the current `Inventory` and `UI`.
 6. The command finds the target category, inserts the item, and shows a confirmation message.
 
-The main interaction for this flow is illustrated below.
+The interaction for this flow is split into focused sequence diagrams below.
 
-![AddItemCommandMainFlow](diagrams/sequence/AddItemCommandMainFlow-Sequence_Diagram_for_AddItemCommand__Main_Control_Flow_Only_.png)
+1. Parse and command creation.
+
+![AddItemCommandParseFlow](diagrams/sequence/AddItemCommandParseFlow.png)
+
+2. Inventory update.
+
+![AddItemCommandExecuteFlow](diagrams/sequence/AddItemCommandExecuteFlow.png)
+
+3. Result display.
+
+![AddItemCommandDisplayFlow](diagrams/sequence/AddItemCommandDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -504,9 +514,19 @@ follows:
 5. The command attempts to locate the matching category and displays either the items or an
    appropriate message.
 
-The main interaction for this flow is illustrated below.
+The interaction for this flow is split into focused sequence diagrams below.
 
-![FindItemByCategoryCommandMainFlow](diagrams/sequence/FindItemByCategoryCommandMainFlow-Sequence_Diagram_for_FindItemByCategoryCommand__Main_Control_Flow_Only_.png)
+1. Parse and command creation.
+
+![FindItemByCategoryCommandParseFlow](diagrams/sequence/FindItemByCategoryCommandParseFlow.png)
+
+2. Category lookup.
+
+![FindItemByCategoryCommandMatchingFlow](diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png)
+
+3. Result display.
+
+![FindItemByCategoryCommandDisplayFlow](diagrams/sequence/FindItemByCategoryCommandDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -1359,9 +1379,19 @@ architecture:
 4. `ListCommand` delegates rendering to `UI.showInventory(inventory)`.
 5. `UI` iterates through the inventory and prints the formatted listing to the user.
 
-The main interaction for this flow is illustrated below.
+The interaction for this flow is split into focused sequence diagrams below.
 
-![ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow-Sequence_Diagram_for_ListCommand__Main_Control_Flow_Only_.png)
+1. Parse and command creation.
+
+![ListCommandParseFlow](diagrams/sequence/ListCommandParseFlow.png)
+
+2. Inventory traversal.
+
+![ListCommandTraversalFlow](diagrams/sequence/ListCommandTraversalFlow.png)
+
+3. Display output.
+
+![ListCommandDisplayFlow](diagrams/sequence/ListCommandDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -2493,6 +2523,9 @@ After setting up the application, proceed to the individual test cases below.
 8. Run `find keyword/mango`.
 9. Verify that the application shows `No items found matching keyword: mango.` when there are no
    matches.
+
+
+
 
 
 

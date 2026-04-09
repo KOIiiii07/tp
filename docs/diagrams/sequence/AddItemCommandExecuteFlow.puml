@@ -1,0 +1,29 @@
+@startuml
+title Sequence Diagram for AddItemCommand (Inventory Update)
+
+autonumber
+hide footbox
+
+participant ":InventoryDock" as InventoryDock
+participant ":AddItemCommand" as AddItemCommand
+participant ":Inventory" as Inventory
+participant ":Category" as Category
+
+InventoryDock -> AddItemCommand: execute(inventory, ui)
+activate AddItemCommand
+AddItemCommand -> Inventory: findCategoryByName(categoryName)
+activate Inventory
+loop for each category in inventory
+    Inventory -> Category: getName()
+    activate Category
+    Category --> Inventory: name
+    deactivate Category
+end
+Inventory --> AddItemCommand: matchingCategory
+deactivate Inventory
+
+AddItemCommand -> Category: addItem(item)
+activate Category
+Category --> AddItemCommand
+deactivate Category
+@enduml
