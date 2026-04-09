@@ -113,17 +113,19 @@ application. The feature follows this flow:
 
 The interaction for this flow is split into focused sequence diagrams below.
 
-1. Parse and command creation.
+1. Parse routing and category dispatch.
 
-![AddItemCommandParseFlow](diagrams/sequence/AddItemCommandParseFlow.png)
+![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 
-2. Inventory update.
+2. Fruit parsing and command creation.
 
-![AddItemCommandExecuteFlow](diagrams/sequence/AddItemCommandExecuteFlow.png)
+![AddItemCommandFruitParsingFlow](diagrams/sequence/AddItemCommandFruitParsingFlow.png)
 
-3. Result display.
 
-![AddItemCommandDisplayFlow](diagrams/sequence/AddItemCommandDisplayFlow.png)
+
+3. Execution and result display.
+
+![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -516,17 +518,19 @@ follows:
 
 The interaction for this flow is split into focused sequence diagrams below.
 
-1. Parse and command creation.
+1. Parse routing and category dispatch.
 
-![FindItemByCategoryCommandParseFlow](diagrams/sequence/FindItemByCategoryCommandParseFlow.png)
+![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 
-2. Category lookup.
+2. Fruit parsing and command creation.
 
-![FindItemByCategoryCommandMatchingFlow](diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png)
+![AddItemCommandFruitParsingFlow](diagrams/sequence/AddItemCommandFruitParsingFlow.png)
 
-3. Result display.
 
-![FindItemByCategoryCommandDisplayFlow](diagrams/sequence/FindItemByCategoryCommandDisplayFlow.png)
+
+3. Execution and result display.
+
+![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -699,17 +703,19 @@ is as follows:
 
 The interaction for this flow is split into focused sequence diagrams below.
 
-1. Parse and command creation (UI -> Parser -> FindItemParser -> BinLocationParser -> FindItemByBinCommand).
+1. Parse routing and category dispatch.
 
-![FindItemByBinCommandParseFlow](diagrams/sequence/FindItemByBinCommandParseFlow.png)
+![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 
-2. Inventory scanning and bin matching (FindItemByBinCommand iterates through Inventory, Category, and Item).
+2. Fruit parsing and command creation.
 
-![FindItemByBinCommandMatchingFlow](diagrams/sequence/FindItemByBinCommandMatchingFlow.png)
+![AddItemCommandFruitParsingFlow](diagrams/sequence/AddItemCommandFruitParsingFlow.png)
 
-3. Result display branching (no-match message vs. matched-items output through UI).
 
-![FindItemByBinCommandDisplayFlow](diagrams/sequence/FindItemByBinCommandDisplayFlow.png)
+
+3. Execution and result display.
+
+![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -1381,17 +1387,19 @@ architecture:
 
 The interaction for this flow is split into focused sequence diagrams below.
 
-1. Parse and command creation.
+1. Parse routing and category dispatch.
 
-![ListCommandParseFlow](diagrams/sequence/ListCommandParseFlow.png)
+![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 
-2. Inventory traversal.
+2. Fruit parsing and command creation.
 
-![ListCommandTraversalFlow](diagrams/sequence/ListCommandTraversalFlow.png)
+![AddItemCommandFruitParsingFlow](diagrams/sequence/AddItemCommandFruitParsingFlow.png)
 
-3. Display output.
 
-![ListCommandDisplayFlow](diagrams/sequence/ListCommandDisplayFlow.png)
+
+3. Execution and result display.
+
+![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
 
 The main structural relationships for this feature are shown below.
 
@@ -2523,6 +2531,11 @@ After setting up the application, proceed to the individual test cases below.
 8. Run `find keyword/mango`.
 9. Verify that the application shows `No items found matching keyword: mango.` when there are no
    matches.
+
+
+
+
+
 
 
 

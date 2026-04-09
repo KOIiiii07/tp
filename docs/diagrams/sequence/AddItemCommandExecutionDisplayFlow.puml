@@ -1,13 +1,15 @@
 @startuml
-title Sequence Diagram for AddItemCommand (Inventory Update)
+title Sequence Diagram for AddItemCommand (Execution and Result Display)
 
 autonumber
 hide footbox
 
+actor User
 participant ":InventoryDock" as InventoryDock
 participant ":AddItemCommand" as AddItemCommand
 participant ":Inventory" as Inventory
 participant ":Category" as Category
+participant ":UI" as UI
 
 InventoryDock -> AddItemCommand: execute(inventory, ui)
 activate AddItemCommand
@@ -26,4 +28,9 @@ AddItemCommand -> Category: addItem(item)
 activate Category
 Category --> AddItemCommand
 deactivate Category
+
+AddItemCommand -> UI: showItemAdded(...)
+activate UI
+UI --> User: display confirmation
+deactivate UI
 @enduml

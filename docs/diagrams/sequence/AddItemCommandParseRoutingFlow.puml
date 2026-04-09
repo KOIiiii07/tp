@@ -1,5 +1,5 @@
 @startuml
-title Sequence Diagram for AddItemCommand (Parse and Command Creation)
+title Sequence Diagram for AddItemCommand (Parse Routing and Dispatch)
 
 autonumber
 hide footbox
@@ -10,10 +10,13 @@ participant ":InventoryDock" as InventoryDock
 participant ":Parser" as Parser
 participant ":AddCommandParser" as AddCommandParser
 participant ":AddItemCommandParser" as AddItemCommandParser
-participant ":InputValidator" as InputValidator
-participant ":CommonFieldParser" as CommonFieldParser
-participant ":FruitParser" as FruitParser
-participant ":AddItemCommand" as AddItemCommand
+
+note right of AddCommandParser
+This diagram uses the fruits workflow
+as a representative example.
+The same routing pattern applies
+to other supported categories.
+end note
 
 User -> UI: enter add command
 activate UI
@@ -37,23 +40,6 @@ deactivate AddCommandParser
 alt category == fruits
     AddCommandParser -> AddItemCommandParser: handleFruit(trimmedInput)
     activate AddItemCommandParser
-    AddItemCommandParser -> InputValidator: validate(input, ...)
-    activate InputValidator
-    InputValidator --> AddItemCommandParser
-    deactivate InputValidator
-    AddItemCommandParser -> CommonFieldParser: parse(input, "size/")
-    activate CommonFieldParser
-    CommonFieldParser --> AddItemCommandParser: commonFields
-    deactivate CommonFieldParser
-    AddItemCommandParser -> FruitParser: parse(input)
-    activate FruitParser
-    FruitParser --> AddItemCommandParser: fruitFields
-    deactivate FruitParser
-    create AddItemCommand
-    AddItemCommandParser -> AddItemCommand: AddItemCommand(categoryName, item)
-    activate AddItemCommand
-    AddItemCommand --> AddItemCommandParser: command
-    deactivate AddItemCommand
     AddItemCommandParser --> AddCommandParser: command
     deactivate AddItemCommandParser
 else other supported category
@@ -72,3 +58,5 @@ deactivate Parser
 deactivate InventoryDock
 deactivate UI
 @enduml
+
+
