@@ -65,41 +65,35 @@ Supported categories and extra fields:
 * Fruits
   `add category/fruits item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE size/SIZE isRipe/BOOLEAN`
 * Vegetables
-  `add category/vegetables item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isLeafy/BOOLEAN`
+  `add category/vegetables item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isLeafy/BOOLEAN origin/ORIGIN`
 * Toiletries
   `add category/toiletries item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isLiquid/BOOLEAN`
 * Snacks
   `add category/snacks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isCrunchy/BOOLEAN`
 * Drinks
-  `add category/drinks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND flavour/FLAVOUR isCarbonated/BOOLEAN`
-* Ice cream
-  `add category/icecream item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE flavour/FLAVOUR isDairyFree/BOOLEAN`
-* Sweets
-  `add category/sweets item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND sweetnessLevel/LEVEL isChewy/BOOLEAN`
-* Burger
-  `add category/burger item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isSpicy/BOOLEAN pattyType/TYPE`
-* Set meal
-  `add category/setmeal item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE mealType/TYPE foodSize/SIZE hasDrinks/BOOLEAN`
+  `add category/drinks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND flavour/FLAVOUR`
 * Seafood
-  `add category/seafood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE seafoodType/TYPE origin/ORIGIN isFrozen/BOOLEAN`
+  `add category/seafood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE seafoodType/TYPE origin/ORIGIN`
 * Meat
-  `add category/meat item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE meatType/TYPE origin/ORIGIN isFrozen/BOOLEAN`
+  `add category/meat item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE meatType/TYPE origin/ORIGIN`
 * Pet food
-  `add category/petfood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE petType/TYPE brand/BRAND isDryFood/BOOLEAN`
+  `add category/petfood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE petType/TYPE brand/BRAND`
 * Accessories
-  `add category/accessories item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE type/TYPE material/MATERIAL isFragile/BOOLEAN`
+  `add category/accessories item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE type/TYPE material/MATERIAL`
 
 Examples:
 
 * `add category/fruits item/apple bin/A-10 qty/40 expiryDate/2026-10-3 size/big isRipe/true`
 * `add category/snacks item/potato chips bin/D-5 qty/50 expiryDate/2026-8-12 brand/Lays isCrunchy/true`
-* `add category/drinks item/apple_juice bin/F-1 qty/24 expiryDate/2026-10-3 brand/Marigold flavour/Apple isCarbonated/false`
-* `add category/setmeal item/chicken_rice_set bin/G-3 qty/12 expiryDate/2026-4-1 mealType/lunch foodSize/large hasDrinks/true`
+* `add category/drinks item/apple_juice bin/F-1 qty/24 expiryDate/2026-10-3 brand/Marigold flavour/Apple`
+* `add category/vegetables item/spinach bin/B-2 qty/30 expiryDate/2026-6-1 isLeafy/true origin/Malaysia`
 
 Expected result:
 
 * The item is added to the specified category.
 * The app confirms the item name, quantity, category, and bin location.
+* If an item with the same `category/` and `item/` already exists, the app rejects the command with
+  `Duplicate item found for category/CATEGORY item/ITEM.`
 
 ### Find items by keyword: `find keyword/...`
 Finds items whose names contain the given keyword.
@@ -337,6 +331,7 @@ Common reasons a command may fail:
 * invalid bin search format
 * invalid item index
 * unsupported update fields
+* duplicate item name in the same category during add
 * unknown categories or commands
 
 When an error occurs, the app prints an error message and waits for the next command.
@@ -355,7 +350,7 @@ When an error occurs, the app prints an error message and waits for the next com
 
 **A:** No. InventoryDock works with a fixed set of built-in categories.
 
-**Q:** Can I update category-specific fields such as `brand/` or `isFrozen/`?
+**Q:** Can I update category-specific fields such as `brand/` or `origin/`?
 
 **A:** No. The `update` command only supports `newItem/`, `bin/`, `qty/`, and `expiryDate/`.
 
@@ -392,3 +387,4 @@ When an error occurs, the app prints an error message and waits for the next com
   `delete category/CATEGORY index/INDEX`
 * Clear a category
   `delete category/CATEGORY`
+

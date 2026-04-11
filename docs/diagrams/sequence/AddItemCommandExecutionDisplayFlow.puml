@@ -11,26 +11,44 @@ participant ":Inventory" as Inventory
 participant ":Category" as Category
 participant ":UI" as UI
 
+activate InventoryDock
 InventoryDock -> AddItemCommand: execute(inventory, ui)
 activate AddItemCommand
 AddItemCommand -> Inventory: findCategoryByName(categoryName)
 activate Inventory
-loop for each category in inventory
-    Inventory -> Category: getName()
-    activate Category
-    Category --> Inventory: name
-    deactivate Category
-end
-Inventory --> AddItemCommand: matchingCategory
+Inventory --> AddItemCommand: matchingCategory / null
 deactivate Inventory
 
-AddItemCommand -> Category: addItem(item)
-activate Category
-Category --> AddItemCommand
-deactivate Category
+alt category not found
+    AddItemCommand --> InventoryDock: throw CategoryNotFoundException
+    deactivate AddItemCommand
+    InventoryDock -> UI: showError("Category not found: ...")
+    UI --> User: display error
+else else
+    AddItemCommand -> Category: findItemByName(itemName)
+    activate Category
+    Category --> AddItemCommand: existingItem / null
+    deactivate Category
 
-AddItemCommand -> UI: showItemAdded(...)
-activate UI
-UI --> User: display confirmation
-deactivate UI
+    alt duplicate found
+        AddItemCommand --> InventoryDock: throw InventoryDockException("Duplicate item found...")
+        deactivate AddItemCommand
+        InventoryDock -> UI: showError("Duplicate item found...")
+        UI --> User: display error
+    else else
+        AddItemCommand -> Category: addItem(item)
+        activate Category
+        Category --> AddItemCommand
+        deactivate Category
+
+        AddItemCommand -> UI: showItemAdded(...)
+        activate UI
+        UI --> User: display confirmation
+        deactivate UI
+        deactivate AddItemCommand
+    end
+end
+
+deactivate InventoryDock
 @enduml
+

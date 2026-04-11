@@ -20,6 +20,7 @@ class AddItemCommandParser {
 
 class AddItemCommand {
   - categoryName: String
+  - item: Item
   + execute(inventory: Inventory, ui: UI)
 }
 
@@ -29,6 +30,7 @@ class Inventory {
 
 class Category {
   - name: String
+  + findItemByName(itemName: String)
   + addItem(item: Item)
 }
 
@@ -38,8 +40,11 @@ class Item {
   - binLocation: String
 }
 
+class InventoryDockException
+
 class UI {
   + showItemAdded(...)
+  + showError(message: String)
 }
 
 note as N1
@@ -52,8 +57,10 @@ end note
 Command <|-- AddItemCommand
 AddCommandParser ..> AddItemCommandParser : delegates to
 AddItemCommandParser ..> AddItemCommand : creates
-AddItemCommand --> Inventory : updates through
-AddItemCommand --> UI : shows result via
+AddItemCommand --> Inventory : looks up category
+AddItemCommand --> Category : duplicate check + add
+AddItemCommand ..> InventoryDockException : throws on duplicate
+AddItemCommand --> UI : success/error display
 Inventory "1" o-- "*" Category
 Category "1" o-- "*" Item
 @enduml

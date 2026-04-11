@@ -96,7 +96,7 @@ the `add` command.
 This feature is necessary because the application is fundamentally an inventory manager. Users need
 to record newly stocked products together with shared fields such as name, quantity, bin location,
 and expiry date, while also capturing category-specific attributes such as fruit size or drink
-volume. The add-item flow solves this by routing the same high-level command through specialised
+flavour. The add-item flow solves this by routing the same high-level command through specialised
 parsers based on the category provided by the user.
 
 For example, if the user enters
@@ -115,7 +115,7 @@ application. The feature follows this flow:
 4. `AddItemCommandParser` dispatches to the category-specific parsing method such as `FruitParser` and constructs the
    correct `Item` subtype.
 5. An `AddItemCommand` is created and executed with access to the current `Inventory` and `UI`.
-6. The command finds the target category, inserts the item, and shows a confirmation message.
+6. The command finds the target category, rejects duplicates by item name within that category, then inserts the item and shows a confirmation message.
 
 The main structural relationships for this feature are shown below.
 
@@ -129,7 +129,7 @@ This design was chosen because it preserves the same separation of responsibilit
 in the codebase:
 
 - `Parser` and parser helpers interpret user input.
-- `AddItemCommand` performs the inventory mutation.
+- `AddItemCommand` performs duplicate checks and inventory mutation.
 - Model classes such as `Inventory`, `Category`, and `Item` hold the application state.
 - `UI` presents confirmation messages to the user.
 
@@ -156,7 +156,7 @@ The responsibilities of these classes are as follows:
   `category/`.
 - `AddItemCommandParser` coordinates common-field parsing and category-specific parsing.
 - Category-specific parsers construct the extra fields required by each concrete `Item` subtype.
-- `AddItemCommand` performs the actual insertion into the inventory.
+- `AddItemCommand` performs duplicate checking and insertion into the inventory.
 - `Inventory` finds the matching category by name.
 - `Category` stores the added item.
 - `Item` and its subclasses represent the domain object being created.
@@ -179,19 +179,26 @@ When the user enters an add command, the implementation performs the following s
 6. `AddItemCommandParser` creates an `Item` subtype and wraps it in an `AddItemCommand`.
 7. `InventoryDock` executes `AddItemCommand.execute(inventory, ui)`.
 8. `AddItemCommand` calls `inventory.findCategoryByName(categoryName)`.
-9. If the category exists, `AddItemCommand` calls `category.addItem(item)`.
-10. `UI.showItemAdded(...)` displays the confirmation to the user.
+9. If the category exists, `AddItemCommand` checks `category.findItemByName(item.getName())`.
+10. If a duplicate item name is found in the same category, `AddItemCommand` throws
+    `InventoryDockException` with `Duplicate item found for category/<category> item/<item>.`.
+11. If no duplicate is found, `AddItemCommand` calls `category.addItem(item)`.
+12. `UI.showItemAdded(...)` displays the confirmation to the user.
 
-The execution logic in `AddItemCommand` is intentionally small:
+The execution logic in `AddItemCommand` keeps validation and mutation together:
 
 ```java
 Category category = inventory.findCategoryByName(categoryName);
+if (category.findItemByName(item.getName()) != null) {
+    throw new InventoryDockException("Duplicate item found for category/"
+            + category.getName() + " item/" + item.getName() + ".");
+}
 category.addItem(item);
 ui.showItemAdded(item.getName(), item.getQuantity(),
         category.getName(), item.getBinLocation());
 ```
 
-This keeps construction concerns in the parser layer and mutation concerns in the command layer.
+This keeps construction concerns in the parser layer and duplicate/mutation concerns in the command layer.
 
 #### Why the feature is implemented this way
 
@@ -208,7 +215,7 @@ new parser branch and item subtype rather than modifying one monolithic parsing 
 special cases.
 
 Third, it keeps command execution simple. By the time `AddItemCommand` runs, all parsing and object
-construction work has already been completed. The command only needs to find the category and append
+construction work has already been completed. The command only needs to find the category, validate duplicate name rules, and append
 the item.
 
 Another deliberate design choice is that the command adds only into an existing category rather than
@@ -229,7 +236,7 @@ fields are missing or malformed, they throw `InventoryDockException` before an `
 `AddItemCommand` also performs execution-time checks. If `inventory.findCategoryByName(categoryName)`
 returns `null`, the command throws a `CategoryNotFoundException` with the message
 `Category not found: <categoryName>`. If the parsed item is unexpectedly `null`, it throws a
-`MissingArgumentException` with the message `Item cannot be null.`
+`MissingArgumentException` with the message `Item cannot be null.` It also checks for duplicate item names in the same category and throws `InventoryDockException` with `Duplicate item found for category/<category> item/<item>.` when a duplicate is detected.
 
 This layered approach ensures invalid input is rejected as early as possible, while still protecting
 the command layer from invalid state.
@@ -280,15 +287,15 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByExpiryDateCommandParseFlow](diagrams/sequence/FindItemByExpiryDateCommandParseFlow-Sequence_Diagram_for_FindItemByExpiryDateCommand__Parse_and_Command_Creation_.png)
+![FindItemByExpiryDateCommandParseFlow](diagrams/sequence/FindItemByExpiryDateCommandParseFlow.png)
 
 2. Date parsing and matching.
 
-![FindItemByExpiryDateCommandMatchingFlow](diagrams/sequence/FindItemByExpiryDateCommandMatchingFlow-Sequence_Diagram_for_FindItemByExpiryDateCommand__Date_Parsing_and_Matching_.png)
+![FindItemByExpiryDateCommandMatchingFlow](diagrams/sequence/FindItemByExpiryDateCommandMatchingFlow.png)
 
 3. Result display.
 
-![FindItemByExpiryDateCommandDisplayFlow](diagrams/sequence/FindItemByExpiryDateCommandDisplayFlow-Sequence_Diagram_for_FindItemByExpiryDateCommand__Result_Display_.png)
+![FindItemByExpiryDateCommandDisplayFlow](diagrams/sequence/FindItemByExpiryDateCommandDisplayFlow.png)
 
 Class and object diagrams:
 
@@ -358,21 +365,21 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByQtyCommandParseFlow](diagrams/sequence/FindItemByQtyCommandParseFlow-Sequence_Diagram_for_FindItemByQtyCommand__Parse_and_Command_Creation_.png)
+![FindItemByQtyCommandParseFlow](diagrams/sequence/FindItemByQtyCommandParseFlow.png)
 
 2. Inventory scan and quantity matching.
 
-![FindItemByQtyCommandMatchingFlow](diagrams/sequence/FindItemByQtyCommandMatchingFlow-Sequence_Diagram_for_FindItemByQtyCommand__Inventory_Scan_and_Quantity_Matching_.png)
+![FindItemByQtyCommandMatchingFlow](diagrams/sequence/FindItemByQtyCommandMatchingFlow.png)
 
 3. Result display.
 
-![FindItemByQtyCommandDisplayFlow](diagrams/sequence/FindItemByQtyCommandDisplayFlow-Sequence_Diagram_for_FindItemByQtyCommand__Result_Display_.png)
+![FindItemByQtyCommandDisplayFlow](diagrams/sequence/FindItemByQtyCommandDisplayFlow.png)
 
 Class and object diagrams:
 
-![FindItemByQtyCommandClassDiagram](diagrams/class/FindItemByQtyCommandClassDiagram-Class_Diagram_for_FindItemByQtyCommand_Feature.png)
+![FindItemByQtyCommandClassDiagram](diagrams/class/FindItemByQtyCommandClassDiagram.png)
 
-![FindItemByQtyCommandObjectDiagram](diagrams/object/FindItemByQtyCommandObjectDiagram-Object_Diagram_for_one_execution_of_FindItemByQtyCommand.png)
+![FindItemByQtyCommandObjectDiagram](diagrams/object/FindItemByQtyCommandObjectDiagram.png)
 
 #### Find By Keyword
 
@@ -620,7 +627,7 @@ A representative object snapshot for this feature is shown below.
 
 The main interaction for this flow is illustrated below.
 
-![ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow-Sequence_Diagram_for_ListCommand__Main_Control_Flow_Only_.png)
+![ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png)
 
 #### Component-level implementation
 
@@ -899,7 +906,7 @@ single format while preserving the extra data needed for each subtype.
 
 The main structural relationships for the storage feature are shown below.
 
-![StorageClassDiagram](diagrams/class/StorageClassDiagram.png)
+![StorageClassDiagram](diagrams/class/StorageClass.png)
 
 #### Saving execution flow
 
@@ -1085,7 +1092,7 @@ This design keeps help output concise and avoids duplicating detailed usage that
 
 Sequence diagram:
 
-![HelpCommandMainFlow](diagrams/sequence/HelpCommandMainFlow-Sequence_Diagram_for_HelpCommand__Main_Control_Flow_Only_.png)
+![HelpCommandMainFlow](diagrams/sequence/HelpCommandMainFlow.png)
 
 Class and object diagrams:
 
@@ -1156,7 +1163,7 @@ This section provides instructions for manually testing the application.
 1. Use the `add` command to insert sample items into different categories.
 2. Example:
     - `add category/fruits item/apple bin/A1 qty/10 expiryDate/2026-4-01 size/medium isRipe/true`
-    - `add category/drinks item/cola bin/B2 qty/5 expiryDate/2026-6-01 brand/coke flavour/original isCarbonated/true`
+    - `add category/drinks item/cola bin/B2 qty/5 expiryDate/2026-6-01 brand/coke flavour/original`
 3. Run `list` to verify that the items are correctly added.
 
 After setting up the application, proceed to the individual test cases below.
@@ -1172,6 +1179,9 @@ After setting up the application, proceed to the individual test cases below.
 7. Verify that the application shows `Category not found: unknown` or the corresponding category error.
 8. Run an add command with a missing required field, for example `add category/fruits bin/A1 qty/10 expiryDate/2026-4-01 size/medium isRipe/true`.
 9. Verify that the application shows the appropriate validation error for the missing field.
+10. Run the same add command from step 2 again.
+11. Verify that the application rejects it with `Duplicate item found for category/fruits item/apple.`
+12. Verify through `list` that no second `apple` item was added to `fruits`.
 
 ### Testing list command
 
@@ -1320,3 +1330,5 @@ After setting up the application, proceed to the individual test cases below.
 8. Run `find keyword/mango`.
 9. Verify that the application shows `No items found matching keyword: mango.` when there are no
    matches.
+
+
