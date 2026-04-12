@@ -8,7 +8,7 @@ public class PetFoodTest {
     @Test
     public void constructor_validInput_success() {
         PetFood petFood = new PetFood("Dog Kibble", 15, "E2", "2026-06-01",
-                "Dog", "Pedigree");
+                "Dog", "Pedigree", true);
 
         assertEquals("Dog Kibble", petFood.getName());
         assertEquals(15, petFood.getQuantity());
@@ -16,5 +16,9 @@ public class PetFoodTest {
         assertEquals("2026-06-01", petFood.getExpiryDate());
         assertEquals("Dog", petFood.getPetType());
         assertEquals("Pedigree", petFood.getBrand());
+        assertEquals(true, petFood.isDry());
     }
 }
+
+
+

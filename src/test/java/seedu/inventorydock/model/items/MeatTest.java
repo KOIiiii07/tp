@@ -8,7 +8,7 @@ public class MeatTest {
     @Test
     public void constructor_validInput_success() {
         Meat meat = new Meat("Wagyu Beef", 8, "B2", "2026-03-29",
-                "Beef", "Japan");
+                "Beef", "Japan", true);
 
         assertEquals("Wagyu Beef", meat.getName());
         assertEquals(8, meat.getQuantity());
@@ -16,5 +16,9 @@ public class MeatTest {
         assertEquals("2026-03-29", meat.getExpiryDate());
         assertEquals("Beef", meat.getMeatType());
         assertEquals("Japan", meat.getOrigin());
+        assertEquals(true, meat.isFrozen());
     }
 }
+
+
+

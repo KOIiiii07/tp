@@ -128,7 +128,7 @@ public class AddItemCommandParserTest {
     public void handleVegetables_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/vegetables item/spinach bin/V-01 qty/4 "
-                + "expiryDate/2026-03-18 isLeafy/true origin/Malaysia";
+                + "expiryDate/2026-03-18 origin/Malaysia isLeafy/true";
         assertDoesNotThrow(() -> parser.handleVegetables(input));
     }
 
@@ -136,7 +136,7 @@ public class AddItemCommandParserTest {
     public void handleDrinks_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/drinks item/cola bin/D-02 qty/8 "
-                + "expiryDate/2026-05-10 brand/Coke flavour/Original";
+                + "expiryDate/2026-05-10 brand/Coke flavour/Original isCarbonated/true";
         assertDoesNotThrow(() -> parser.handleDrinks(input));
     }
 
@@ -144,7 +144,7 @@ public class AddItemCommandParserTest {
     public void handleSeafood_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/seafood item/salmon bin/F-04 qty/7 "
-                + "expiryDate/2026-04-30 seafoodType/fish origin/Norway";
+                + "expiryDate/2026-04-30 seafoodType/fish origin/Norway isFresh/true";
         assertDoesNotThrow(() -> parser.handleSeafood(input));
     }
 
@@ -152,7 +152,7 @@ public class AddItemCommandParserTest {
     public void handleMeat_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/meat item/beef bin/M-02 qty/6 "
-                + "expiryDate/2026-04-11 meatType/red origin/Australia";
+                + "expiryDate/2026-04-11 meatType/red origin/Australia isFrozen/true";
         assertDoesNotThrow(() -> parser.handleMeat(input));
     }
 
@@ -160,7 +160,7 @@ public class AddItemCommandParserTest {
     public void handlePetFood_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/petfood item/kibble bin/P-05 qty/12 "
-                + "expiryDate/2026-08-01 petType/dog brand/Pedigree";
+                + "expiryDate/2026-08-01 petType/dog brand/Pedigree isDry/true";
         assertDoesNotThrow(() -> parser.handlePetFood(input));
     }
 
@@ -168,7 +168,7 @@ public class AddItemCommandParserTest {
     public void handleAccessories_validInput_success() {
         AddItemCommandParser parser = new AddItemCommandParser();
         String input = "category/accessories item/mug bin/A-04 qty/4 "
-                + "expiryDate/2027-01-01 type/kitchen material/ceramic";
+                + "expiryDate/2027-01-01 type/kitchen material/ceramic isFragile/true";
         assertDoesNotThrow(() -> parser.handleAccessories(input));
     }
 
@@ -190,3 +190,5 @@ public class AddItemCommandParserTest {
         assertEquals("Missing required field: expiryDate/", e.getMessage());
     }
 }
+
+

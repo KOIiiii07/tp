@@ -8,7 +8,7 @@ public class DrinksTest {
     @Test
     public void constructor_validInput_success() {
         Drinks drinks = new Drinks("Coke", 5, "A1", "2026-04-01",
-                "CocaCola", "Cola");
+                "CocaCola", "Cola", true);
 
         assertEquals("Coke", drinks.getName());
         assertEquals(5, drinks.getQuantity());
@@ -16,5 +16,9 @@ public class DrinksTest {
         assertEquals("2026-04-01", drinks.getExpiryDate());
         assertEquals("CocaCola", drinks.getBrand());
         assertEquals("Cola", drinks.getFlavour());
+        assertEquals(true, drinks.isCarbonated());
     }
 }
+
+
+

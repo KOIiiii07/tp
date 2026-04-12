@@ -65,28 +65,28 @@ Supported categories and category-specific fields(i.e. last 2 fields):
 * Fruits
   `add category/fruits item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE size/SIZE isRipe/BOOLEAN`
 * Vegetables
-  `add category/vegetables item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE isLeafy/BOOLEAN origin/ORIGIN`
+  `add category/vegetables item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE origin/ORIGIN isLeafy/BOOLEAN`
 * Toiletries
   `add category/toiletries item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isLiquid/BOOLEAN`
 * Snacks
   `add category/snacks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND isCrunchy/BOOLEAN`
 * Drinks
-  `add category/drinks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND flavour/FLAVOUR`
+  `add category/drinks item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE brand/BRAND flavour/FLAVOUR isCarbonated/BOOLEAN`
 * Seafood
-  `add category/seafood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE seafoodType/TYPE origin/ORIGIN`
+  `add category/seafood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE seafoodType/TYPE origin/ORIGIN isFresh/BOOLEAN`
 * Meat
-  `add category/meat item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE meatType/TYPE origin/ORIGIN`
+  `add category/meat item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE meatType/TYPE origin/ORIGIN isFrozen/BOOLEAN`
 * Pet food
-  `add category/petfood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE petType/TYPE brand/BRAND`
+  `add category/petfood item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE petType/TYPE brand/BRAND isDry/BOOLEAN`
 * Accessories
-  `add category/accessories item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE type/TYPE material/MATERIAL`
+  `add category/accessories item/ITEM bin/BIN qty/QUANTITY expiryDate/DATE type/TYPE material/MATERIAL isFragile/BOOLEAN`
 
 Examples:
 
 * `add category/fruits item/apple bin/A-10 qty/40 expiryDate/2026-10-3 size/big isRipe/true`
 * `add category/snacks item/potato chips bin/D-5 qty/50 expiryDate/2026-8-12 brand/Lays isCrunchy/true`
-* `add category/drinks item/apple_juice bin/F-1 qty/24 expiryDate/2026-10-3 brand/Marigold flavour/Apple`
-* `add category/vegetables item/spinach bin/B-2 qty/30 expiryDate/2026-6-1 isLeafy/true origin/Malaysia`
+* `add category/drinks item/apple_juice bin/F-1 qty/24 expiryDate/2026-10-3 brand/Marigold flavour/Apple isCarbonated/true`
+* `add category/vegetables item/spinach bin/B-2 qty/30 expiryDate/2026-6-1 origin/Malaysia isLeafy/true`
 
 Expected result:
 
@@ -231,7 +231,7 @@ Expected result:
 
 * All categories are shown in numbered order.
 * Items under each category are listed with their details.
-* If the inventory is empty, the app shows `Inventory is empty.`
+* If the inventory is empty, the app will show the empty inventory.
 
 ### Sorting items: `sort`
 Lists the full inventory grouped by category, with the items inside each category sorted by the chosen field.
@@ -253,7 +253,7 @@ Expected result:
 
 * Items in each category are sorted according to the chosen sort type.
 * Category order remains unchanged.
-* If the inventory is empty, the app shows Inventory is empty.
+* If the inventory is empty, the app shows the empty inventory.
 
 ### Update an item: `update`
 
@@ -400,6 +400,8 @@ When an error occurs, the app prints an error message and waits for the next com
   `delete category/CATEGORY index/INDEX`
 * Clear a category
   `delete category/CATEGORY`
+
+
 
 
 

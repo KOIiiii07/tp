@@ -8,7 +8,7 @@ public class VegetableTest {
     @Test
     public void constructor_validInput_success() {
         Vegetable vegetable = new Vegetable("Spinach", 14, "H1",
-                "2026-03-30", true, "Malaysia");
+                "2026-03-30", "Malaysia", true);
 
         assertEquals("Spinach", vegetable.getName());
         assertEquals(14, vegetable.getQuantity());

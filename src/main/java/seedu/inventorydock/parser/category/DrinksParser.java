@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.exception.MissingArgumentException;
 import seedu.inventorydock.parser.FieldParser;
 
@@ -15,10 +16,12 @@ public class DrinksParser {
 
     public final String brand;
     public final String flavour;
+    public final boolean isCarbonated;
 
-    public DrinksParser(String brand, String flavour) {
+    public DrinksParser(String brand, String flavour, boolean isCarbonated) {
         this.brand = brand;
         this.flavour = flavour;
+        this.isCarbonated = isCarbonated;
     }
 
     public static DrinksParser parse(String input) throws InventoryDockException {
@@ -31,13 +34,25 @@ public class DrinksParser {
             throw new MissingArgumentException("Missing brand for drinks.");
         }
 
-        String flavour = FieldParser.extractField(input, "flavour/", null);
+        String flavour = FieldParser.extractField(input, "flavour/", "isCarbonated/");
         if (flavour == null || flavour.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing flavour for drinks.");
             throw new MissingArgumentException("Missing flavour for drinks.");
         }
 
+        String carbonatedString = FieldParser.extractField(input, "isCarbonated/", null);
+        if (carbonatedString == null || carbonatedString.trim().isEmpty()) {
+            logger.log(Level.WARNING, "Missing carbonation field for drinks.");
+            throw new MissingArgumentException("Missing carbonation field for drinks.");
+        }
+
+        if (!(carbonatedString.equalsIgnoreCase("true") || carbonatedString.equalsIgnoreCase("false"))) {
+            logger.log(Level.WARNING, "Carbonation field must be true or false.");
+            throw new InvalidCommandException("Carbonation field must be true or false.");
+        }
+        boolean isCarbonated = Boolean.parseBoolean(carbonatedString);
+
         logger.log(Level.INFO, "End of processing drinks.");
-        return new DrinksParser(brand, flavour);
+        return new DrinksParser(brand, flavour, isCarbonated);
     }
 }

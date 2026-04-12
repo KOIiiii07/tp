@@ -13,18 +13,30 @@ import java.util.logging.Logger;
 public class VegetableParser {
     private static final Logger logger = Logger.getLogger(VegetableParser.class.getName());
 
-    public final boolean isLeafy;
     public final String origin;
+    public final boolean isLeafy;
 
-    public VegetableParser(boolean isLeafy, String origin) {
-        this.isLeafy = isLeafy;
+    /**
+     * Creates a {@code VegetableParser} object with the parsed vegetable details.
+     *
+     * @param origin Origin of the vegetable.
+     * @param isLeafy Whether the vegetable is leafy.
+     */
+    public VegetableParser(String origin, boolean isLeafy) {
         this.origin = origin;
+        this.isLeafy = isLeafy;
     }
 
     public static VegetableParser parse(String input) throws InventoryDockException {
         assert input != null : "VegetableParser received null inputs.";
 
-        String leafyString = FieldParser.extractField(input, "isLeafy/", "origin/");
+        String origin = FieldParser.extractField(input, "origin/", "isLeafy/");
+        if (origin == null || origin.trim().isEmpty()) {
+            logger.log(Level.WARNING, "Missing origin for vegetable.");
+            throw new MissingArgumentException("Missing origin for vegetable.");
+        }
+
+        String leafyString = FieldParser.extractField(input, "isLeafy/", null);
         if (leafyString == null || leafyString.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing leafy field for vegetable.");
             throw new MissingArgumentException("Missing leafy field for vegetable.");
@@ -36,12 +48,6 @@ public class VegetableParser {
         }
         boolean isLeafy = Boolean.parseBoolean(leafyString);
 
-        String origin = FieldParser.extractField(input, "origin/", null);
-        if (origin == null || origin.trim().isEmpty()) {
-            logger.log(Level.WARNING, "Missing origin for vegetable.");
-            throw new MissingArgumentException("Missing origin for vegetable.");
-        }
-
-        return new VegetableParser(isLeafy, origin);
+        return new VegetableParser(origin, isLeafy);
     }
 }

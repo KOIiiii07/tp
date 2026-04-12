@@ -38,7 +38,7 @@ public class FindItemByExpiryDateCommandTest {
         snacksCategory.addItem(new Snack("chips", 20, "B-1",
                 "2026-3-21", "Lays", true));
         toiletriesCategory.addItem(new Toiletries("shampoo", 5, "C-1",
-                "Dove", true, "2026-4-1"));
+                "2026-4-1", "Dove", true));
         inventory.addCategory(fruitsCategory);
         inventory.addCategory(snacksCategory);
         inventory.addCategory(toiletriesCategory);
@@ -94,7 +94,7 @@ public class FindItemByExpiryDateCommandTest {
     public void execute_vegetableItemsIncludedWhenMatchingDate() throws InvalidDateException {
         Category vegetablesCategory = new Category("vegetables");
         vegetablesCategory.addItem(new Vegetable("spinach", 7, "D-1",
-                "2026-3-20", true, "Malaysia"));
+                "2026-3-20", "Malaysia", true));
         inventory.addCategory(vegetablesCategory);
 
         FindItemByExpiryDateCommand command = new FindItemByExpiryDateCommand("2026-3-21");

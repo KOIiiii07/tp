@@ -8,7 +8,7 @@ public class AccessoriesTest {
     @Test
     public void constructor_validInput_success() {
         Accessories accessories = new Accessories("Watch", 4, "J2",
-                "2026-08-15", "Wearable", "Leather");
+                "2026-08-15", "Wearable", "Leather", true);
 
         assertEquals("Watch", accessories.getName());
         assertEquals(4, accessories.getQuantity());
@@ -16,5 +16,9 @@ public class AccessoriesTest {
         assertEquals("2026-08-15", accessories.getExpiryDate());
         assertEquals("Wearable", accessories.getType());
         assertEquals("Leather", accessories.getMaterial());
+        assertEquals(true, accessories.isFragile());
     }
 }
+
+
+

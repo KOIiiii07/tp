@@ -1,6 +1,7 @@
 package seedu.inventorydock.parser.category;
 
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.exception.MissingArgumentException;
 import seedu.inventorydock.parser.FieldParser;
 
@@ -15,10 +16,12 @@ public class MeatParser {
 
     public final String meatType;
     public final String origin;
+    public final boolean isFrozen;
 
-    public MeatParser(String meatType, String origin) {
+    public MeatParser(String meatType, String origin, boolean isFrozen) {
         this.meatType = meatType;
         this.origin = origin;
+        this.isFrozen = isFrozen;
     }
 
     public static MeatParser parse(String input) throws InventoryDockException {
@@ -31,13 +34,25 @@ public class MeatParser {
             throw new MissingArgumentException("Missing meatType for meat.");
         }
 
-        String origin = FieldParser.extractField(input, "origin/", null);
+        String origin = FieldParser.extractField(input, "origin/", "isFrozen/");
         if (origin == null || origin.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing origin for meat.");
             throw new MissingArgumentException("Missing origin for meat.");
         }
 
+        String frozenString = FieldParser.extractField(input, "isFrozen/", null);
+        if (frozenString == null || frozenString.trim().isEmpty()) {
+            logger.log(Level.WARNING, "Missing frozen field for meat.");
+            throw new MissingArgumentException("Missing frozen field for meat.");
+        }
+
+        if (!(frozenString.equalsIgnoreCase("true") || frozenString.equalsIgnoreCase("false"))) {
+            logger.log(Level.WARNING, "Frozen field must be true or false.");
+            throw new InvalidCommandException("Frozen field must be true or false.");
+        }
+        boolean isFrozen = Boolean.parseBoolean(frozenString);
+
         logger.log(Level.INFO, "End of processing meat.");
-        return new MeatParser(meatType, origin);
+        return new MeatParser(meatType, origin, isFrozen);
     }
 }

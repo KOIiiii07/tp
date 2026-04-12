@@ -3,7 +3,6 @@ package seedu.inventorydock.command;
 import seedu.inventorydock.exception.CategoryNotFoundException;
 import seedu.inventorydock.exception.DuplicateItemException;
 import seedu.inventorydock.exception.InventoryDockException;
-import seedu.inventorydock.exception.InvalidDateException;
 import seedu.inventorydock.exception.MissingArgumentException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;

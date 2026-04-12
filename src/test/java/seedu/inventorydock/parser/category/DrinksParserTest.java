@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DrinksParserTest {
     @Test
     public void parse_validInput_success() {
-        String input = "brand/CocaCola flavour/Cola";
+        String input = "brand/CocaCola flavour/Cola isCarbonated/true";
         assertDoesNotThrow(() -> DrinksParser.parse(input));
     }
 
     @Test
     public void parse_missingBrand_throwsException() {
-        String input = "brand/ flavour/Cola";
+        String input = "brand/ flavour/Cola isCarbonated/true";
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> DrinksParser.parse(input));
         assertEquals("Missing brand for drinks.", e.getMessage());
@@ -24,9 +24,10 @@ public class DrinksParserTest {
 
     @Test
     public void parse_missingFlavour_throwsException() {
-        String input = "brand/PepsiCola flavour/";
+        String input = "brand/PepsiCola flavour/ isCarbonated/true";
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> DrinksParser.parse(input));
         assertEquals("Missing flavour for drinks.", e.getMessage());
     }
 }
+

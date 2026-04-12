@@ -1,6 +1,7 @@
 package seedu.inventorydock.parser.category;
 
 import seedu.inventorydock.exception.InventoryDockException;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.exception.MissingArgumentException;
 import seedu.inventorydock.parser.FieldParser;
 import java.util.logging.Level;
@@ -14,10 +15,12 @@ public class PetFoodParser {
 
     public final String petType;
     public final String brand;
+    public final boolean isDry;
 
-    public PetFoodParser(String petType, String brand) {
+    public PetFoodParser(String petType, String brand, boolean isDry) {
         this.petType = petType;
         this.brand = brand;
+        this.isDry = isDry;
     }
 
     public static PetFoodParser parse(String input) throws InventoryDockException {
@@ -30,13 +33,25 @@ public class PetFoodParser {
             throw new MissingArgumentException("Missing petType for pet food.");
         }
 
-        String brand = FieldParser.extractField(input, "brand/", null);
+        String brand = FieldParser.extractField(input, "brand/", "isDry/");
         if (brand == null || brand.trim().isEmpty()) {
             logger.log(Level.WARNING, "Missing brand for pet food.");
             throw new MissingArgumentException("Missing brand for pet food.");
         }
 
+        String dryString = FieldParser.extractField(input, "isDry/", null);
+        if (dryString == null || dryString.trim().isEmpty()) {
+            logger.log(Level.WARNING, "Missing dry field for pet food.");
+            throw new MissingArgumentException("Missing dry field for pet food.");
+        }
+
+        if (!(dryString.equalsIgnoreCase("true") || dryString.equalsIgnoreCase("false"))) {
+            logger.log(Level.WARNING, "Dry field must be true or false.");
+            throw new InvalidCommandException("Dry field must be true or false.");
+        }
+        boolean isDry = Boolean.parseBoolean(dryString);
+
         logger.log(Level.INFO, "End of processing pet food.");
-        return new PetFoodParser(petType, brand);
+        return new PetFoodParser(petType, brand, isDry);
     }
 }
