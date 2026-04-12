@@ -12,4 +12,9 @@ public class InvalidDateException extends InventoryDockException {
     public InvalidDateException(String message) {
         super(message);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Invalid input";
+    }
 }

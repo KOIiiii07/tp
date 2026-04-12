@@ -1,5 +1,6 @@
 package seedu.inventorydock.ui;
 
+import seedu.inventorydock.exception.InventoryDockException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
 import seedu.inventorydock.model.Item;
@@ -79,6 +80,10 @@ public class UI {
         return "Items " + resultsDescription;
     }
 
+    private String formatItemCount(int itemCount) {
+        return itemCount + (itemCount == 1 ? " item" : " items");
+    }
+
     public void showNumberedList(List<?> items) {
         for (int i = 0; i < items.size(); i++) {
             showMessage((i + 1) + ". " + items.get(i));
@@ -90,21 +95,16 @@ public class UI {
         showDivider();
     }
 
-    public void showUnknownCommand() {
-        showError("Unknown command. " + "Type 'help' to see available commands.");
+    public void showError(String category, String message) {
+        showError(category + ": " + message);
+    }
+
+    public void showError(InventoryDockException exception) {
+        showError(exception.getErrorCategory(), exception.getMessage());
     }
 
     public void showCategoryNotFound(String categoryName) {
-        showError("Category not found: " + categoryName);
-    }
-
-
-    public void showInvalidInput(String details) {
-        showError("Invalid input. " + details);
-    }
-
-    public void showEmptyInput() {
-        showError("Input cannot be empty. " + "Type 'help' to see available commands.");
+        showError("Not found", "Category '" + categoryName + "' does not exist.");
     }
 
     public void showItemAdded(String itemName, int quantity,
@@ -139,14 +139,10 @@ public class UI {
         showDivider();
     }
 
-    public void showItemNotFound(String itemName) {
-        showError("Item not found: " + itemName);
-    }
-
     public void showDeleteCategoryConfirmation(
             String categoryName, int itemCount) {
         showDivider();
-        System.out.println("Category '" + categoryName + "' still has " + itemCount + " item(s).");
+        System.out.println("Category '" + categoryName + "' still has " + formatItemCount(itemCount) + ".");
         System.out.println("Are you sure you want to delete " + "all items and remove this category?");
         System.out.print("Type 'yes' to confirm: ");
     }
@@ -171,7 +167,8 @@ public class UI {
         System.out.println();
         for (int i = 0; i < categories.size(); i++) {
             Category cat = categories.get(i);
-            System.out.println((i + 1) + ". " + capitalise(cat.getName()) + " (" + cat.getItemCount() + " items)");
+            System.out.println((i + 1) + ". " + capitalise(cat.getName())
+                    + " (" + formatItemCount(cat.getItemCount()) + ")");
             List<Item> items = cat.getItems();
             for (int j = 0; j < items.size(); j++) {
                 System.out.println("   " + (j + 1) + ". " + items.get(j));
@@ -192,7 +189,8 @@ public class UI {
         System.out.println();
         for (int i = 0; i < categories.size(); i++) {
             Category cat = categories.get(i);
-            System.out.println((i + 1) + ". " + capitalise(cat.getName()) + " (" + cat.getItemCount() + " items)");
+            System.out.println((i + 1) + ". " + capitalise(cat.getName())
+                    + " (" + formatItemCount(cat.getItemCount()) + ")");
             List<Item> items = sortedItemsByCategory.get(i);
             for (int j = 0; j < items.size(); j++) {
                 System.out.println("   " + (j + 1) + ". " + items.get(j));

@@ -12,4 +12,9 @@ public class ItemNotFoundException extends InventoryDockException {
     public ItemNotFoundException(String message) {
         super(message);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Not found";
+    }
 }

@@ -12,4 +12,9 @@ public class DuplicateItemException extends InventoryDockException {
     public DuplicateItemException(String message) {
         super(message);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Conflict";
+    }
 }

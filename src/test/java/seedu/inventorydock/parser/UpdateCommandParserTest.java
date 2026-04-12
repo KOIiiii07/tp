@@ -2,6 +2,7 @@ package seedu.inventorydock.parser;
 
 import org.junit.jupiter.api.Test;
 import seedu.inventorydock.command.UpdateItemCommand;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.exception.InvalidIndexException;
 import seedu.inventorydock.exception.MissingArgumentException;
 
@@ -24,7 +25,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("index/1 qty/25"));
-        assertEquals("Missing category.", exception.getMessage());
+        assertEquals("category is required.", exception.getMessage());
     }
 
     @Test
@@ -33,7 +34,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("category/vegetables index/1"));
-        assertEquals("Provide at least one field to update.", exception.getMessage());
+        assertEquals("at least one field to update is required.", exception.getMessage());
     }
 
     @Test
@@ -42,7 +43,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("   "));
-        assertEquals("Use: update category/CATEGORY index/INDEX "
+        assertEquals("specify the update details. Use: update category/CATEGORY index/INDEX "
                 + "[newItem/NAME] [bin/BIN] [qty/QTY] [expiryDate/DATE] ...", exception.getMessage());
     }
 
@@ -53,5 +54,32 @@ public class UpdateCommandParserTest {
         InvalidIndexException exception = assertThrows(InvalidIndexException.class,
                 () -> parser.parse("category/vegetables index/abc qty/25"));
         assertEquals("Item index must be an integer.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_duplicateUpdateField_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        InvalidCommandException exception = assertThrows(InvalidCommandException.class,
+                () -> parser.parse("category/vegetables index/1 qty/25 qty/30"));
+        assertEquals("Duplicate update field: qty/.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_duplicateIndexField_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        InvalidCommandException exception = assertThrows(InvalidCommandException.class,
+                () -> parser.parse("category/vegetables index/1 index/2 qty/25"));
+        assertEquals("Duplicate update field: index/.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_invalidBin_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        InvalidCommandException exception = assertThrows(InvalidCommandException.class,
+                () -> parser.parse("category/vegetables index/1 bin/A10"));
+        assertEquals("Bin location must be LETTER-NUMBER (e.g. A-10).", exception.getMessage());
     }
 }

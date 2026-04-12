@@ -22,4 +22,9 @@ public class StorageException extends InventoryDockException {
     public StorageException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Storage error";
+    }
 }

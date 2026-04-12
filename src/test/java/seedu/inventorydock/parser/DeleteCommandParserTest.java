@@ -1,4 +1,4 @@
-package seedu.duke.parser;
+package seedu.inventorydock.parser;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,6 @@ import seedu.inventorydock.command.Command;
 import seedu.inventorydock.command.DeleteCategoryCommand;
 import seedu.inventorydock.command.DeleteItemCommand;
 import seedu.inventorydock.exception.InventoryDockException;
-import seedu.inventorydock.parser.DeleteCommandParser;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -50,7 +49,7 @@ public class DeleteCommandParserTest {
     public void parse_unknownField_throwsInventoryDockException() {
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse("category/fruits name/apple"));
-        assertTrue(exception.getMessage().contains("Unknown field"));
+        assertTrue(exception.getMessage().contains("is not supported"));
     }
 
     @Test

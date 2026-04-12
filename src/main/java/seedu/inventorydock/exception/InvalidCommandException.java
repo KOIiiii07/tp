@@ -12,4 +12,9 @@ public class InvalidCommandException extends InventoryDockException {
     public InvalidCommandException(String message) {
         super(message);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Invalid input";
+    }
 }

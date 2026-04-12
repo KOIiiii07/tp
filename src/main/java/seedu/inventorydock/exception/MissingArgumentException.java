@@ -22,4 +22,9 @@ public class MissingArgumentException extends InventoryDockException {
     public MissingArgumentException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Missing input";
+    }
 }

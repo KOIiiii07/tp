@@ -27,6 +27,10 @@ public class Snack extends Item {
         return isCrunchy;
     }
 
+    public void setCrunchy(boolean isCrunchy) {
+        this.isCrunchy = isCrunchy;
+    }
+
     @Override
     public String toStorageString(String categoryName) {
         return super.toStorageString(categoryName)

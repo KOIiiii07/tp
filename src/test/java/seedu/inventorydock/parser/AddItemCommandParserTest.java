@@ -92,7 +92,7 @@ public class AddItemCommandParserTest {
                 + "expiryDate/2026-03-20 isRipe/true";
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> parser.handleFruit(input));
-        assertEquals("Quantity must be an integer.", e.getMessage());
+        assertEquals("quantity must be an integer.", e.getMessage());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class AddItemCommandParserTest {
                 + "expiryDate/2026-03-20 isRipe/true";
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> parser.handleFruit(input));
-        assertEquals("Quantity must be a positive integer.", e.getMessage());
+        assertEquals("quantity must be a positive integer.", e.getMessage());
     }
 
     @Test

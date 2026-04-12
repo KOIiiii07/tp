@@ -22,4 +22,8 @@ public class InventoryDockException extends Exception {
     public InventoryDockException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public String getErrorCategory() {
+        return "Error";
+    }
 }

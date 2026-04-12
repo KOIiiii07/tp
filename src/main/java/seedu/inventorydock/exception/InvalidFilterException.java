@@ -12,4 +12,9 @@ public class InvalidFilterException extends InventoryDockException {
     public InvalidFilterException(String message) {
         super(message);
     }
+
+    @Override
+    public String getErrorCategory() {
+        return "Invalid input";
+    }
 }
