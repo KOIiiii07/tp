@@ -4,11 +4,6 @@ package seedu.inventorydock.exception;
  * Signals that an index argument is invalid or out of range.
  */
 public class InvalidIndexException extends InventoryDockException {
-    @Override
-    public String getErrorCategory() {
-        return "Invalid input";
-    }
-
     /**
      * Creates an exception with the specified message.
      *
@@ -26,5 +21,10 @@ public class InvalidIndexException extends InventoryDockException {
      */
     public InvalidIndexException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public String getErrorCategory() {
+        return "Invalid input";
     }
 }

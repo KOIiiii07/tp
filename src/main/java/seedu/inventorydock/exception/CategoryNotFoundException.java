@@ -4,11 +4,6 @@ package seedu.inventorydock.exception;
  * Signals that a requested category does not exist in the inventory.
  */
 public class CategoryNotFoundException extends InventoryDockException {
-    @Override
-    public String getErrorCategory() {
-        return "Not found";
-    }
-
     /**
      * Creates an exception with the specified message.
      *
@@ -16,5 +11,10 @@ public class CategoryNotFoundException extends InventoryDockException {
      */
     public CategoryNotFoundException(String message) {
         super(message);
+    }
+
+    @Override
+    public String getErrorCategory() {
+        return "Not found";
     }
 }

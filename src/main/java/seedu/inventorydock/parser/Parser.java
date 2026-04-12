@@ -6,7 +6,6 @@ import seedu.inventorydock.command.HelpCommand;
 import seedu.inventorydock.command.ListCommand;
 import seedu.inventorydock.exception.InventoryDockException;
 import seedu.inventorydock.exception.InvalidCommandException;
-import seedu.inventorydock.exception.MissingArgumentException;
 
 public class Parser {
 

@@ -4,11 +4,6 @@ package seedu.inventorydock.exception;
  * Signals that storage or file operations failed.
  */
 public class StorageException extends InventoryDockException {
-    @Override
-    public String getErrorCategory() {
-        return "Storage error";
-    }
-
     /**
      * Creates an exception with the specified message.
      *
@@ -26,5 +21,10 @@ public class StorageException extends InventoryDockException {
      */
     public StorageException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public String getErrorCategory() {
+        return "Storage error";
     }
 }

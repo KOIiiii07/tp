@@ -6,7 +6,6 @@ import seedu.inventorydock.command.Command;
 import seedu.inventorydock.command.DeleteCategoryCommand;
 import seedu.inventorydock.command.DeleteItemCommand;
 import seedu.inventorydock.exception.InventoryDockException;
-import seedu.inventorydock.parser.DeleteCommandParser;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
