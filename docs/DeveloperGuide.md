@@ -117,6 +117,20 @@ application. The feature follows this flow:
 5. An `AddItemCommand` is created and executed with access to the current `Inventory` and `UI`.
 6. The command finds the target category, rejects duplicate logical batches using a normalized identity key (ignoring `qty/` and `bin/`), then inserts the item and shows a confirmation message.
 
+Sequence diagrams:
+
+1. Parse routing and category dispatch.
+
+![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
+
+2. Fruit parsing and command creation.
+
+![AddItemCommandFruitParsingFlow](diagrams/sequence/AddItemCommandFruitParsingFlow.png)
+
+3. Command execution and user display.
+
+![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
+
 The main structural relationships for this feature are shown below.
 
 ![AddItemCommandClassDiagram](diagrams/class/AddItemCommandClassDiagram.png)
@@ -1347,6 +1361,7 @@ o` and press enter.
 8. Run `find keyword/mango`.
 9. Verify that the application shows `No items found matching keyword: mango.` when there are no
    matches.
+
 
 
 
