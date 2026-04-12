@@ -15,21 +15,21 @@ public class AddCommandParserTest {
     public void parse_emptyInput_throwsException() {
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse(""));
-        assertEquals("Input is empty.", exception.getMessage());
+        assertEquals("input cannot be empty.", exception.getMessage());
     }
 
     @Test
     public void parse_missingCategory_throwsException() {
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse("item/apple bin/A-10 qty/3 expiryDate/2026-03-20 isRipe/true"));
-        assertEquals("Missing category.", exception.getMessage());
+        assertEquals("category is required.", exception.getMessage());
     }
 
     @Test
     public void parse_unknownCategory_throwsException() {
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse("category/books item/novel bin/A-10 qty/3 expiryDate/2026-03-20 author/x"));
-        assertEquals("Unknown category: books", exception.getMessage());
+        assertEquals("category 'books' is not supported.", exception.getMessage());
     }
 
     @Test

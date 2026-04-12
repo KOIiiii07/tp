@@ -12,16 +12,15 @@ import seedu.inventorydock.exception.InventoryDockException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
     @Test
-    public void parse_emptyInput_throwsException() {
+    public void parse_emptyInput_returnsNull() throws InventoryDockException {
         Parser parser = new Parser();
 
-        InventoryDockException exception = assertThrows(InventoryDockException.class,
-                () -> parser.parse("   "));
-        assertEquals("Input is empty.", exception.getMessage());
+        assertNull(parser.parse("   "));
     }
 
     @Test
@@ -30,7 +29,7 @@ public class ParserTest {
 
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse("random command"));
-        assertEquals("Unknown command.", exception.getMessage());
+        assertEquals("command is not recognized. Type 'help' to see available commands.", exception.getMessage());
     }
 
     @Test

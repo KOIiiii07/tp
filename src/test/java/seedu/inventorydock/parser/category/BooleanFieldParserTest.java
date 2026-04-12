@@ -34,7 +34,7 @@ public class BooleanFieldParserTest {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> BooleanFieldParser.parse(input, "isRipe/"));
 
-        assertEquals("Missing value for isRipe/", e.getMessage());
+        assertEquals("value for isRipe/ is required.", e.getMessage());
     }
 
     @Test

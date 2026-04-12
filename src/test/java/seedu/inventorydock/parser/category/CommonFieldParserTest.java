@@ -19,42 +19,42 @@ public class CommonFieldParserTest {
     public void parseQuantity_nullQuantity_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity(null));
-        assertEquals("Missing quantity.", e.getMessage());
+        assertEquals("quantity is required.", e.getMessage());
     }
 
     @Test
     public void parseQuantity_emptyQuantity_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity("   "));
-        assertEquals("Missing quantity.", e.getMessage());
+        assertEquals("quantity is required.", e.getMessage());
     }
 
     @Test
     public void parseQuantity_nonNumeric_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity("abc"));
-        assertEquals("Quantity must be an integer.", e.getMessage());
+        assertEquals("quantity must be an integer.", e.getMessage());
     }
 
     @Test
     public void parseQuantity_zero_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity("0"));
-        assertEquals("Quantity must be a positive integer.", e.getMessage());
+        assertEquals("quantity must be a positive integer.", e.getMessage());
     }
 
     @Test
     public void parseQuantity_negative_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity("-5"));
-        assertEquals("Quantity must be a positive integer.", e.getMessage());
+        assertEquals("quantity must be a positive integer.", e.getMessage());
     }
 
     @Test
     public void parseQuantity_exceedsIntegerMaxValue_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parseQuantity("999999999999"));
-        assertEquals("Quantity exceeded the max value.", e.getMessage());
+        assertEquals("quantity exceeded the maximum supported value.", e.getMessage());
     }
 
     @Test
@@ -66,21 +66,21 @@ public class CommonFieldParserTest {
     public void validateExpiryDate_nullDate_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.validateExpiryDate(null));
-        assertEquals("Missing expiry date.", e.getMessage());
+        assertEquals("expiry date is required.", e.getMessage());
     }
 
     @Test
     public void validateExpiryDate_emptyDate_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.validateExpiryDate("   "));
-        assertEquals("Missing expiry date.", e.getMessage());
+        assertEquals("expiry date is required.", e.getMessage());
     }
 
     @Test
     public void validateExpiryDate_invalidDate_throwsException() {
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.validateExpiryDate("2026-02-30"));
-        assertEquals("Invalid date. Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
+        assertEquals("Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class CommonFieldParserTest {
 
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parse(input, "isRipe/"));
-        assertEquals("Missing item name.", e.getMessage());
+        assertEquals("item name is required.", e.getMessage());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CommonFieldParserTest {
 
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parse(input, "isRipe/"));
-        assertEquals("Missing bin location.", e.getMessage());
+        assertEquals("bin location is required.", e.getMessage());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class CommonFieldParserTest {
 
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parse(input, "isRipe/"));
-        assertEquals("Missing quantity.", e.getMessage());
+        assertEquals("quantity is required.", e.getMessage());
     }
 
     @Test
@@ -129,6 +129,6 @@ public class CommonFieldParserTest {
 
         InventoryDockException e = assertThrows(InventoryDockException.class,
                 () -> CommonFieldParser.parse(input, "isRipe/"));
-        assertEquals("Invalid date. Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
+        assertEquals("Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
     }
 }

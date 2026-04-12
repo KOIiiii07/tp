@@ -90,7 +90,7 @@ public class FindItemByKeywordCommandTest {
         command.execute(inventory, ui);
 
         assertEquals(1, ui.errors.size());
-        assertEquals("Multiple keywords are not supported. Please provide a single keyword.", ui.errors.get(0));
+        assertEquals("Invalid input: keyword/ accepts only a single keyword.", ui.errors.get(0));
     }
 
     @Test

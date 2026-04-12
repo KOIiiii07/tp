@@ -25,7 +25,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("index/1 qty/25"));
-        assertEquals("Missing category.", exception.getMessage());
+        assertEquals("category is required.", exception.getMessage());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("category/vegetables index/1"));
-        assertEquals("Provide at least one field to update.", exception.getMessage());
+        assertEquals("at least one field to update is required.", exception.getMessage());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("   "));
-        assertEquals("Use: update category/CATEGORY index/INDEX "
+        assertEquals("specify the update details. Use: update category/CATEGORY index/INDEX "
                 + "[newItem/NAME] [bin/BIN] [qty/QTY] [expiryDate/DATE] ...", exception.getMessage());
     }
 
@@ -72,5 +72,14 @@ public class UpdateCommandParserTest {
         InvalidCommandException exception = assertThrows(InvalidCommandException.class,
                 () -> parser.parse("category/vegetables index/1 index/2 qty/25"));
         assertEquals("Duplicate update field: index/.", exception.getMessage());
+    }
+
+    @Test
+    public void parse_invalidBin_throwsException() {
+        UpdateCommandParser parser = new UpdateCommandParser();
+
+        InvalidCommandException exception = assertThrows(InvalidCommandException.class,
+                () -> parser.parse("category/vegetables index/1 bin/A10"));
+        assertEquals("Bin location must be LETTER-NUMBER (e.g. A-10).", exception.getMessage());
     }
 }

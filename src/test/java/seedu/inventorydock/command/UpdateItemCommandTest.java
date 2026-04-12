@@ -138,7 +138,7 @@ public class UpdateItemCommandTest {
 
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> command.execute(inventory, new UI()));
-        assertEquals("Quantity must be a positive integer.", exception.getMessage());
+        assertEquals("quantity must be a positive integer.", exception.getMessage());
     }
 }
 

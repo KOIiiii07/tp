@@ -3,6 +3,7 @@ package seedu.inventorydock.ui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import seedu.inventorydock.exception.InvalidCommandException;
 import seedu.inventorydock.model.Category;
 import seedu.inventorydock.model.Inventory;
 import seedu.inventorydock.model.Item;
@@ -180,6 +181,13 @@ public class UITest {
         UI ui = createUIWithInput("");
         ui.showError("bad input");
         assertTrue(output.toString().contains("[Error] bad input"));
+    }
+
+    @Test
+    public void showError_exception_printsUniformCategoryLabel() {
+        UI ui = createUIWithInput("");
+        ui.showError(new InvalidCommandException("Unknown command."));
+        assertTrue(output.toString().contains("[Error] Invalid input: Unknown command."));
     }
 
     @Test

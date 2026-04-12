@@ -26,7 +26,7 @@ public class DateParserTest {
     public void validateDate_invalidDate_throwsException() {
         InvalidDateException e = assertThrows(InvalidDateException.class,
                 () -> DateParser.validateDate("20-03-2026"));
-        assertEquals("Invalid date. Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
+        assertEquals("Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class DateParserTest {
     public void parseDate_invalidDate_throwsException() {
         InvalidDateException e = assertThrows(InvalidDateException.class,
                 () -> DateParser.parseDate("20-03-2026"));
-        assertEquals("Invalid date. Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
+        assertEquals("Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
     }
 
     @Test
@@ -60,6 +60,6 @@ public class DateParserTest {
     public void validateDate_nonLeapYearFebruary29_throwsException() {
         InvalidDateException e = assertThrows(InvalidDateException.class,
                 () -> DateParser.validateDate("2026-02-29"));
-        assertEquals("Invalid date. Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
+        assertEquals("Please enter a valid calendar date in yyyy-M-d format.", e.getMessage());
     }
 }

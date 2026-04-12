@@ -85,7 +85,7 @@ public class FindItemByQtyCommandTest {
         InvalidCommandException exception = assertThrows(InvalidCommandException.class,
                 () -> FindItemByQtyCommand.parseQtyInput("abc"));
 
-        assertEquals("Quantity must be an integer.", exception.getMessage());
+        assertEquals("quantity must be an integer.", exception.getMessage());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FindItemByQtyCommandTest {
         InvalidCommandException exception = assertThrows(InvalidCommandException.class,
                 () -> FindItemByQtyCommand.parseQtyInput("0"));
 
-        assertEquals("Quantity must be a positive integer.", exception.getMessage());
+        assertEquals("quantity must be a positive integer.", exception.getMessage());
     }
 
 
