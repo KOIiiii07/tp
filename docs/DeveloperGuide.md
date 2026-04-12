@@ -1153,6 +1153,7 @@ complex interfaces.
 | v2.0    | user     | find items by category    | inspect all items belonging to one category                 |
 | v2.0    | user     | find items by bin         | check what is stored at a specific physical location        |
 | v2.0    | user     | find items by expiry date | identify batches that need attention before they expire     |
+| v2.0    | user     | sort items                | review inventory in a meaningful order for faster scanning  |
 | v2.0    | user     | update items              | correct data-entry mistakes without re-adding the whole item |
 
 ## Non-Functional Requirements
