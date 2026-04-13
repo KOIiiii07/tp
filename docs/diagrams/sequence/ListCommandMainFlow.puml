@@ -26,7 +26,8 @@ ListCommand --> Parser: command
 Parser --> InventoryDock --: command
 
 InventoryDock -> ListCommand: execute(inventory, ui)
-ListCommand -> UI: showInventory(inventory)
+ListCommand --> UI: showInventory(inventory)
+deactivate ListCommand
 
 UI -> Inventory: getCategories()
 activate Inventory
@@ -44,11 +45,10 @@ loop for each category
     end
 end
 
-ListCommand --> InventoryDock
-deactivate ListCommand
+UI --> User: display inventory listing
+
 InventoryDock --> UI
 deactivate InventoryDock
-UI --> User: display inventory listing
+UI --> User
 deactivate UI
 @enduml
-
