@@ -40,7 +40,7 @@ tracking of items by quantity, expiry date, and bin location.
   - What it does: Supports the `summary`, `summary stock`, and `summary expirydate` commands so users can quickly review each category by item count, tied lowest-stock items, and tied earliest-expiry items.
   - Justification: This improves usability by giving users a faster way to identify categories that may need attention without scanning the full inventory listing.
   - Highlights: Implemented `SummaryCommand` and `SummaryCommandParser`; added support for multiple summary modes; preserved category-local item indices in the displayed results; handled tied lowest-stock and earliest-expiry items; and added `N/A` handling for empty categories or categories without matching items.
-  - Representative PR: 
+  - Representative PR: [#248](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/248)
 
 ### Contributions to Team-Based Tasks
 
