@@ -12,16 +12,18 @@ activate FindItemByBinCommand
 alt matches is empty
     FindItemByBinCommand -> UI: showMessage("No items found ...")
     activate UI
-    UI --> User: display no-match message
+    UI --> FindItemByBinCommand: no-match message displayed
     deactivate UI
-else else
+    FindItemByBinCommand --> User: no-match message shown
+else matches found
     FindItemByBinCommand -> UI: showDivider()
     activate UI
     FindItemByBinCommand -> UI: showMessage("Items in bin location ...")
     FindItemByBinCommand -> UI: showNumberedList(matches)
     FindItemByBinCommand -> UI: showDivider()
-    UI --> User: display matching items
+    UI --> FindItemByBinCommand: matching items displayed
     deactivate UI
+    FindItemByBinCommand --> User: matching items shown
 end
 deactivate FindItemByBinCommand
 @enduml
