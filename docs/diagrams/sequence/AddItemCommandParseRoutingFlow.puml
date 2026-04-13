@@ -1,51 +1,83 @@
 @startuml
-title Sequence Diagram for AddItemCommand (Parse Routing and Dispatch)
+title Add Item Command - Parse and Command Creation (Fruit Example; Other Categories Follow the Same Pattern)
 
 autonumber
 hide footbox
 
 actor User
+participant ":UI" as UI
 participant ":InventoryDock" as InventoryDock
 participant ":Parser" as Parser
 participant ":AddCommandParser" as AddCommandParser
 participant ":AddItemCommandParser" as AddItemCommandParser
+participant ":InputValidator" as InputValidator
+participant ":CommonFieldParser" as CommonFieldParser
+participant ":BooleanFieldParser" as BooleanFieldParser
 
-note right of AddCommandParser
-Supported add categories:
-fruits, vegetables, toiletries,
-snacks, drinks, meat,
-accessories.
-end note
+User -> UI: enter add command
+activate UI
 
-User -> InventoryDock: execute(add command)
+UI -> InventoryDock: input
 activate InventoryDock
-InventoryDock -> Parser: parse(input)
-activate Parser
 
-Parser -> AddCommandParser: parse(arguments)
-activate AddCommandParser
+InventoryDock -> Parser ++: parse(input)
+Parser -> AddCommandParser ++: parse(arguments)
+
 AddCommandParser -> AddCommandParser: validateRequiredFields(trimmedInput)
 activate AddCommandParser
 AddCommandParser --> AddCommandParser
 deactivate AddCommandParser
+
 AddCommandParser -> AddCommandParser: extractCategory(trimmedInput)
 activate AddCommandParser
-AddCommandParser --> AddCommandParser: category
-Deactivate AddCommandParser
+AddCommandParser --> AddCommandParser: "fruits"
+deactivate AddCommandParser
 
-alt valid category
-    AddCommandParser -> AddItemCommandParser: handleCategory(trimmedInput)
+alt supported category
+    AddCommandParser -> AddItemCommandParser: handleFruit(trimmedInput)
     activate AddItemCommandParser
+
+    AddItemCommandParser -> InputValidator: validate(input, requiredFields)
+    activate InputValidator
+    InputValidator --> AddItemCommandParser
+    deactivate InputValidator
+
+    AddItemCommandParser -> CommonFieldParser: parse(input, "isRipe/")
+    activate CommonFieldParser
+    CommonFieldParser --> AddItemCommandParser: commonFields
+    deactivate CommonFieldParser
+
+    AddItemCommandParser -> BooleanFieldParser: parse(input, "isRipe/")
+    activate BooleanFieldParser
+    BooleanFieldParser --> AddItemCommandParser: isRipe
+    deactivate BooleanFieldParser
+
+    create ":Fruit" as Fruit
+    AddItemCommandParser -> Fruit: create
+    activate Fruit
+    Fruit --> AddItemCommandParser: item
+    deactivate Fruit
+
+    create ":AddItemCommand" as AddItemCommand
+    AddItemCommandParser -> AddItemCommand: create
+    activate AddItemCommand
+    AddItemCommand --> AddItemCommandParser: command
+    deactivate AddItemCommand
+
     AddItemCommandParser --> AddCommandParser: command
     deactivate AddItemCommandParser
-else else
-    AddCommandParser --> Parser: throw InvalidCommandException("Unknown category: ...")
+
+    AddCommandParser --> Parser: command
+    Parser --> InventoryDock: command
+else unsupported category
+    AddCommandParser --> Parser --: throw InvalidCommandException
+    Parser --> InventoryDock --: propagate exception
+    InventoryDock -> UI: showError(exception)
+    deactivate InventoryDock
+    UI --> User: display error
+    deactivate UI
 end
 
-AddCommandParser --> Parser: command
-deactivate AddCommandParser
-Parser --> InventoryDock: command
-deactivate Parser
-InventoryDock --> User
 deactivate InventoryDock
+
 @enduml

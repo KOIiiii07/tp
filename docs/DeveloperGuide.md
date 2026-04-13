@@ -120,23 +120,18 @@ application. The feature follows this flow:
 
 1. The user enters an `add` command.
 2. `Parser` recognises the `add` command word and delegates the remaining input to `AddCommandParser`.
-4. `AddItemCommandParser` dispatches to the category-specific parsing path, parses the boolean field, and constructs the
-   correct `Item` subtype.
-   correct `Item` subtype.
-5. An `AddItemCommand` is created and executed with access to the current `Inventory` and `UI`.
-6. The command finds the target category, rejects duplicate logical batches using a normalized identity key (ignoring `qty/` and `bin/`), then inserts the item and shows a confirmation message.
+3. `AddCommandParser` validates `category/`, extracts the category, and routes to the matching category-specific method in `AddItemCommandParser`.
+4. `AddItemCommandParser` validates the remaining fields, parses the shared fields and the category-specific boolean field, constructs the correct `Item` subtype, and creates an `AddItemCommand`.
+5. `InventoryDock` executes the command with access to the current `Inventory` and `UI`.
+6. The command finds the target category, rejects duplicate logical batches using a normalized identity key (ignoring `qty/` and `bin/`), then inserts the item or reports the error through `UI`.
 
 Sequence diagrams:
 
-1. Parse routing and category dispatch.
+1. Parse routing, validator flow, and command creation for the fruit category. The other add-item categories follow the same overall parsing pattern. This is the first diagram.
 
 ![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 
-2. Single-category parsing and command creation.
-
-![AddItemCommandSingleCategoryParsingFlow](diagrams/sequence/AddItemCommandSingleCategoryParsingFlow.png)
-
-3. Command execution and user display.
+2. Command execution and error handling. This is the second diagram and continues after Diagram 1 returns an AddItemCommand to InventoryDock.
 
 ![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
 
@@ -154,7 +149,7 @@ in the codebase:
 - `Parser` and parser helpers interpret user input.
 - `AddItemCommand` performs duplicate checks and inventory mutation.
 - Model classes such as `Inventory`, `Category`, and `Item` hold the application state.
-- `UI` presents confirmation messages to the user.
+- `UI` presents confirmation messages and error messages to the user.
 
 As a result, adding a new item subtype does not require redesigning the command pipeline. The parser
 layer can be extended category by category while the execution model remains unchanged.
@@ -166,6 +161,8 @@ The feature is mainly implemented using the following classes:
 - `Parser`
 - `AddCommandParser`
 - `AddItemCommandParser`
+- `InputValidator`
+- `CommonFieldParser`
 - `BooleanFieldParser`
 - `AddItemCommand`
 - `Inventory`
@@ -1225,3 +1222,7 @@ After setting up the application, proceed to the individual test cases below.
 10. Verify that the application shows `N/A` for the corresponding summary fields.
 11. Run `summary invalidType`. 
 12. Verify that the application shows the appropriate invalid summary type error message.
+
+
+
+
