@@ -58,7 +58,7 @@ public class ClearCommandParser {
 
         if (categoryName == null || categoryName.isEmpty()) {
             logger.log(Level.WARNING, "Clear command missing category.");
-            throw new MissingArgumentException("category is required. Use: clear category/CATEGORY");
+            throw new MissingArgumentException("Category is required. Use: clear category/CATEGORY");
         }
 
         return new ClearCategoryCommand(categoryName);

@@ -39,7 +39,7 @@ public class UpdateCommandParser {
         for (String token : tokens) {
             int separatorIndex = token.indexOf('/');
             if (separatorIndex <= 0 || separatorIndex == token.length() - 1) {
-                throw new InvalidCommandException("update token '" + token + "' is invalid.");
+                throw new InvalidCommandException("Update token '" + token + "' is invalid.");
             }
 
             String key = token.substring(0, separatorIndex);
@@ -52,12 +52,12 @@ public class UpdateCommandParser {
 
         String categoryName = fields.remove("category");
         if (categoryName == null || categoryName.trim().isEmpty()) {
-            throw new MissingArgumentException("category is required.");
+            throw new MissingArgumentException("Category is required.");
         }
 
         String itemIndexString = fields.remove("index");
         if (itemIndexString == null || itemIndexString.trim().isEmpty()) {
-            throw new MissingArgumentException("item index is required.");
+            throw new MissingArgumentException("Item index is required.");
         }
 
         int itemIndex;

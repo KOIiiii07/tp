@@ -22,7 +22,7 @@ public class AddCommandParserTest {
     public void parse_missingCategory_throwsException() {
         InventoryDockException exception = assertThrows(InventoryDockException.class,
                 () -> parser.parse("item/apple bin/A-10 qty/3 expiryDate/2026-03-20 isRipe/true"));
-        assertEquals("category is required.", exception.getMessage());
+        assertEquals("Category is required.", exception.getMessage());
     }
 
     @Test

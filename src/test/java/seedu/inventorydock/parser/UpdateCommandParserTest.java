@@ -25,7 +25,7 @@ public class UpdateCommandParserTest {
 
         MissingArgumentException exception = assertThrows(MissingArgumentException.class,
                 () -> parser.parse("index/1 qty/25"));
-        assertEquals("category is required.", exception.getMessage());
+        assertEquals("Category is required.", exception.getMessage());
     }
 
     @Test

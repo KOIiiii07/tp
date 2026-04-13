@@ -34,7 +34,7 @@ public class AddCommandParser {
         String category = extractFieldValue(input, "category/");
         if (category == null || category.isEmpty()) {
             logger.log(Level.WARNING, "Missing category in add command.");
-            throw new MissingArgumentException("category is required.");
+            throw new MissingArgumentException("Category is required.");
         }
     }
 

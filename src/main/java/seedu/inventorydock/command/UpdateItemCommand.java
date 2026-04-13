@@ -21,30 +21,38 @@ import seedu.inventorydock.parser.category.CommonFieldParser;
 import seedu.inventorydock.ui.UI;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Updates an existing item in a category using fields provided by the user.
- * An <code>UpdateItemCommand</code> object locates the target item and applies
- * supported updates such as name, bin location, quantity, and expiry date.
  */
 public class UpdateItemCommand extends Command {
     private static final Logger logger = Logger.getLogger(UpdateItemCommand.class.getName());
+    private static final Map<Class<?>, CategoryFieldHandler> CATEGORY_HANDLERS = Map.of(
+            Fruit.class, new CategoryFieldHandler("isRipe", item -> ((Fruit) item).isRipe(),
+                    (item, value) -> ((Fruit) item).setRipe(value), "fruits"),
+            Vegetable.class, new CategoryFieldHandler("isLeafy", item -> ((Vegetable) item).isLeafy(),
+                    (item, value) -> ((Vegetable) item).setLeafy(value), "vegetables"),
+            Toiletries.class, new CategoryFieldHandler("isLiquid", item -> ((Toiletries) item).isLiquid(),
+                    (item, value) -> ((Toiletries) item).setLiquid(value), "toiletries"),
+            Snack.class, new CategoryFieldHandler("isCrunchy", item -> ((Snack) item).isCrunchy(),
+                    (item, value) -> ((Snack) item).setCrunchy(value), "snacks"),
+            Drinks.class, new CategoryFieldHandler("isCarbonated", item -> ((Drinks) item).isCarbonated(),
+                    (item, value) -> ((Drinks) item).setCarbonated(value), "drinks"),
+            Meat.class, new CategoryFieldHandler("isFrozen", item -> ((Meat) item).isFrozen(),
+                    (item, value) -> ((Meat) item).setFrozen(value), "meat"),
+            Accessories.class, new CategoryFieldHandler("isFragile", item -> ((Accessories) item).isFragile(),
+                    (item, value) -> ((Accessories) item).setFragile(value), "accessories")
+    );
 
     private final String categoryName;
     private final int itemIndex;
     private final Map<String, String> updates;
 
-    /**
-     * Creates an update command for the specified category, item index, and fields.
-     *
-     * @param categoryName Name of the category containing the item to update.
-     * @param itemIndex One-based index of the item within the category.
-     * @param updates Fields and values to apply to the item.
-     */
-    public UpdateItemCommand(String categoryName, int itemIndex,
-                             Map<String, String> updates) {
+    public UpdateItemCommand(String categoryName, int itemIndex, Map<String, String> updates) {
         assert categoryName != null : "UpdateItemCommand received null category name.";
         assert updates != null : "UpdateItemCommand received null updates map.";
         this.categoryName = categoryName;
@@ -52,15 +60,6 @@ public class UpdateItemCommand extends Command {
         this.updates = updates;
     }
 
-    /**
-     * Executes the update command on the specified inventory.
-     * Finds the target category and item, applies the requested updates, and
-     * reports the result through the user interface.
-     *
-     * @param inventory Inventory containing the item to update.
-     * @param ui User interface used to display update results.
-     * @throws InventoryDockException If the category, item index, or update values are invalid.
-     */
     @Override
     public void execute(Inventory inventory, UI ui) throws InventoryDockException {
         assert inventory != null : "UpdateItemCommand received null inventory.";
@@ -75,8 +74,7 @@ public class UpdateItemCommand extends Command {
         if (itemIndex < 1 || itemIndex > category.getItemCount()) {
             logger.log(Level.WARNING, "Invalid item index while updating item: " + itemIndex);
             throw new ItemNotFoundException(
-                "Item at index " + itemIndex +
-                " not found in category '" + categoryName + "'.");
+                    "Item at index " + itemIndex + " not found in category '" + categoryName + "'.");
         }
 
         Item item = category.getItem(itemIndex - 1);
@@ -86,14 +84,14 @@ public class UpdateItemCommand extends Command {
         try {
             applyUpdates(item);
         } catch (InventoryDockException e) {
-            restoreOriginalValues(item, snapshot);
+            restoreFromSnapshot(item, snapshot);
             throw e;
         }
 
-        Item duplicateItem = findDuplicateItem(category, item);
-        if (duplicateItem != null && duplicateItem != item) {
+        Item duplicate = findDuplicateItem(category, item);
+        if (duplicate != null && duplicate != item) {
             String attemptedName = item.getName();
-            restoreOriginalValues(item, snapshot);
+            restoreFromSnapshot(item, snapshot);
             logger.log(Level.WARNING, "Duplicate item detected while updating category '"
                     + category.getName() + "' and name '" + attemptedName + "'.");
             throw new DuplicateItemException("Duplicate item found for category/" + category.getName()
@@ -101,18 +99,10 @@ public class UpdateItemCommand extends Command {
         }
 
         logger.log(Level.INFO, "Updated item '" + originalName
-                + "' in category '" + category.getName()
-                + "' to '" + item.getName() + "'.");
+                + "' in category '" + category.getName() + "' to '" + item.getName() + "'.");
         ui.showItemUpdated(originalName, item.getName(), category.getName());
     }
 
-    /**
-     * Applies all requested field updates to the specified item.
-     * Only supported update prefixes are accepted.
-     *
-     * @param item Item to be updated.
-     * @throws InventoryDockException If an update field is unsupported or contains an invalid value.
-     */
     private void applyUpdates(Item item) throws InventoryDockException {
         for (Map.Entry<String, String> entry : updates.entrySet()) {
             String field = entry.getKey();
@@ -134,176 +124,80 @@ public class UpdateItemCommand extends Command {
                 CommonFieldParser.validateExpiryDate(value);
                 item.setExpiryDate(value.trim());
                 break;
-            case "isRipe":
-                updateFruitField(item, value);
-                break;
-            case "isLeafy":
-                updateVegetableField(item, value);
-                break;
-            case "isLiquid":
-                updateToiletriesField(item, value);
-                break;
-            case "isCrunchy":
-                updateSnackField(item, value);
-                break;
-            case "isCarbonated":
-                updateDrinkField(item, value);
-                break;
-            case "isFrozen":
-                updateMeatField(item, value);
-                break;
-            case "isFragile":
-                updateAccessoriesField(item, value);
-                break;
             default:
-                throw new InvalidCommandException("Unsupported update field: " + field + "/.");
+                updateCategorySpecificField(item, field, value);
             }
         }
     }
 
-    /**
-     * Validates that the specified value is not empty.
-     * Throws an exception if the value is null or blank.
-     *
-     * @param value Value to validate.
-     * @param message Error message to use when validation fails.
-     * @throws InventoryDockException If the value is null or blank.
-     */
-    private void validateNonEmpty(String value,
-                                  String message) throws InventoryDockException {
-        if (value == null || value.trim().isEmpty()) {
-            throw new MissingArgumentException(message);
+    private void updateCategorySpecificField(Item item, String field,
+                                             String value) throws InventoryDockException {
+        CategoryFieldHandler fieldHandler = findHandlerByField(field);
+        if (fieldHandler == null) {
+            throw new InvalidCommandException("Unsupported update field: " + field + "/.");
         }
+
+        CategoryFieldHandler itemHandler = findCategoryHandler(item);
+        if (itemHandler == null || itemHandler != fieldHandler) {
+            throw new InvalidCommandException(field + "/ can only be updated for " + fieldHandler.itemType() + ".");
+        }
+        fieldHandler.setter().accept(item, parseBooleanValue(value, field + "/"));
     }
 
-    /**
-     * Restores original item values when update validation fails after mutation.
-     *
-     * @param item Item to restore.
-     * @param name Original name.
-     * @param bin Original bin.
-     * @param quantity Original quantity.
-     * @param expiryDate Original expiry date.
-     */
-    private void restoreOriginalValues(Item item, ItemSnapshot snapshot) {
+    private void restoreFromSnapshot(Item item, ItemSnapshot snapshot) {
         item.setName(snapshot.name);
         item.setBinLocation(snapshot.bin);
         item.setQuantity(snapshot.quantity);
         item.setExpiryDate(snapshot.expiryDate);
 
-        if (snapshot.categorySpecificField == null) {
-            return;
+        if (snapshot.handler != null) {
+            snapshot.handler.setter().accept(item, snapshot.categorySpecificValue);
         }
-
-        applyCategorySpecificUpdate(item, snapshot.categorySpecificField, snapshot.categorySpecificValue);
     }
 
-    /**
-     * Finds an existing item in the category that has the same duplicate identity as the candidate item.
-     * The duplicate identity ignores qty and bin, and compares the remaining stored fields.
-     *
-     * @param category Category to scan.
-     * @param candidate Item being updated.
-     * @return Matching duplicate item, or {@code null} if no duplicate exists.
-     */
     private Item findDuplicateItem(Category category, Item candidate) {
         assert category != null : "Category cannot be null while checking duplicates.";
         assert candidate != null : "Candidate item cannot be null while checking duplicates.";
 
         String candidateIdentity = DuplicateIdentityParser.buildBatchIdentityKey(category.getName(), candidate);
-        for (Item existing : category.getItems()) {
-            String existingIdentity = DuplicateIdentityParser.buildBatchIdentityKey(category.getName(), existing);
-            if (existingIdentity.equals(candidateIdentity)) {
-                return existing;
+        return category.getItems().stream()
+                .filter(e -> DuplicateIdentityParser.buildBatchIdentityKey(category.getName(), e)
+                        .equals(candidateIdentity))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static CategoryFieldHandler findCategoryHandler(Item item) {
+        for (Map.Entry<Class<?>, CategoryFieldHandler> entry : CATEGORY_HANDLERS.entrySet()) {
+            if (entry.getKey().isInstance(item)) {
+                return entry.getValue();
             }
         }
         return null;
     }
 
-    private void updateFruitField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Fruit fruit)) {
-            throw new InvalidCommandException("isRipe/ can only be updated for fruits.");
+    private static CategoryFieldHandler findHandlerByField(String field) {
+        for (CategoryFieldHandler handler : CATEGORY_HANDLERS.values()) {
+            if (handler.fieldName().equals(field)) {
+                return handler;
+            }
         }
-        fruit.setRipe(parseBooleanValue(value, "isRipe/"));
+        return null;
     }
 
-    private void updateVegetableField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Vegetable vegetable)) {
-            throw new InvalidCommandException("isLeafy/ can only be updated for vegetables.");
-        }
-        vegetable.setLeafy(parseBooleanValue(value, "isLeafy/"));
-    }
-
-    private void updateToiletriesField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Toiletries toiletries)) {
-            throw new InvalidCommandException("isLiquid/ can only be updated for toiletries.");
-        }
-        toiletries.setLiquid(parseBooleanValue(value, "isLiquid/"));
-    }
-
-    private void updateSnackField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Snack snack)) {
-            throw new InvalidCommandException("isCrunchy/ can only be updated for snacks.");
-        }
-        snack.setCrunchy(parseBooleanValue(value, "isCrunchy/"));
-    }
-
-    private void updateDrinkField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Drinks drinks)) {
-            throw new InvalidCommandException("isCarbonated/ can only be updated for drinks.");
-        }
-        drinks.setCarbonated(parseBooleanValue(value, "isCarbonated/"));
-    }
-
-    private void updateMeatField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Meat meat)) {
-            throw new InvalidCommandException("isFrozen/ can only be updated for meat.");
-        }
-        meat.setFrozen(parseBooleanValue(value, "isFrozen/"));
-    }
-
-    private void updateAccessoriesField(Item item, String value) throws InventoryDockException {
-        if (!(item instanceof Accessories accessories)) {
-            throw new InvalidCommandException("isFragile/ can only be updated for accessories.");
-        }
-        accessories.setFragile(parseBooleanValue(value, "isFragile/"));
-    }
-
-    private void applyCategorySpecificUpdate(Item item, String field, String value) {
-        switch (field) {
-        case "isRipe":
-            ((Fruit) item).setRipe(Boolean.parseBoolean(value));
-            break;
-        case "isLeafy":
-            ((Vegetable) item).setLeafy(Boolean.parseBoolean(value));
-            break;
-        case "isLiquid":
-            ((Toiletries) item).setLiquid(Boolean.parseBoolean(value));
-            break;
-        case "isCrunchy":
-            ((Snack) item).setCrunchy(Boolean.parseBoolean(value));
-            break;
-        case "isCarbonated":
-            ((Drinks) item).setCarbonated(Boolean.parseBoolean(value));
-            break;
-        case "isFrozen":
-            ((Meat) item).setFrozen(Boolean.parseBoolean(value));
-            break;
-        case "isFragile":
-            ((Accessories) item).setFragile(Boolean.parseBoolean(value));
-            break;
-        default:
-            throw new IllegalStateException("Unknown category-specific field: " + field);
+    private void validateNonEmpty(String value, String message) throws InventoryDockException {
+        if (value == null || value.trim().isEmpty()) {
+            throw new MissingArgumentException(message);
         }
     }
 
     private boolean parseBooleanValue(String value, String fieldName) throws InventoryDockException {
         validateNonEmpty(value, "Missing value for " + fieldName);
-        String trimmedValue = value.trim();
-        if (!trimmedValue.equalsIgnoreCase("true") && !trimmedValue.equalsIgnoreCase("false")) {
+        String trimmed = value.trim();
+        if (!trimmed.equalsIgnoreCase("true") && !trimmed.equalsIgnoreCase("false")) {
             throw new InvalidCommandException(fieldName + " must be true or false.");
         }
-        return Boolean.parseBoolean(trimmedValue);
+        return Boolean.parseBoolean(trimmed);
     }
 
     private static class ItemSnapshot {
@@ -311,51 +205,32 @@ public class UpdateItemCommand extends Command {
         private final String bin;
         private final int quantity;
         private final String expiryDate;
-        private final String categorySpecificField;
-        private final String categorySpecificValue;
+        private final CategoryFieldHandler handler;
+        private final Boolean categorySpecificValue;
 
         private ItemSnapshot(String name, String bin, int quantity, String expiryDate,
-                             String categorySpecificField, String categorySpecificValue) {
+                             CategoryFieldHandler handler, Boolean categorySpecificValue) {
             this.name = name;
             this.bin = bin;
             this.quantity = quantity;
             this.expiryDate = expiryDate;
-            this.categorySpecificField = categorySpecificField;
+            this.handler = handler;
             this.categorySpecificValue = categorySpecificValue;
         }
 
         private static ItemSnapshot from(Item item) {
-            if (item instanceof Fruit fruit) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isRipe", String.valueOf(fruit.isRipe()));
+            CategoryFieldHandler handler = findCategoryHandler(item);
+            if (handler != null) {
+                return new ItemSnapshot(item.getName(), item.getBinLocation(),
+                        item.getQuantity(), item.getExpiryDate(),
+                        handler, handler.getter().apply(item));
             }
-            if (item instanceof Vegetable vegetable) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isLeafy", String.valueOf(vegetable.isLeafy()));
-            }
-            if (item instanceof Toiletries toiletries) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isLiquid", String.valueOf(toiletries.isLiquid()));
-            }
-            if (item instanceof Snack snack) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isCrunchy", String.valueOf(snack.isCrunchy()));
-            }
-            if (item instanceof Drinks drinks) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isCarbonated", String.valueOf(drinks.isCarbonated()));
-            }
-            if (item instanceof Meat meat) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isFrozen", String.valueOf(meat.isFrozen()));
-            }
-            if (item instanceof Accessories accessories) {
-                return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                        "isFragile", String.valueOf(accessories.isFragile()));
-            }
-            return new ItemSnapshot(item.getName(), item.getBinLocation(), item.getQuantity(), item.getExpiryDate(),
-                    null, null);
+            return new ItemSnapshot(item.getName(), item.getBinLocation(),
+                    item.getQuantity(), item.getExpiryDate(), null, null);
         }
     }
-}
 
+    private record CategoryFieldHandler(String fieldName, Function<Item, Boolean> getter,
+                                        BiConsumer<Item, Boolean> setter, String itemType) {
+    }
+}

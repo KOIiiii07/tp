@@ -69,7 +69,7 @@ public class DeleteCommandParser {
 
         if (categoryName == null || categoryName.isEmpty()) {
             logger.log(Level.WARNING, "Delete command missing category.");
-            throw new MissingArgumentException("category is required. Use: delete category/CATEGORY index/INDEX");
+            throw new MissingArgumentException("Category is required. Use: delete category/CATEGORY index/INDEX");
         }
 
         if (indexString == null) {
