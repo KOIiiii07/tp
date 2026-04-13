@@ -67,10 +67,10 @@ Sequence diagrams:
 - [FindItemByKeywordCommandMatchingFlow.puml](../diagrams/sequence/FindItemByKeywordCommandMatchingFlow.puml)
 - [FindItemByKeywordCommandDisplayFlow.puml](../diagrams/sequence/FindItemByKeywordCommandDisplayFlow.puml)
 - [HelpCommandMainFlow.puml](../diagrams/sequence/HelpCommandMainFlow.puml)
-- [ClearCategoryCommandParseFlow](diagrams/sequence/ClearCategoryCommandParseFlow.png)
-- [ClearCategoryCommandExecutionFlow](diagrams/sequence/ClearCategoryCommandExecutionFlow.png)
-- [DeleteItemCommandParseFlow](diagrams/sequence/DeleteItemCommandParseFlow.png)
-- [DeleteItemCommandExecutionFlow](diagrams/sequence/DeleteItemCommandExecutionFlow.png)
+- [ClearCategoryCommandParseFlow](../diagrams/sequence/ClearCategoryCommandParseFlow.puml)
+- [ClearCategoryCommandExecutionFlow](../diagrams/sequence/ClearCategoryCommandExecutionFlow.puml)
+- [DeleteItemCommandParseFlow](../diagrams/sequence/DeleteItemCommandParseFlow.puml)
+- [DeleteItemCommandExecutionFlow](../diagrams/sequence/DeleteItemCommandExecutionFlow.puml)
 
 Class diagrams:
 - [DeleteItemCommandClassDiagram.puml](../diagrams/class/DeleteItemCommandClassDiagram.puml)

@@ -36,6 +36,8 @@ else else
     activate UI
     UI --> DeleteItemCommand
     deactivate UI
+    DeleteItemCommand --> User
+    deactivate DeleteItemCommand
 end
 
 deactivate DeleteItemCommand

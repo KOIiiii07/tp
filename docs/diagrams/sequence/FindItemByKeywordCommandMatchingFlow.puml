@@ -1,36 +1,39 @@
 @startuml
-title Sequence Diagram for FindItemByKeywordCommand (Inventory Scan and Keyword Matching)
+title FindItemByKeywordCommand Matching Flow
 
-autonumber
-hide footbox
+actor User
+participant FindItemByKeywordCommand
+participant Inventory
+participant Category
+participant Item
 
-participant ":FindItemByKeywordCommand" as FindItemByKeywordCommand
-participant ":Inventory" as Inventory
-participant ":Category" as Category
-participant ":Item" as Item
+User -> FindItemByKeywordCommand : execute()
+activate FindItemByKeywordCommand
 
-FindItemByKeywordCommand -> Inventory: getCategories()
+FindItemByKeywordCommand -> Inventory : getCategories()
 activate Inventory
-Inventory --> FindItemByKeywordCommand: categories
+Inventory --> FindItemByKeywordCommand : categories
 deactivate Inventory
 
-loop for each category in categories
-    FindItemByKeywordCommand -> Category: getItems()
+loop for each category
+    FindItemByKeywordCommand -> Category : getItems()
     activate Category
-    Category --> FindItemByKeywordCommand: items
+    Category --> FindItemByKeywordCommand : items
     deactivate Category
 
-    loop for each item in items
-        FindItemByKeywordCommand -> Item: getName()
+    loop for each item
+        FindItemByKeywordCommand -> Item : getName()
         activate Item
-        Item --> FindItemByKeywordCommand: itemName
+        Item --> FindItemByKeywordCommand : name
         deactivate Item
 
-        FindItemByKeywordCommand -> FindItemByKeywordCommand: itemNameLower.contains(keywordLower)
-        activate FindItemByKeywordCommand
-        FindItemByKeywordCommand --> FindItemByKeywordCommand
-        deactivate FindItemByKeywordCommand
+        alt name contains keyword
+            FindItemByKeywordCommand -> FindItemByKeywordCommand : add to matches
+        end
     end
 end
-@enduml
 
+FindItemByKeywordCommand --> User
+deactivate FindItemByKeywordCommand
+
+@enduml

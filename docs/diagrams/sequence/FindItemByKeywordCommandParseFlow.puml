@@ -1,34 +1,55 @@
 @startuml
-title Sequence Diagram for FindItemByKeywordCommand (Parse and Command Creation)
-
-autonumber
-hide footbox
+title FindItemByKeywordCommand Parse Flow
 
 actor User
-participant ":UI" as UI
-participant ":InventoryDock" as InventoryDock
-participant ":Parser" as Parser
-participant ":FindItemParser" as FindItemParser
+participant Parser
+participant FindItemParser
+participant FindItemByKeywordCommand
 
-User -> UI: enter find keyword command
-activate UI
-UI -> InventoryDock: input
-activate InventoryDock
-InventoryDock -> Parser: parse(input)
+User -> Parser : input
 activate Parser
-Parser -> FindItemParser: parse(arguments)
+
+Parser -> FindItemParser : parse(input)
 activate FindItemParser
-create ":FindItemByKeywordCommand" as FindItemByKeywordCommand
-FindItemParser -> FindItemByKeywordCommand: FindItemByKeywordCommand(keyword)
-activate FindItemByKeywordCommand
-FindItemByKeywordCommand --> FindItemParser: command
-deactivate FindItemByKeywordCommand
-FindItemParser --> Parser: command
-deactivate FindItemParser
-Parser --> InventoryDock: command
+
+alt invalid / missing input
+    FindItemParser --> Parser : exception
+
+@startuml
+title FindItemByKeywordCommand Parse Flow
+
+actor User
+participant Parser
+participant FindItemParser
+participant FindItemByKeywordCommand
+
+User -> Parser : input
+activate Parser
+
+Parser -> FindItemParser : parse(input)
+activate FindItemParser
+
+alt invalid / missing input
+    FindItemParser --> Parser : exception
+
+else else
+    FindItemParser -> FindItemByKeywordCommand : new(keyword)
+    activate FindItemByKeywordCommand
+
+    FindItemByKeywordCommand -> FindItemByKeywordCommand : initialise fields
+    activate FindItemByKeywordCommand
+    FindItemByKeywordCommand --> FindItemByKeywordCommand
+    deactivate FindItemByKeywordCommand
+
+    FindItemByKeywordCommand --> FindItemParser
+    deactivate FindItemByKeywordCommand
+
+    FindItemParser --> Parser : command
+    deactivate FindItemParser
+end
+
+
+Parser --> User
 deactivate Parser
-deactivate InventoryDock
-deactivate UI
+
 @enduml
-
-

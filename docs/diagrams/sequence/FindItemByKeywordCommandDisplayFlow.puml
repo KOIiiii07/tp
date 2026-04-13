@@ -1,26 +1,64 @@
 @startuml
-title Sequence Diagram for FindItemByKeywordCommand (Result Display)
-
-autonumber
-hide footbox
+title FindItemByKeywordCommand Display Flow
 
 actor User
-participant ":FindItemByKeywordCommand" as FindItemByKeywordCommand
-participant ":UI" as UI
+participant FindItemByKeywordCommand
+participant UI
 
-alt no matches found
-    FindItemByKeywordCommand -> UI: showMessage("No items found matching keyword: ...")
+User -> FindItemByKeywordCommand : execute()
+activate FindItemByKeywordCommand
+
+alt matches empty
+    FindItemByKeywordCommand -> UI : showNoItemsFound()
     activate UI
-    UI --> User: display no-match message
+    UI --> FindItemByKeywordCommand
     deactivate UI
+
 else else
-    FindItemByKeywordCommand -> UI: showDivider()
+    FindItemByKeywordCommand -> UI : showDivider()
     activate UI
-    FindItemByKeywordCommand -> UI: showMessage("Items matching keyword '...':")
-    FindItemByKeywordCommand -> UI: showNumberedList(matches)
-    FindItemByKeywordCommand -> UI: showDivider()
-    UI --> User: display matching items
+    UI --> FindItemByKeywordCommand
+    deactivate UI
+
+@startuml
+title FindItemByKeywordCommand Display Flow
+
+actor User
+participant FindItemByKeywordCommand
+participant UI
+
+User -> FindItemByKeywordCommand : execute()
+activate FindItemByKeywordCommand
+
+alt matches empty
+    FindItemByKeywordCommand -> UI : showNoItemsFound()
+    activate UI
+    UI --> FindItemByKeywordCommand
+    deactivate UI
+
+else else
+    FindItemByKeywordCommand -> UI : showDivider()
+    activate UI
+    UI --> FindItemByKeywordCommand
+    deactivate UI
+
+    FindItemByKeywordCommand -> UI : showResultsHeader()
+    activate UI
+    UI --> FindItemByKeywordCommand
+    deactivate UI
+
+    FindItemByKeywordCommand -> UI : showNumberedList()
+    activate UI
+    UI --> FindItemByKeywordCommand
+    deactivate UI
+
+    FindItemByKeywordCommand -> UI : showDivider()
+    activate UI
+    UI --> FindItemByKeywordCommand
     deactivate UI
 end
-@enduml
 
+FindItemByKeywordCommand --> User
+deactivate FindItemByKeywordCommand
+
+@enduml
