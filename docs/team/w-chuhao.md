@@ -1,109 +1,61 @@
-# Wang Chuhao - Project Portfolio Page
+# Wang Chuhao's Project Portfolio Page
 
-## Overview
+## Project: InventoryDock
 
 InventoryDock is a CLI inventory management application for store managers to track stock by category, quantity, expiry date, and bin location. It supports fast keyboard-driven workflows for adding items, listing the full inventory, and locating stock based on storage-related attributes.
 
-My main contributions focused on inventory creation and retrieval workflows. I implemented the `add` command, the `list` command, and three search features: `find category`, `find bin`, and `find qty`. Across these features, I also added exception-based error handling so invalid input and failure cases could be detected and reported more safely. I documented these features in the User Guide and Developer Guide, including the diagrams used to explain their control flow and structure.
+Given below are my contributions to the project.
 
-## Summary of Contributions
+- **New Feature**: Added the ability to add inventory items into an existing category using a structured command format.
+  - What it does: Allows users to create inventory items through the `add` command, with parsing support for common fields, category-based dispatch, subtype construction, duplicate-batch detection, and exception-aware validation.
+  - Justification: This is one of the product's core write operations. It is necessary because users need a reliable way to populate the inventory, and the feature has to coordinate validation, item construction, category lookup, duplicate-batch detection, and error handling across multiple classes.
+  - Highlights: The implementation covered both command execution and parser flow. I added `AddItemCommand`, extended `Parser`, `AddCommandParser`, and `AddItemCommandParser`, helped maintain separation between parsing and execution logic, included exception handling for invalid input and duplicate logical batches, and added JUnit coverage for add-command behaviour and parser handling.
+  - Representative PRs: [#17](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/17), [#22](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/22), [#34](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/34)
 
-### Code Contributed
+- **New Feature**: Added the ability to list the full inventory grouped by category.
+  - What it does: Allows users to use the `list` command to view the complete inventory after adding, updating, deleting, or loading items from storage.
+  - Justification: This is a foundational read operation that gives users a quick snapshot of current stock and supports many other workflows, such as checking inventory state before update or delete operations.
+  - Highlights: I added `ListCommand`, integrated it into the parser flow, added tests to verify expected listing behaviour, and ensured it cooperates with the application's exception-based error-handling flow.
 
-- [Code contribution dashboard](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=w09&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2026-02-20T00%3A00%3A00&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=w-chuhao&tabRepo=AY2526S2-CS2113-W09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
+- **New Feature**: Added the ability to find items by category.
+  - What it does: Allows users to retrieve all items stored in a specified category using `find category/CATEGORY`.
+  - Justification: This makes retrieval more efficient by reusing the product's category-based data model directly instead of requiring users to scan the full inventory manually.
+  - Highlights: I added `FindItemByCategoryCommand`, extended `FindItemParser` to recognise category-based search input, designed the feature to distinguish between a missing category and an existing but empty category, added JUnit tests for valid matches and invalid input handling, and included exception-aware validation paths.
+  - Representative PRs: [#51](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/51), [#68](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/68)
 
-### Enhancements Implemented
+- **New Feature**: Added the ability to find items by bin location.
+  - What it does: Allows users to search by exact bin location, bin letter, or bin number using `find bin/BIN_INPUT`.
+  - Justification: This is useful for real inventory retrieval because users often remember where an item is stored before they remember its exact name.
+  - Highlights: I added `FindItemByBinCommand`, added `BinLocationParser` to validate and normalise bin input, extended `FindItemParser` to dispatch bin searches correctly, implemented matching logic for exact bin, bin letter, and bin number modes, added JUnit tests, and included exception-based handling for invalid bin formats.
+  - Representative PR: [#77](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/77)
 
-#### 1. Add item command and parsing support
+- **New Feature**: Added the ability to find items by quantity threshold.
+  - What it does: Allows users to search for items whose quantity is less than or equal to a specified threshold using `find qty/QUANTITY`.
+  - Justification: This supports stock review workflows by helping users identify low-stock items quickly instead of searching for one exact quantity.
+  - Highlights: I added `FindItemByQtyCommand`, extended `FindItemParser` to dispatch quantity searches, reused existing quantity validation so only positive integers are accepted, implemented inclusive threshold matching using `<=`, added JUnit tests, and ensured invalid quantity values are handled through explicit exceptions.
+  - Representative PRs: [#120](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/120), [#128](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/128)
 
-I implemented the core `add` command flow so that users can add inventory items into an existing category using a structured command format. This work included both the command execution logic and the parser pipeline needed to validate common fields, dispatch by category, construct the correct item subtype, detect duplicate logical batches, and throw or propagate exceptions when invalid input, duplicate input, or category errors were encountered.
+- **Code contributed**: [Code contribution dashboard](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=w09&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2026-02-20T00%3A00%3A00&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=w-chuhao&tabRepo=AY2526S2-CS2113-W09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 
-Key aspects of the implementation:
+- **Project management**:
+  - Helped set up the team's GitHub repository and project collaboration workflow during the early project stage.
 
-- Added `AddItemCommand` to insert parsed items into the target category and reject duplicate logical batches during execution.
-- Extended `Parser`, `AddCommandParser`, and `AddItemCommandParser` to support command recognition, validation, category-based parsing, and duplicate-aware item creation.
-- Helped establish the separation between parsing logic and command execution logic, keeping the implementation consistent with the project's command-based architecture.
-- Included exception handling paths so invalid add-command input, duplicate logical batches, and category-related errors could be surfaced clearly instead of failing silently.
-- Added JUnit coverage for add-command behaviour and parser handling.
+- **Enhancements to existing features**:
+  - Added exception-based error handling across my inventory creation and retrieval features so invalid input and failure cases could be detected and reported more safely.
+  - Helped establish the separation between parsing logic and command execution logic, keeping the implementation consistent with the project's command-based architecture.
+  - Reorganised test files to align the test package structure with the source package structure, improving maintainability.
+  - Helped maintain project quality by fixing Gradle or style-check issues during integration.
 
-This contribution is significant because `add` is one of the product's core write operations. It required coordinating input validation, item construction, category lookup, duplicate-batch detection, and error handling across multiple classes.
-
-Representative PRs:
-
-- [#17](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/17)
-- [#22](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/22)
-- [#34](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/34)
-
-#### 2. Full inventory listing
-
-I implemented the `list` command, which shows the complete inventory grouped by category. This gives users a quick snapshot of current stock after adding, updating, deleting, or loading items from storage, while also handling exceptional conditions safely when listing cannot proceed as expected.
-
-Key aspects of the implementation:
-
-- Added `ListCommand` as a lightweight read-only command.
-- Integrated it into the parser flow so the command can be triggered directly from user input.
-- Added tests to verify expected listing behaviour.
-- Ensured the command cooperates with the application's exception-based error-handling flow.
-
-Although the feature is simple from the user's point of view, it is important because it is a foundational read operation that supports many other workflows, such as checking current inventory state before running update or delete operations.
-
-#### 3. Search by category
-
-I implemented the `find category/CATEGORY` feature, allowing users to retrieve all items stored in a specified category without scanning the full inventory manually. The implementation also handles exceptional cases such as invalid input or missing categories in a controlled way.
-
-Key aspects of the implementation:
-
-- Added `FindItemByCategoryCommand`.
-- Extended `FindItemParser` so that it can recognise category-based search input.
-- Designed the feature to distinguish between a missing category and an existing but empty category.
-- Added JUnit tests for valid matches, empty-category cases, and invalid input handling.
-- Included exception-aware validation paths so malformed category searches are rejected cleanly.
-
-This feature is meaningful because it reuses the product's category-based data model directly instead of doing a less precise global scan, which keeps the implementation small and the behaviour clear.
-
-Representative PRs:
-
-- [#51](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/51)
-- [#68](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/68)
-
-#### 4. Search by bin location
-
-I implemented the `find bin/BIN_INPUT` feature, which lets users search by exact bin location, bin letter, or bin number. This is useful for real inventory retrieval because users often remember where an item is stored before they remember its exact name. The feature also validates malformed bin input and routes such cases through the application's exception-handling flow.
-
-Key aspects of the implementation:
-
-- Added `FindItemByBinCommand`.
-- Added `BinLocationParser` to validate and normalise bin-related input before command execution.
-- Extended `FindItemParser` to dispatch bin searches correctly.
-- Implemented matching logic for three search modes: exact bin, bin letter, and bin number.
-- Added JUnit tests for parser behaviour and matching logic.
-- Included exception-based handling for invalid bin formats so the command fails predictably and with clearer feedback.
-
-This feature required more than a straightforward exact-match search because it had to support flexible matching while still preventing incorrect overmatching such as treating `A-1` as matching `A-10`.
-
-Representative PR:
-
-- [#77](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/77)
-
-#### 5. Search by quantity threshold
-
-I implemented the `find qty/QUANTITY` feature, which lets users search for items whose quantity is less than or equal to a specified threshold. This is useful for stock review workflows because users often need to identify low-stock items quickly instead of searching for one exact quantity. The implementation also rejects invalid quantity input through the same exception-based error-handling approach used in the rest of my contributions.
-
-Key aspects of the implementation:
-
-- Added `FindItemByQtyCommand`.
-- Extended `FindItemParser` to dispatch quantity searches correctly.
-- Reused existing quantity validation so the command accepts only positive integers.
-- Implemented inclusive threshold matching using `<=`.
-- Added JUnit tests for parser behaviour and threshold-based matching.
-- Ensured invalid quantity values are handled through explicit exceptions rather than ambiguous command behaviour.
-
-This feature is meaningful because it turns quantity search into an operational low-stock check rather than a narrow exact-match lookup.
-
-Representative PRs:
-
-- [#120](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/120)
-- [#128](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/128)
+- **Community**:
+  - Reviewed teammates' PRs and gave concrete code-review feedback on parser structure, model design, logging, storage behaviour, and test quality. Examples include:
+  - [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28) Suggested combining parser-related classes and extracting shared validation/parsing logic to improve abstraction and readability.
+  - [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32) Reviewed the refactor of `AddItemCommandParser` and related UI changes, with feedback on abstraction and code clarity.
+  - [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39) Reviewed assertion and logging changes for delete flows, commenting on consistency and debuggability.
+  - [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour and error handling, suggested that user-input errors should throw a `DukeException` instead of being handled directly in-place using ui.show(), to keep failure handling more consistent across the codebase.
+  - [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55) Gave feedback on storage logging noise, reuse of parsing helpers, and maintainability of category-handling logic.
+  - [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
+  - [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
+  - [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
 
 ### Contributions to the User Guide
 
@@ -160,28 +112,3 @@ Diagram files I contributed:
 - [ListCommandObjectDiagram](../diagrams/object/ListCommandObjectDiagram.png)
 - [FindItemByCategoryCommandObjectDiagram](../diagrams/object/FindItemByCategoryCommandObjectDiagram.png)
 - [FindItemByBinCommandObjectDiagram](../diagrams/object/FindItemByBinCommandObjectDiagram.png)
-
-
-### Contributions to Team-Based Tasks
-
-- Helped set up the team's GitHub repository and project collaboration workflow during the early project stage.
-- Helped maintain project quality by fixing Gradle or style-check issues during integration.
-- Reorganised test files to align the test package structure with the source package structure, improving maintainability.
-
-### Review and Mentoring Contributions
-
-- Reviewed teammates' PRs and gave concrete code-review feedback on parser structure, model design, logging, storage behaviour, and test quality. Examples include:
-- [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28) Suggested combining parser-related classes and extracting shared validation/parsing logic to improve abstraction and readability.
-- [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32) Reviewed the refactor of `AddItemCommandParser` and related UI changes, with feedback on abstraction and code clarity.
-- [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39) Reviewed assertion and logging changes for delete flows, commenting on consistency and debuggability.
-- [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour and error handling, suggested that user-input errors should throw a `DukeException` instead of being handled directly in-place using ui.show(), to keep failure handling more consistent across the codebase.
-- [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55) Gave feedback on storage logging noise, reuse of parsing helpers, and maintainability of category-handling logic.
-- [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
-- [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
-- [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
-
-
-
-
-
-
