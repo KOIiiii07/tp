@@ -120,7 +120,9 @@ parsers based on the category provided by the user.
 For example, if the user enters
 `add category/fruits item/apple bin/A-1 qty/10 expiryDate/2026-4-01 isRipe/true`,
 the system validates the common and category-specific fields, constructs the correct `Item`
-subclass, and adds it into the matching category.
+subclass, and adds it into the matching category. The parsing diagram below uses the fruit
+category as the worked example; the other add-item categories follow the same overall pattern
+with a different category-specific boolean field and item subtype.
 
 #### High-level design
 
@@ -129,27 +131,20 @@ application. The feature follows this flow:
 
 1. The user enters an `add` command.
 2. `Parser` recognises the `add` command word and delegates the remaining input to `AddCommandParser`.
-4. `AddItemCommandParser` dispatches to the category-specific parsing path, parses the boolean field, and constructs the
-   correct `Item` subtype.
-   correct `Item` subtype.
-5. An `AddItemCommand` is created and executed with access to the current `Inventory` and `UI`.
-6. The command finds the target category, rejects duplicate logical batches using a normalized identity key (ignoring `qty/` and `bin/`), then inserts the item and shows a confirmation message.
+3. `AddCommandParser` validates `category/`, extracts the category, and routes to the matching category-specific method in `AddItemCommandParser`.
+4. `AddItemCommandParser` validates the remaining fields, parses the shared fields and the category-specific boolean field, constructs the correct `Item` subtype, and creates an `AddItemCommand`. In the first diagram, this is illustrated using `Fruit` as the concrete example.
+5. `InventoryDock` executes the command with access to the current `Inventory` and `UI`.
+6. The command finds the target category, rejects duplicate logical batches using a normalized identity key (ignoring `qty/` and `bin/`), then inserts the item or reports the error through `UI`.
 
 Sequence diagrams:
 
-1. Parse routing and category dispatch.
+1. Parse routing, validator flow, and command creation for the fruit category. The other add-item categories follow the same overall parsing pattern with different boolean-field prefixes and item subtypes. This is the first diagram.
 
 <p align="center">
   <img src="diagrams/sequence/AddItemCommandParseRoutingFlow.png" width="800">
 </p>
 
-2. Single-category parsing and command creation.
-
-<p align="center">
-  <img src="diagrams/sequence/AddItemCommandSingleCategoryParsingFlow.png" width="800">
-</p>
-
-3. Command execution and user display.
+2. Command execution and error handling. This is the second diagram and continues after Diagram 1 returns an `AddItemCommand` to `InventoryDock`, while preserving the outer `UI -> InventoryDock` call chain from the first diagram.
 
 <p align="center">
   <img src="diagrams/sequence/AddItemCommandExecutionDisplayFlow.png" width="800">
@@ -173,7 +168,7 @@ in the codebase:
 - `Parser` and parser helpers interpret user input.
 - `AddItemCommand` performs duplicate checks and inventory mutation.
 - Model classes such as `Inventory`, `Category`, and `Item` hold the application state.
-- `UI` presents confirmation messages to the user.
+- `UI` presents confirmation messages and error messages to the user.
 
 As a result, adding a new item subtype does not require redesigning the command pipeline. The parser
 layer can be extended category by category while the execution model remains unchanged.
@@ -185,6 +180,8 @@ The feature is mainly implemented using the following classes:
 - `Parser`
 - `AddCommandParser`
 - `AddItemCommandParser`
+- `InputValidator`
+- `CommonFieldParser`
 - `BooleanFieldParser`
 - `AddItemCommand`
 - `Inventory`
@@ -196,7 +193,7 @@ The responsibilities of these classes are as follows:
 - `Parser` identifies that the user wants to perform an add operation.
 - `AddCommandParser` validates shared required fields and chooses the correct parsing branch based on
   `category/`.
-- `AddItemCommandParser` coordinates common-field parsing and boolean-field parsing.
+- `AddItemCommandParser` coordinates common-field parsing, boolean-field parsing, and construction of the category-specific `Item` subtype.
 - `BooleanFieldParser` parses and validates the single boolean field required by each concrete `Item` subtype.
 - `AddItemCommand` performs duplicate-batch checking and insertion into the inventory.
 - `Inventory` finds the matching category by name.
@@ -510,24 +507,7 @@ At a high level, the flow is as follows:
 * `UpdateItemCommand` locates the item, applies the updates, checks for duplicate-batch conflicts, and
   reports the result through `UI`.
 
-The update feature is described by three focused sequence diagrams:
-
-1. `UpdateItemCommandParseFlow`: parsing the command and building the `UpdateItemCommand`.
-2. `UpdateItemCommandApplyUpdatesFlow`: applying requested field updates to the target item.
-3. `UpdateItemCommandDuplicateCheckFlow`: validating duplicates, rolling back invalid updates, and
-   showing the final result.
-
-Parsing and command construction:
-
-<p align="center">
-  <img src="diagrams/sequence/UpdateItemCommandParseFlow.png" width="800">
-</p>
-
-Applying updates to the item:
-
-<p align="center">
-  <img src="diagrams/sequence/UpdateItemCommandApplyUpdatesFlow.png" width="800">
-</p>
+The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
 Duplicate check and result reporting:
 
@@ -677,7 +657,7 @@ A representative object snapshot for this feature is shown below.
   <img src="diagrams/object/ListCommandObjectDiagram.png" width="750">
 </p>
 
-The main interaction for this flow is illustrated below.
+The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
 <p align="center">
   <img src="diagrams/sequence/ListCommandMainFlow.png" width="800">
@@ -949,7 +929,7 @@ When the user enters a summary command, the implementation performs the followin
 5. `SummaryCommand` passes the prepared summary data to `UI`.
 6. `UI` formats and displays the summary view.
 
-The main interaction for this flow is illustrated below.
+The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
 <p align="center">
   <img src="diagrams/sequence/SummaryCommandMainFlow.png" width="800">
@@ -987,7 +967,7 @@ When the application saves, `Storage` performs the following sequence:
 2. Convert each item into its storage format using `toStorageString(categoryName)`. 
 3. Write the resulting lines to the storage file.
 
-The main interaction for this flow is illustrated below.
+The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
 <p align="center">
   <img src="diagrams/sequence/StorageSavingMainFlow.png" width="800">
@@ -1002,7 +982,7 @@ When the application loads data from file, `Storage` performs the following sequ
 3. Execute the parsed command to rebuild the inventory state in memory. 
 4. Skip malformed lines where appropriate and continue loading the remaining valid lines.
 
-The main interaction for this flow is illustrated below.
+The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
 <p align="center">
   <img src="diagrams/sequence/StorageLoadingMainFlow.png" width="800">
@@ -1398,3 +1378,11 @@ This section provides instructions for manually testing the application.
 10. Verify that the application shows `N/A` for the corresponding summary fields.
 11. Run `summary invalidType`. 
 12. Verify that the application shows the appropriate invalid summary type error message.
+
+
+
+
+
+
+
+
