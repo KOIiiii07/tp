@@ -17,14 +17,10 @@ My main contributions focused on extending InventoryDock’s category-based inve
 I implemented item subclasses under `src/main/java/seedu/inventorydock/model/items` to support different inventory categories:
 
 - `Accessories.java`
-- `Burger.java`
 - `Drinks.java`
 - `Fruit.java`
-- `IceCream.java`
 - `Meat.java`
-- `SetMeal.java`
 - `Snack.java`
-- `Sweets.java`
 - `Toiletries.java`
 - `Vegetable.java`
 
@@ -42,30 +38,19 @@ I contributed to the inventory model through `Category.java` and `Inventory.java
 
 This improves data organisation and supports a clearer separation of responsibilities across the codebase.
 
-## Implemented category-specific parsers for structured item input
-
-I implemented category-specific parsers under `src/main/java/seedu/inventorydock/parser/category` to support parsing and validation of item-type-specific fields:
-
-- `BurgerParser.java`
-- `IceCreamParser.java`
-- `SetMealParser.java`
-- `SweetsParser.java`
-
-These parser classes extract category-specific fields from raw user input, validate required values, detect malformed input, and return structured parsed results for item creation. This modularises the parsing logic by keeping category-specific validation separate from the main command parser, improving maintainability and making the application easier to extend with new inventory item types in the future.
-
 ## Updated `AddItemCommandParser` to support the new categories
 
 I updated `AddItemCommandParser.java` to integrate category-specific parsers into the item-creation workflow. This included adding category-handling methods such as:
 
 - `handleDrinks(String input)`
-- `handleIceCream(String input)`
-- `handleSweets(String input)`
-- `handleSetMeal(String input)`
 - `handleMeat(String input)`
 - `handleAccessories(String input)`
-- `handleBurger(String input)`
 
 These methods allow the system to correctly parse category-dependent input and construct the corresponding item objects. This improves the extensibility of the `add` command flow and ensures that category-specific item creation is handled in a structured and consistent way.
+
+## Added `SummaryCommandParser` to parse the summary command 
+
+## Update `CommonFieldParser` like `validateExpiryDate` and `parseBinLocation` function 
 
 ## Added and updated UML diagrams for the find-by-quantity feature
 
