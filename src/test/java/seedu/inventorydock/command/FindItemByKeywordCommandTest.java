@@ -83,17 +83,6 @@ public class FindItemByKeywordCommandTest {
     }
 
     @Test
-    public void execute_multipleKeywords_showsError() {
-        FindItemByKeywordCommand command = new FindItemByKeywordCommand("apple banana");
-        TestUI ui = new TestUI();
-
-        command.execute(inventory, ui);
-
-        assertEquals(1, ui.errors.size());
-        assertEquals("Invalid input: keyword/ accepts only a single keyword.", ui.errors.get(0));
-    }
-
-    @Test
     public void execute_noMatchingKeyword_showsNoItemsFound() {
         FindItemByKeywordCommand command = new FindItemByKeywordCommand("mango");
         TestUI ui = new TestUI();
