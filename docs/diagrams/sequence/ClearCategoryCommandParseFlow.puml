@@ -1,0 +1,32 @@
+@startuml
+title ClearCategoryCommand Parse Flow
+
+actor User
+participant Parser
+participant ClearCommandParser
+participant ClearCategoryCommand
+
+User -> Parser : input "clear category/Food"
+activate Parser
+
+Parser -> ClearCommandParser : parse(arguments)
+activate ClearCommandParser
+
+alt missing input
+    ClearCommandParser --> Parser : throw MissingArgumentException
+else invalid token
+    ClearCommandParser --> Parser : throw InvalidCommandException
+else else
+    ClearCommandParser -> ClearCategoryCommand : new(categoryName)
+    activate ClearCategoryCommand
+    ClearCategoryCommand --> ClearCommandParser
+    deactivate ClearCategoryCommand
+
+    ClearCommandParser --> Parser : command
+end
+
+deactivate ClearCommandParser
+Parser --> User : command
+deactivate Parser
+
+@enduml

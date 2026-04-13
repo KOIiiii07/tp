@@ -1,0 +1,31 @@
+@startuml
+title DeleteItemCommand Parse Flow
+
+actor User
+participant Parser
+participant DeleteCommandParser
+participant DeleteItemCommand
+
+User -> Parser : input
+activate Parser
+
+Parser -> DeleteCommandParser : parse(input)
+activate DeleteCommandParser
+
+alt invalid / missing input
+    DeleteCommandParser --> Parser : exception
+
+else else
+    DeleteCommandParser -> DeleteItemCommand : new(category, index)
+    activate DeleteItemCommand
+    DeleteItemCommand --> DeleteCommandParser
+    deactivate DeleteItemCommand
+
+    DeleteCommandParser --> Parser : command
+end
+
+deactivate DeleteCommandParser
+Parser --> User
+deactivate Parser
+
+@enduml

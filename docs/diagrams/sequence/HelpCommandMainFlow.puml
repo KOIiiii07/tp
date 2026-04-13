@@ -17,7 +17,7 @@ InventoryDock -> Parser: parse(input)
 activate Parser
 
 create ":HelpCommand" as HelpCommand
-Parser -> HelpCommand: HelpCommand()
+Parser -> HelpCommand: HelpCommand(arguments)
 activate HelpCommand
 HelpCommand --> Parser: command
 deactivate HelpCommand
@@ -26,15 +26,21 @@ deactivate Parser
 
 InventoryDock -> HelpCommand: execute(inventory, ui)
 activate HelpCommand
-HelpCommand -> UI: showHelp()
-activate UI
-UI --> User: display available commands and User Guide link
-deactivate UI
 
-HelpCommand --> InventoryDock: display information
+alt arguments is empty
+    HelpCommand -> UI: showHelp()
+    activate UI
+    UI --> User: display available commands and User Guide link
+    deactivate UI
+else else
+    HelpCommand -> UI: showError("Invalid input", "help command does not take arguments. Use: help")
+    activate UI
+    UI --> User: display error message
+    deactivate UI
+end
+
+HelpCommand --> InventoryDock
 deactivate HelpCommand
 deactivate InventoryDock
 deactivate UI
 @enduml
-
-

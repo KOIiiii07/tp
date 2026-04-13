@@ -37,6 +37,7 @@
    - [Sort Command](#testing-sort-command)
    - [Storage Feature](#testing-storage)
    - [Clear Category](#testing-clear-category)
+   - [Delete Item](#testing-delete-item)
    - [Find by Keyword](#testing-find-by-keyword)
    - [Summary](#testing-summary-command)
 
@@ -74,7 +75,9 @@ existing components.
 
 The overall architecture of the application is shown below.
 
-![ArchitectureDiagram](diagrams/ArchitectureDiagram.png)
+<p align="center">
+  <img src="diagrams/ArchitectureDiagram.png" width="375">
+</p>
 
 ### Exception Hierarchy
 
@@ -87,15 +90,21 @@ This keeps the inheritance structure visible without forcing every detail into a
 
 Parser and input exceptions:
 
-![ExceptionHierarchyParserClassDiagram](diagrams/class/ExceptionHierarchyParserClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/ExceptionHierarchyParserClassDiagram.png" width="850">
+</p>
 
 Inventory lookup exceptions:
 
-![ExceptionHierarchyInventoryClassDiagram](diagrams/class/ExceptionHierarchyInventoryClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/ExceptionHierarchyInventoryClassDiagram.png" width="850">
+</p>
 
 Storage exceptions:
 
-![ExceptionHierarchyStorageClassDiagram](diagrams/class/ExceptionHierarchyStorageClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/ExceptionHierarchyStorageClassDiagram.png" width="850">
+</p>
 
 ### Add Item Feature
 
@@ -131,19 +140,27 @@ Sequence diagrams:
 
 1. Parse routing, validator flow, and command creation for the fruit category. The other add-item categories follow the same overall parsing pattern with different boolean-field prefixes and item subtypes. This is the first diagram.
 
-![AddItemCommandParseRoutingFlow](diagrams/sequence/AddItemCommandParseRoutingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/AddItemCommandParseRoutingFlow.png" width="800">
+</p>
 
 2. Command execution and error handling. This is the second diagram and continues after Diagram 1 returns an `AddItemCommand` to `InventoryDock`, while preserving the outer `UI -> InventoryDock` call chain from the first diagram.
 
-![AddItemCommandExecutionDisplayFlow](diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/AddItemCommandExecutionDisplayFlow.png" width="800">
+</p>
 
 The main structural relationships for this feature are shown below.
 
-![AddItemCommandClassDiagram](diagrams/class/AddItemCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/AddItemCommandClassDiagram.png" width="850">
+</p>
 
 A representative object snapshot for this feature is shown below.
 
-![AddItemCommandObjectDiagram](diagrams/object/AddItemCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/AddItemCommandObjectDiagram.png" width="750">
+</p>
 
 This design was chosen because it preserves the same separation of responsibilities used elsewhere
 in the codebase:
@@ -298,21 +315,31 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByExpiryDateCommandParseFlow](diagrams/sequence/FindItemByExpiryDateCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByExpiryDateCommandParseFlow.png" width="800">
+</p>
 
 2. Date parsing and matching.
 
-![FindItemByExpiryDateCommandMatchingFlow](diagrams/sequence/FindItemByExpiryDateCommandMatchingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByExpiryDateCommandMatchingFlow.png" width="800">
+</p>
 
 3. Result display.
 
-![FindItemByExpiryDateCommandDisplayFlow](diagrams/sequence/FindItemByExpiryDateCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByExpiryDateCommandDisplayFlow.png" width="800">
+</p>
 
 Class and object diagrams:
 
-![FindItemByExpiryDateCommandClassDiagram](diagrams/class/FindItemByExpiryDateCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/FindItemByExpiryDateCommandClassDiagram.png" width="850">
+</p>
 
-![FindItemByExpiryDateCommandObjectDiagram](diagrams/object/FindItemByExpiryDateCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/FindItemByExpiryDateCommandObjectDiagram.png" width="750">
+</p>
 
 #### Find By Category
 
@@ -324,21 +351,31 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByCategoryCommandParseFlow](diagrams/sequence/FindItemByCategoryCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByCategoryCommandParseFlow.png" width="800">
+</p>
 
 2. Category lookup.
 
-![FindItemByCategoryCommandMatchingFlow](diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png" width="800">
+</p>
 
 3. Result display.
 
-![FindItemByCategoryCommandDisplayFlow](diagrams/sequence/FindItemByCategoryCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByCategoryCommandDisplayFlow.png" width="800">
+</p>
 
 Class and object diagrams:
 
-![FindItemByCategoryCommandClassDiagram](diagrams/class/FindItemByCategoryCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/FindItemByCategoryCommandClassDiagram.png" width="850">
+</p>
 
-![FindItemByCategoryCommandObjectDiagram](diagrams/object/FindItemByCategoryCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/FindItemByCategoryCommandObjectDiagram.png" width="750">
+</p>
 
 #### Find By Bin
 
@@ -350,21 +387,31 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByBinCommandParseFlow](diagrams/sequence/FindItemByBinCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByBinCommandParseFlow.png" width="800">
+</p>
 
 2. Inventory scan and bin matching.
 
-![FindItemByBinCommandMatchingFlow](diagrams/sequence/FindItemByBinCommandMatchingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByBinCommandMatchingFlow.png" width="800">
+</p>
 
 3. Result display.
 
-![FindItemByBinCommandDisplayFlow](diagrams/sequence/FindItemByBinCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByBinCommandDisplayFlow.png" width="800">
+</p>
 
 Class and object diagrams:
 
-![FindItemByBinCommandClassDiagram](diagrams/class/FindItemByBinCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/FindItemByBinCommandClassDiagram.png" width="850">
+</p>
 
-![FindItemByBinCommandObjectDiagram](diagrams/object/FindItemByBinCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/FindItemByBinCommandObjectDiagram.png" width="750">
+</p>
 
 #### Find By Quantity
 
@@ -376,25 +423,35 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByQtyCommandParseFlow](diagrams/sequence/FindItemByQtyCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByQtyCommandParseFlow.png" width="800">
+</p>
 
 2. Inventory scan and quantity matching.
 
-![FindItemByQtyCommandMatchingFlow](diagrams/sequence/FindItemByQtyCommandMatchingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByQtyCommandMatchingFlow.png" width="800">
+</p>
 
 3. Result display.
 
-![FindItemByQtyCommandDisplayFlow](diagrams/sequence/FindItemByQtyCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByQtyCommandDisplayFlow.png" width="800">
+</p>
 
 Class and object diagrams:
 
-![FindItemByQtyCommandClassDiagram](diagrams/class/FindItemByQtyCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/FindItemByQtyCommandClassDiagram.png" width="850">
+</p>
 
-![FindItemByQtyCommandObjectDiagram](diagrams/object/FindItemByQtyCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/FindItemByQtyCommandObjectDiagram.png" width="750">
+</p>
 
 #### Find By Keyword
 
-Command format: `find keyword/KEYWORD`
+Command format: `find keyword/KEYWORD_OR_PHRASE`
 
 Contributed by: KOIiiii07.
 
@@ -402,21 +459,31 @@ Sequence diagrams:
 
 1. Parse and command creation.
 
-![FindItemByKeywordCommandParseFlow](diagrams/sequence/FindItemByKeywordCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByKeywordCommandParseFlow.png" width="800">
+</p>
 
 2. Inventory scan and keyword matching.
 
-![FindItemByKeywordCommandMatchingFlow](diagrams/sequence/FindItemByKeywordCommandMatchingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByKeywordCommandMatchingFlow.png" width="800">
+</p>
 
 3. Result display.
 
-![FindItemByKeywordCommandDisplayFlow](diagrams/sequence/FindItemByKeywordCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/FindItemByKeywordCommandDisplayFlow.png" width="800">
+</p>
 
 Class and object diagrams:
 
-![FindItemByKeywordCommandClassDiagram](diagrams/class/FindItemByKeywordCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/FindItemByKeywordCommandClassDiagram.png" width="850">
+</p>
 
-![FindItemByKeywordCommandObjectDiagram](diagrams/object/FindItemByKeywordCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/FindItemByKeywordCommandObjectDiagram.png" width="750">
+</p>
 
 ### Update Item Feature
 
@@ -442,20 +509,28 @@ At a high level, the flow is as follows:
 
 The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
-![UpdateItemCommandMainFlow](diagrams/sequence/UpdateItemCommandMainFlow.png)
+Duplicate check and result reporting:
+
+<p align="center">
+  <img src="diagrams/sequence/UpdateItemCommandDuplicateCheckFlow.png" width="800">
+</p>
 
 The main structural relationships for this feature are shown below.
 
-![UpdateItemCommandClassDiagram](diagrams/class/UpdateItemCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/UpdateItemCommandClassDiagram.png" width="850">
+</p>
 
 A representative object snapshot for this feature is shown below.
 
-![UpdateItemCommandObjectDiagram](diagrams/object/UpdateItemCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/UpdateItemCommandObjectDiagram.png" width="750">
+</p>
 
 #### Component roles
 
 * `Parser` detects the update command word and delegates to `UpdateCommandParser`.
-* `UpdateCommandParser` tokenises the input, validates `category/`, `index/`, and `bin/`, stores the
+* `UpdateCommandParser` scans field markers, validates `category/`, `index/`, and `bin/`, stores the
   requested changes in a `Map<String, String>`, and constructs an `UpdateItemCommand`.
 * `UpdateItemCommand` locates the item, applies the requested changes, rolls back on validation
   failure, and rejects duplicate-batch collisions.
@@ -505,7 +580,9 @@ ui.showItemUpdated(originalName, item.getName(), category.getName());
 #### Design notes
 
 The parser stores updates in a `Map<String, String>` so one command can handle any valid combination of
-updated fields. This keeps the parsing logic simple and avoids separate command classes for different
+updated fields. The parser reads values between field markers instead of splitting purely on whitespace,
+so `newItem/` can support multi-word item names while still preserving the structured `field/value`
+format. This keeps the parsing logic simple and avoids separate command classes for different
 update cases.
 
 The feature also reuses existing validation helpers such as `CommonFieldParser.parseQuantity(...)`,
@@ -570,15 +647,21 @@ recognising the command word. The command object acts mainly as a bridge between
 
 The main structural relationships for this feature are shown below.
 
-![ListCommandClassDiagram](diagrams/class/ListCommandClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/ListCommandClassDiagram.png" width="850">
+</p>
 
 A representative object snapshot for this feature is shown below.
 
-![ListCommandObjectDiagram](diagrams/object/ListCommandObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/ListCommandObjectDiagram.png" width="750">
+</p>
 
 The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
-![ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/ListCommandMainFlow.png" width="800">
+</p>
 
 #### Component-level implementation
 
@@ -693,7 +776,9 @@ the command, the command prepares the sorted result and the UI remains responsib
 
 The main structural relationships for this feature are shown below.
 
-![SortingClassDiagram](diagrams/class/SortingClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/SortingClassDiagram.png" width="850">
+</p>
 
 #### Command execution flow
 
@@ -716,26 +801,33 @@ and displaying the sorted inventory.
 
 The parsing and command creation flow is shown below.
 
-![SortCommandParseFlow](diagrams/sequence/SortCommandParseFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/SortCommandParseFlow.png" width="800">
+</p>
 
 The sorting preparation flow is shown below.
 
-![SortCommandSortingFlow](diagrams/sequence/SortCommandSortingFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/SortCommandSortingFlow.png" width="800">
+</p>
 
 The sorted inventory display flow is shown below.
 
-![SortCommandDisplayFlow](diagrams/sequence/SortCommandDisplayFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/SortCommandDisplayFlow.png" width="800">
+</p>
 
 A representative object snapshot for this feature is shown below.
 
-![SortingObjectDiagram](diagrams/object/SortingObjectDiagram.png)
+<p align="center">
+  <img src="diagrams/object/SortingObjectDiagram.png" width="750">
+</p>
 
 #### Sorting logic
 
 The sorting behaviour depends on the user provided sort type.
 
-- 
-ame`: Sorts items alphabetically by item name, ignoring letter case.
+- `Name`: Sorts items alphabetically by item name, ignoring letter case.
 - `expirydate`: Sorts items by expiry date in ascending order, so earlier expiry dates appear first.
 - `qty`: Sorts items by quantity in descending order, so larger quantities appear first.
 
@@ -803,7 +895,9 @@ At a high level, this feature fits into the same command based architecture used
 
 The main structural relationships for the storage feature are shown below.
 
-![SummaryClassDiagram](diagrams/class/SummaryClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/SummaryClassDiagram.png" width="850">
+</p>
 
 #### Implementation details
 
@@ -837,7 +931,9 @@ When the user enters a summary command, the implementation performs the followin
 
 The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
-![SummaryCommandMainFlow](diagrams/sequence/SummaryCommandMainFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/SummaryCommandMainFlow.png" width="800">
+</p>
 
 ### Storage feature
 
@@ -859,7 +955,9 @@ together with the reason the line was skipped.
 
 The main structural relationships for the storage feature are shown below.
 
-![StorageClassDiagram](diagrams/class/StorageClassDiagram.png)
+<p align="center">
+  <img src="diagrams/class/StorageClassDiagram.png" width="850">
+</p>
 
 #### Saving execution flow
 
@@ -871,7 +969,9 @@ When the application saves, `Storage` performs the following sequence:
 
 The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
-![StorageSavingMainFlow](diagrams/sequence/StorageSavingMainFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/StorageSavingMainFlow.png" width="800">
+</p>
 
 #### Loading execution flow
 
@@ -884,7 +984,9 @@ When the application loads data from file, `Storage` performs the following sequ
 
 The main interaction for this flow is illustrated in [ListCommandMainFlow](diagrams/sequence/ListCommandMainFlow.png) below.
 
-![StorageLoadingMainFlow](diagrams/sequence/StorageLoadingMainFlow.png)
+<p align="center">
+  <img src="diagrams/sequence/StorageLoadingMainFlow.png" width="800">
+</p>
 
 #### Why the storage component is implemented this way
 
@@ -898,12 +1000,24 @@ Command format: `delete category/CATEGORY index/INDEX`
 Removes a single item at the given 1-based index from the specified category. The command looks up the category via `inventory.findCategoryByName(...)`, validates the index range, retrieves the item with `category.getItem(itemIndex - 1)`, removes it with `category.removeItem(...)`, and shows a confirmation message.
 Validation is layered: `DeleteCommandParser` rejects missing fields, non-integer indices, and non-positive integers at parse time. `DeleteItemCommand` catches non-existent categories and out-of-range indices at execution time.
 
-Sequence diagram:
-![DeleteItemCommandMainFlow](diagrams/sequence/DeleteItemCommandMainFlow.png)
+Sequence Diagram:
+
+<p align="center">
+  <img src="diagrams/sequence/DeleteItemCommandParseFlow.png" width="800">
+</p>
+
+<p align="center">
+  <img src="diagrams/sequence/DeleteItemCommandExecutionFlow.png" width="800">
+</p>
 
 Class and object diagrams:
-![DeleteItemCommandClassDiagram](diagrams/class/DeleteItemCommandClassDiagram.png)
-![DeleteItemCommandObjectDiagram](diagrams/object/DeleteItemCommandObjectDiagram.png)
+
+<p align="center">
+  <img src="diagrams/class/DeleteItemCommandClassDiagram.png" width="850">
+</p>
+<p align="center">
+  <img src="diagrams/object/DeleteItemCommandObjectDiagram.png" width="750">
+</p>
 
 ### Clear Category Feature
 
@@ -934,12 +1048,24 @@ ui.showCategoryItemsCleared(categoryName);
 ui.showCategoryCleared(categoryName);
 ```
 
-Sequence diagram:
-![ClearCategoryCommandMainFlow](diagrams/sequence/ClearCategoryCommandMainFlow.png)
+Sequence Diagram:
+
+<p align="center">
+  <img src="diagrams/sequence/ClearCategoryCommandParseFlow.png" width="800">
+</p>
+
+<p align="center">
+  <img src="diagrams/sequence/ClearCategoryCommandExecutionFlow.png" width="800">
+</p>
 
 Class and object diagrams:
-![ClearCategoryCommandClassDiagram](diagrams/class/ClearCategoryCommandClassDiagram.png)
-![ClearCategoryCommandObjectDiagram](diagrams/object/ClearCategoryCommandObjectDiagram.png)
+
+<p align="center">
+  <img src="diagrams/class/ClearCategoryCommandClassDiagram.png" width="850">
+</p>
+<p align="center">
+  <img src="diagrams/object/ClearCategoryCommandObjectDiagram.png" width="750">
+</p>
 
 #### Design decisions
 - **Index-based deletion** was chosen over name-based deletion because multiple items can share the same name.
@@ -955,11 +1081,19 @@ Displays a summary of available commands and a link to the User Guide. The comma
 This design keeps help output concise and avoids duplicating detailed usage that already exists in the User Guide. The command summary is currently hard-coded in `UI.showHelp()`.
 
 Sequence diagram:
-![HelpCommandMainFlow](diagrams/sequence/HelpCommandMainFlow.png)
+
+<p align="center">
+  <img src="diagrams/sequence/HelpCommandMainFlow.png" width="800">
+</p>
 
 Class and object diagrams:
-![HelpCommandClassDiagram](diagrams/class/HelpCommandClassDiagram.png)
-![HelpCommandObjectDiagram](diagrams/object/HelpCommandObjectDiagram.png)
+
+<p align="center">
+  <img src="diagrams/class/HelpCommandClassDiagram.png" width="850">
+</p>
+<p align="center">
+  <img src="diagrams/object/HelpCommandObjectDiagram.png" width="750">
+</p>
 
 A possible future improvement is supporting `help COMMAND` to show detailed usage for a specific command.
 
@@ -1028,15 +1162,6 @@ This section provides instructions for manually testing the application.
 2. Compile and run the `InventoryDock` class.
 3. Verify that the application starts successfully and displays the welcome message.
 
-### Adding sample data
-
-1. Use the `add` command to insert sample items into different categories.
-2. Example:
-    - `add category/fruits item/apple bin/A-1 qty/10 expiryDate/2026-4-01 isRipe/true`
-    - `add category/drinks item/cola bin/B-2 qty/5 expiryDate/2026-6-01 isCarbonated/true`
-3. Run `list` to verify that the items are correctly added.
-
-After setting up the application, proceed to the individual test cases below.
 
 ### Testing add item
 
@@ -1072,8 +1197,8 @@ After setting up the application, proceed to the individual test cases below.
 3. Verify that only items in bin `A-1` are shown, and items in `A-10` are not included.
 4. Run `find bin/A`.
 5. Verify that all items with matching bin letter `A` are shown.
-6. Run `find bin/10`.
-7. Verify that items in bins such as `A-10` and `B-10` are shown.
+6. Run `find bin/1`.
+7. Verify that items in bins such as `A-1` and `B-1` are shown.
 8. Run `find bin/Z`.
 9. Verify that the application shows `No items found in bin location: z.` or the corresponding no-match message.
 
@@ -1115,9 +1240,9 @@ After setting up the application, proceed to the individual test cases below.
 
 ### Testing update feature
 
-1. Run `update category/fruits index/1 newItem/green_apple bin/A-2 expiryDate/2026-5-01`
+1. Run `update category/fruits index/1 newItem/green apple bin/A-2 expiryDate/2026-5-01`
 2. Verify that:
-  * The item name is updated to green_apple  
+  * The item name is updated to green apple  
   * The bin location is updated to A-2  
   * The expiry date is updated to 2026-5-01  
 3. Run `list`.
@@ -1125,9 +1250,9 @@ After setting up the application, proceed to the individual test cases below.
 5. Run `update category/unknown index/1 qty/10`
 6. Verify that the application shows a `Not found` error for the missing category.
 7. Run `update category/fruits index/100 qty/10`
-8. Verify that the application shows an `Invalid input` error indicating the index is out of range.
+8. Verify that the application shows a `Not found` error indicating the index is out of range.
 9. Run `update category/fruits index/abc qty/10`
-10. Verify that the application shows `Item index must be an integer.`
+10. Verify that the application shows an `Invalid input` error indicating item index must be an integer.
 11. Run `update category/fruits index/1`
 12. Verify that the application shows `at least one field to update is required.`
 13. Run `update index/1 qty/10`
@@ -1137,15 +1262,17 @@ After setting up the application, proceed to the individual test cases below.
 17. Run `update category/fruits index/1 qty/-5`
 18. Verify that the application shows an `Invalid input` error for the invalid quantity.
 19. Run `update category/fruits index/1 expiryDate/2026/05/01`
-20. Verify that the application shows `Please enter a valid calendar date in yyyy-M-d format.`
+20. Verify that the application shows an `Invalid input` error for wrong date format.
 21. Run `update category/fruits index/1 bin/`
-22. Verify that the application shows `Update token 'bin/' is invalid.`
+22. Verify that the application shows an `Invalid input` error for invalid token.
 23. Run `update category/fruits index/1 isRipe/false`
 24. Verify that the application updates the fruit's ripe status successfully.
 25. Run `update category/fruits index/1 brand/test`
-26. Verify that the application shows `Unsupported update field: brand/.`
+26. Verify that the application shows  an `Invalid input` error for unsupported field.
 27. Run `update category/fruits index/1 isFrozen/true`
 28. Verify that the application shows `isFrozen/ can only be updated for meat.`
+29. Run `update category/fruits index/1 newItem/red apple`
+30. Verify that the application accepts the spaced item name and shows the updated name correctly.
 
 ### Testing Sort Command
 1. Add several items into at least one category with different names, expiry dates, and quantities.
@@ -1196,6 +1323,31 @@ After setting up the application, proceed to the individual test cases below.
 13. Type `no` and press enter.
 14. Verify that the category is not cleared.
 
+### Testing delete item
+
+1. Ensure the inventory contains a non-empty category such as `fruits` with at least two items.
+2. Run `list` and note the item at index 1 in `fruits`.
+3. Run `delete category/fruits index/1`.
+4. Verify that the application shows a confirmation message with the deleted item's name and category.
+5. Run `list`.
+6. Verify that the item is removed and the remaining items are re-indexed.
+7. Run `delete category/unknown index/1`.
+8. Verify that the application shows the category-not-found error.
+9. Run `delete category/fruits index/999`.
+10. Verify that the application shows an out-of-range error indicating the valid range for `fruits`.
+11. Run `delete category/fruits index/0`.
+12. Verify that the application shows "Item index must be a positive integer."
+13. Run `delete category/fruits index/-1`.
+14. Verify that the application shows "Item index must be a positive integer."
+15. Run `delete category/fruits index/abc`.
+16. Verify that the application shows "Item index must be an integer."
+17. Run `delete index/1`.
+18. Verify that the application shows an error indicating that category is required.
+19. Run `delete category/fruits`.
+20. Verify that the application shows an error indicating that index is required.
+21. Run `delete`.
+22. Verify that the application shows an error indicating what to specify.
+
 ### Testing find by keyword
 
 1. Add items with overlapping names such as `apple`, `pineapple`, and `apple_juice` across
@@ -1206,8 +1358,10 @@ After setting up the application, proceed to the individual test cases below.
 5. Verify that the search is case-insensitive and returns the same results.
 6. Run `find keyword/chip`.
 7. Verify that partial matches such as `chips` are returned.
-8. Run `find keyword/mango`.
-9. Verify that the application shows `No items found matching keyword: mango.` when there are no
+8. Run `find keyword/potato chips`.
+9. Verify that the application accepts the multi-word phrase and returns matching items.
+10. Run `find keyword/mango`.
+11. Verify that the application shows `No items found matching keyword: mango.` when there are no
    matches.
 
 ### Testing Summary Command

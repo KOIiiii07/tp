@@ -1,0 +1,45 @@
+@startuml
+title DeleteItemCommand Execution Flow
+
+actor User
+participant DeleteItemCommand
+participant Inventory
+participant Category
+participant UI
+
+User -> DeleteItemCommand : execute()
+activate DeleteItemCommand
+
+DeleteItemCommand -> Inventory : findCategoryByName()
+activate Inventory
+Inventory --> DeleteItemCommand : category
+deactivate Inventory
+
+alt invalid index
+    DeleteItemCommand -> UI : showError()
+    activate UI
+    UI --> DeleteItemCommand
+    deactivate UI
+
+else else
+    DeleteItemCommand -> Category : getItem(index-1)
+    activate Category
+    Category --> DeleteItemCommand : item
+    deactivate Category
+
+    DeleteItemCommand -> Category : removeItem(index-1)
+    activate Category
+    Category --> DeleteItemCommand
+    deactivate Category
+
+    DeleteItemCommand -> UI : showItemDeleted()
+    activate UI
+    UI --> DeleteItemCommand
+    deactivate UI
+    DeleteItemCommand --> User
+    deactivate DeleteItemCommand
+end
+
+deactivate DeleteItemCommand
+
+@enduml

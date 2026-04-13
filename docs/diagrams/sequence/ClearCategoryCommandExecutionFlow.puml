@@ -1,0 +1,56 @@
+@startuml
+title ClearCategoryCommand Execution Flow
+
+actor User
+participant ClearCategoryCommand
+participant Inventory
+participant Category
+participant UI
+
+User -> ClearCategoryCommand : execute()
+activate ClearCategoryCommand
+
+ClearCategoryCommand -> Inventory : findCategoryByName()
+activate Inventory
+Inventory --> ClearCategoryCommand : category
+deactivate Inventory
+
+alt category empty
+    ClearCategoryCommand -> UI : showCategoryAlreadyEmpty()
+    activate UI
+    UI --> ClearCategoryCommand
+    deactivate UI
+
+else else
+    ClearCategoryCommand -> UI : showClearCategoryConfirmation()
+    activate UI
+    UI --> ClearCategoryCommand : response
+    deactivate UI
+
+    alt response == yes
+        ClearCategoryCommand -> Category : getItems().clear()
+        activate Category
+        Category --> ClearCategoryCommand
+        deactivate Category
+
+        ClearCategoryCommand -> UI : showCategoryItemsCleared()
+        activate UI
+        UI --> ClearCategoryCommand
+        deactivate UI
+
+        ClearCategoryCommand -> UI : showCategoryCleared()
+        activate UI
+        UI --> ClearCategoryCommand
+        deactivate UI
+
+    else else
+        ClearCategoryCommand -> UI : showClearCategoryCancelled()
+        activate UI
+        UI --> ClearCategoryCommand
+        deactivate UI
+    end
+end
+
+deactivate ClearCategoryCommand
+
+@enduml

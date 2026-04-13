@@ -13,11 +13,14 @@ class Parser {
 }
 
 class HelpCommand {
+  - arguments: String
+  + HelpCommand(arguments: String)
   + execute(inventory: Inventory, ui: UI)
 }
 
 class UI {
   + showHelp()
+  + showError(label: String, message: String)
 }
 
 Command <|-- HelpCommand

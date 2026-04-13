@@ -62,12 +62,15 @@ I contributed the technical documentation for the features I implemented. Specif
 
 I also added the following UML diagrams:
 Sequence diagrams:
-- [DeleteItemCommandMainFlow.puml](../diagrams/sequence/DeleteItemCommandMainFlow.puml)
-- [ClearCategoryCommandMainFlow.puml](../diagrams/sequence/ClearCategoryCommandMainFlow.puml)
+
 - [FindItemByKeywordCommandParseFlow.puml](../diagrams/sequence/FindItemByKeywordCommandParseFlow.puml)
 - [FindItemByKeywordCommandMatchingFlow.puml](../diagrams/sequence/FindItemByKeywordCommandMatchingFlow.puml)
 - [FindItemByKeywordCommandDisplayFlow.puml](../diagrams/sequence/FindItemByKeywordCommandDisplayFlow.puml)
 - [HelpCommandMainFlow.puml](../diagrams/sequence/HelpCommandMainFlow.puml)
+- [ClearCategoryCommandParseFlow](../diagrams/sequence/ClearCategoryCommandParseFlow.puml)
+- [ClearCategoryCommandExecutionFlow](../diagrams/sequence/ClearCategoryCommandExecutionFlow.puml)
+- [DeleteItemCommandParseFlow](../diagrams/sequence/DeleteItemCommandParseFlow.puml)
+- [DeleteItemCommandExecutionFlow](../diagrams/sequence/DeleteItemCommandExecutionFlow.puml)
 
 Class diagrams:
 - [DeleteItemCommandClassDiagram.puml](../diagrams/class/DeleteItemCommandClassDiagram.puml)

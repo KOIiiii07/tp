@@ -31,7 +31,7 @@ public class FindItemByKeywordCommandTest {
         fruitsCategory.addItem(new Fruit("apple", 40, "A-10", "2026-10-03", true));
         fruitsCategory.addItem(new Fruit("pineapple", 10, "A-11", "2026-10-03", false));
         fruitsCategory.addItem(new Fruit("banana", 30, "B-10", "2026-10-03", true));
-        snacksCategory.addItem(new Snack("chips", 50, "D-05", "2026-10-03", true));
+        snacksCategory.addItem(new Snack("potato chips", 50, "D-05", "2026-10-03", true));
         drinksCategory.addItem(new Drinks("apple_juice", 24, "F-01", "2026-10-03", true));
 
         inventory.addCategory(fruitsCategory);
@@ -40,31 +40,29 @@ public class FindItemByKeywordCommandTest {
     }
 
     @Test
-    public void execute_matchingKeyword_showsMatchingItems() {
+    public void execute_matchingKeyword_showsGroupedResults() {
         FindItemByKeywordCommand command = new FindItemByKeywordCommand("apple");
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
 
-        assertEquals(2, ui.dividerCount);
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("fruits: "
-                + "[Fruit] Name: apple")));
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("fruits: "
-                + "[Fruit] Name: pineapple")));
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("drinks: "
-                + "[Drinks] Name: apple_juice")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("Found 3 item(s)")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("fruits (2):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("apple")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("pineapple")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("drinks (1):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("apple_juice")));
     }
 
     @Test
-    public void execute_partialKeyword_showsPartialMatches() {
+    public void execute_partialKeyword_showsGroupedPartialMatches() {
         FindItemByKeywordCommand command = new FindItemByKeywordCommand("chip");
         TestUI ui = new TestUI();
 
         command.execute(inventory, ui);
 
-        assertEquals(2, ui.dividerCount);
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("snacks: "
-                + "[Snack] Name: chips")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("snacks (1):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("potato chips")));
     }
 
     @Test
@@ -74,12 +72,11 @@ public class FindItemByKeywordCommandTest {
 
         command.execute(inventory, ui);
 
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("fruits: "
-                + "[Fruit] Name: apple")));
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("fruits: "
-                + "[Fruit] Name: pineapple")));
-        assertTrue(ui.messages.stream().anyMatch(message -> message.contains("drinks: "
-                + "[Drinks] Name: apple_juice")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("fruits (2):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("apple")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("pineapple")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("drinks (1):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("apple_juice")));
     }
 
     @Test
@@ -91,7 +88,7 @@ public class FindItemByKeywordCommandTest {
 
         assertEquals(1, ui.messages.size());
         assertEquals("No items found matching keyword: mango.", ui.messages.get(0));
-        assertEquals(0, ui.dividerCount);
+        assertEquals(1, ui.dividerCount);
     }
 
     @Test
@@ -113,8 +110,31 @@ public class FindItemByKeywordCommandTest {
 
         command.execute(inventory, ui);
 
-        assertEquals(2, ui.dividerCount);
-        assertTrue(ui.messages.size() > 1);
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("Found")));
+    }
+
+    @Test
+    public void execute_multiWordKeyword_showsError() {
+        FindItemByKeywordCommand command = new FindItemByKeywordCommand("green apple");
+        TestUI ui = new TestUI();
+
+        command.execute(inventory, ui);
+
+        assertEquals(0, ui.dividerCount);
+        assertEquals(1, ui.errors.size());
+    }
+
+    @Test
+    public void execute_singleCategoryMatch_showsOnlyThatCategory() {
+        FindItemByKeywordCommand command = new FindItemByKeywordCommand("banana");
+        TestUI ui = new TestUI();
+
+        command.execute(inventory, ui);
+
+        assertTrue(ui.messages.stream().anyMatch(m -> m.equals("fruits (1):")));
+        assertTrue(ui.messages.stream().anyMatch(m -> m.contains("banana")));
+        assertTrue(ui.messages.stream().noneMatch(m -> m.contains("snacks")));
+        assertTrue(ui.messages.stream().noneMatch(m -> m.contains("drinks")));
     }
 
     private static class TestUI extends UI {
@@ -133,8 +153,8 @@ public class FindItemByKeywordCommandTest {
         }
 
         @Override
-        public void showError(String message) {
-            errors.add(message);
+        public void showError(String category, String message) {
+            errors.add(category + ": " + message);
         }
     }
 }
