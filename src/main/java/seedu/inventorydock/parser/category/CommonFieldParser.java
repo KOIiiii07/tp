@@ -132,5 +132,4 @@ public class CommonFieldParser {
         logger.log(Level.INFO, "Validating expiry date: " + expiryDate);
         DateParser.validateDate(expiryDate);
     }
-
 }
