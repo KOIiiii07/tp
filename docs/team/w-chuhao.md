@@ -139,22 +139,28 @@ My contributions covered:
 I also added and updated the UML diagrams used to support these Developer Guide sections. These diagrams document both the dynamic execution flow and the static relationships behind the features I implemented.
 
 Sequence diagrams I contributed:
-- [AddItemCommandParseRoutingFlow.puml](../diagrams/sequence/AddItemCommandParseRoutingFlow.puml)`r`n- [AddItemCommandSingleCategoryParsingFlow.puml](../diagrams/sequence/AddItemCommandSingleCategoryParsingFlow.puml)`r`n- [AddItemCommandExecutionDisplayFlow.puml](../diagrams/sequence/AddItemCommandExecutionDisplayFlow.puml)
-- [ListCommandParseFlow.puml](../diagrams/sequence/ListCommandParseFlow.puml)`r`n- [ListCommandTraversalFlow.puml](../diagrams/sequence/ListCommandTraversalFlow.puml)`r`n- [ListCommandDisplayFlow.puml](../diagrams/sequence/ListCommandDisplayFlow.puml)
-- [FindItemByCategoryCommandParseFlow.puml](../diagrams/sequence/FindItemByCategoryCommandParseFlow.puml)`r`n- [FindItemByCategoryCommandMatchingFlow.puml](../diagrams/sequence/FindItemByCategoryCommandMatchingFlow.puml)`r`n- [FindItemByCategoryCommandDisplayFlow.puml](../diagrams/sequence/FindItemByCategoryCommandDisplayFlow.puml)
+- [AddItemCommandParseRoutingFlow.puml](../diagrams/sequence/AddItemCommandParseRoutingFlow.png)
+    [AddItemCommandSingleCategoryParsingFlow.puml](../diagrams/sequence/AddItemCommandSingleCategoryParsingFlow.png)
+    [AddItemCommandExecutionDisplayFlow.puml](../diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
+- [ListCommandParseFlow.puml](../diagrams/sequence/ListCommandParseFlow.png)
+    [ListCommandTraversalFlow.puml](../diagrams/sequence/ListCommandTraversalFlow.png)
+    [ListCommandDisplayFlow.puml](../diagrams/sequence/ListCommandDisplayFlow.png)
+- [FindItemByCategoryCommandParseFlow.puml](../diagrams/sequence/FindItemByCategoryCommandParseFlow.png)
+    [FindItemByCategoryCommandMatchingFlow.puml](../diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png) 
+    [FindItemByCategoryCommandDisplayFlow.puml](../diagrams/sequence/FindItemByCategoryCommandDisplayFlow.puml)
 - [FindItemByBinCommandMainFlow.puml](../diagrams/sequence/FindItemByBinCommandMainFlow.puml)
 
 Class diagrams I contributed:
-- [AddItemCommandClassDiagram.puml](../diagrams/class/AddItemCommandClassDiagram.puml)
-- [ListCommandClassDiagram.puml](../diagrams/class/ListCommandClassDiagram.puml)
-- [FindItemByCategoryCommandClassDiagram.puml](../diagrams/class/FindItemByCategoryCommandClassDiagram.puml)
-- [FindItemByBinCommandClassDiagram.puml](../diagrams/class/FindItemByBinCommandClassDiagram.puml)
+- [AddItemCommandClassDiagram.puml](../diagrams/class/AddItemCommandClassDiagram.png)
+- [ListCommandClassDiagram.puml](../diagrams/class/ListCommandClassDiagram.png)
+- [FindItemByCategoryCommandClassDiagram.puml](../diagrams/class/FindItemByCategoryCommandClassDiagram.png)
+- [FindItemByBinCommandClassDiagram.puml](../diagrams/class/FindItemByBinCommandClassDiagram.png)
 
 Object diagrams I contributed:
-- [AddItemCommandObjectDiagram.puml](../diagrams/object/AddItemCommandObjectDiagram.puml)
-- [ListCommandObjectDiagram.puml](../diagrams/object/ListCommandObjectDiagram.puml)
-- [FindItemByCategoryCommandObjectDiagram.puml](../diagrams/object/FindItemByCategoryCommandObjectDiagram.puml)
-- [FindItemByBinCommandObjectDiagram.puml](../diagrams/object/FindItemByBinCommandObjectDiagram.puml)
+- [AddItemCommandObjectDiagram.puml](../diagrams/object/AddItemCommandObjectDiagram.png)
+- [ListCommandObjectDiagram.puml](../diagrams/object/ListCommandObjectDiagram.png)
+- [FindItemByCategoryCommandObjectDiagram.puml](../diagrams/object/FindItemByCategoryCommandObjectDiagram.png)
+- [FindItemByBinCommandObjectDiagram.puml](../diagrams/object/FindItemByBinCommandObjectDiagram.png)
 
 I also updated the diagram set later to keep the generated documentation consistent after the product name was changed from Duke to InventoryDock.
 
