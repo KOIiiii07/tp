@@ -156,11 +156,12 @@ Diagram files I contributed:
 - [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28) Suggested combining parser-related classes and extracting shared validation/parsing logic to improve abstraction and readability.
 - [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32) Reviewed the refactor of `AddItemCommandParser` and related UI changes, with feedback on abstraction and code clarity.
 - [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39) Reviewed assertion and logging changes for delete flows, commenting on consistency and debuggability.
-- [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour, logging, error handling, and test coverage.
+- [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour and error handling, suggested that user-input errors should throw a `DukeException` instead of being handled directly in-place using ui.show(), to keep failure handling more consistent across the codebase.
 - [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55) Gave feedback on storage logging noise, reuse of parsing helpers, and maintainability of category-handling logic.
 - [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
 - [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
 - [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
+
 
 
 
