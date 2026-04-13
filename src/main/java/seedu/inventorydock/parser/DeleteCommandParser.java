@@ -54,16 +54,16 @@ public class DeleteCommandParser {
             String value = token.substring(sep + 1).trim();
 
             switch (key) {
-                case "category":
-                    categoryName = value;
-                    break;
-                case "index":
-                    indexString = value;
-                    break;
-                default:
-                    logger.log(Level.WARNING, "Unknown delete field: " + key);
-                    throw new InvalidCommandException("field '" + key + "' is not supported. Use: delete "
-                            + "category/CATEGORY index/INDEX");
+            case "category":
+                categoryName = value;
+                break;
+            case "index":
+                indexString = value;
+                break;
+            default:
+                logger.log(Level.WARNING, "Unknown delete field: " + key);
+                throw new InvalidCommandException("field '" + key + "' is not supported. Use: delete "
+                        + "category/CATEGORY index/INDEX");
             }
         }
 
