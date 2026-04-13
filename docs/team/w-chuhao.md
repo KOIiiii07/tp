@@ -16,6 +16,7 @@ Given below are my contributions to the project.
   - What it does: Allows users to use the `list` command to view the complete inventory after adding, updating, deleting, or loading items from storage.
   - Justification: This is a foundational read operation that gives users a quick snapshot of current stock and supports many other workflows, such as checking inventory state before update or delete operations.
   - Highlights: I added `ListCommand`, integrated it into the parser flow, added tests to verify expected listing behaviour, and ensured it cooperates with the application's exception-based error-handling flow.
+  - Representative PR: [#34](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/34)
 
 - **New Feature**: Added the ability to find items by category.
   - What it does: Allows users to retrieve all items stored in a specified category using `find category/CATEGORY`.
@@ -47,15 +48,8 @@ Given below are my contributions to the project.
   - Helped maintain project quality by fixing Gradle or style-check issues during integration.
 
 - **Community**:
-  - Reviewed teammates' PRs and gave concrete code-review feedback on parser structure, model design, logging, storage behaviour, and test quality. Examples include:
-  - [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28) Suggested combining parser-related classes and extracting shared validation/parsing logic to improve abstraction and readability.
-  - [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32) Reviewed the refactor of `AddItemCommandParser` and related UI changes, with feedback on abstraction and code clarity.
-  - [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39) Reviewed assertion and logging changes for delete flows, commenting on consistency and debuggability.
-  - [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50) Reviewed the expiry-date search feature, including parser behaviour and error handling, suggested that user-input errors should throw a `DukeException` instead of being handled directly in-place using ui.show(), to keep failure handling more consistent across the codebase.
-  - [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55) Gave feedback on storage logging noise, reuse of parsing helpers, and maintainability of category-handling logic.
-  - [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57) Commented on the logging feature changes during team integration.
-  - [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63) Helped refine the design of newly added item categories by pushing for a more consistent data model across item types.
-  - [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86) Reviewed parsing improvements and suggested ways to keep item-field design more consistent for future iterations.
+  - PRs reviewed (with non-trivial review comments): [#28](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/28), [#32](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/32), [#39](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/39), [#50](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/50), [#55](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/55), [#57](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/57), [#63](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/63), [#86](https://github.com/AY2526S2-CS2113-W09-2/tp/pull/86)
+  - Reported bugs and suggestions for other teams in the class: helped team `CS2113-T11-2` identify bugs and improvement areas.
 
 ### Contributions to the User Guide
 
@@ -95,20 +89,25 @@ Diagram files I contributed:
 - [AddItemCommandParseRoutingFlow](../diagrams/sequence/AddItemCommandParseRoutingFlow.png)
 - [AddItemCommandSingleCategoryParsingFlow](../diagrams/sequence/AddItemCommandSingleCategoryParsingFlow.png)
 - [AddItemCommandExecutionDisplayFlow](../diagrams/sequence/AddItemCommandExecutionDisplayFlow.png)
-- [ListCommandParseFlow](../diagrams/sequence/ListCommandParseFlow.png)
-- [ListCommandTraversalFlow](../diagrams/sequence/ListCommandTraversalFlow.png)
-- [ListCommandDisplayFlow](../diagrams/sequence/ListCommandDisplayFlow.png)
+- [ListCommandMainFlow](../diagrams/sequence/ListCommandMainFlow.png)
 - [FindItemByCategoryCommandParseFlow](../diagrams/sequence/FindItemByCategoryCommandParseFlow.png)
 - [FindItemByCategoryCommandMatchingFlow](../diagrams/sequence/FindItemByCategoryCommandMatchingFlow.png)
 - [FindItemByCategoryCommandDisplayFlow](../diagrams/sequence/FindItemByCategoryCommandDisplayFlow.png)
-- [FindItemByBinCommandMainFlow](../diagrams/sequence/FindItemByBinCommandMainFlow.png)
+- [FindItemByBinCommandParseFlow](../diagrams/sequence/FindItemByBinCommandParseFlow.png)
+- [FindItemByBinCommandMatchingFlow](../diagrams/sequence/FindItemByBinCommandMatchingFlow.png)
+- [FindItemByBinCommandDisplayFlow](../diagrams/sequence/FindItemByBinCommandDisplayFlow.png)
+- [FindItemByQtyCommandParseFlow](../diagrams/sequence/FindItemByQtyCommandParseFlow.png)
+- [FindItemByQtyCommandMatchingFlow](../diagrams/sequence/FindItemByQtyCommandMatchingFlow.png)
+- [FindItemByQtyCommandDisplayFlow](../diagrams/sequence/FindItemByQtyCommandDisplayFlow.png)
 - Class diagrams:
 - [AddItemCommandClassDiagram](../diagrams/class/AddItemCommandClassDiagram.png)
 - [ListCommandClassDiagram](../diagrams/class/ListCommandClassDiagram.png)
 - [FindItemByCategoryCommandClassDiagram](../diagrams/class/FindItemByCategoryCommandClassDiagram.png)
 - [FindItemByBinCommandClassDiagram](../diagrams/class/FindItemByBinCommandClassDiagram.png)
+- [FindItemByQtyCommandClassDiagram](../diagrams/class/FindItemByQtyCommandClassDiagram.png)
 - Object diagrams:
 - [AddItemCommandObjectDiagram](../diagrams/object/AddItemCommandObjectDiagram.png)
 - [ListCommandObjectDiagram](../diagrams/object/ListCommandObjectDiagram.png)
 - [FindItemByCategoryCommandObjectDiagram](../diagrams/object/FindItemByCategoryCommandObjectDiagram.png)
 - [FindItemByBinCommandObjectDiagram](../diagrams/object/FindItemByBinCommandObjectDiagram.png)
+- [FindItemByQtyCommandObjectDiagram](../diagrams/object/FindItemByQtyCommandObjectDiagram.png)
