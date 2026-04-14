@@ -272,7 +272,6 @@ Expected result:
 
 * Items in each category are sorted according to the chosen sort type.
 * Category order remains unchanged.
-* If the inventory is empty, the app shows the empty inventory.
 
 ### Update an item: `update`
 
