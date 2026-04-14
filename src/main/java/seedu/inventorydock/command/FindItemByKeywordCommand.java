@@ -48,11 +48,6 @@ public class FindItemByKeywordCommand extends Command {
         assert ui != null : "FindItemByKeywordCommand received null UI.";
         assert keywordInput != null : "FindItemByKeywordCommand received null keyword input.";
 
-        if (keywordInput.contains(" ")) {
-            ui.showError("Invalid input", "keyword/ accepts only a single keyword.");
-            return;
-        }
-
         Map<String, List<String>> matchesByCategory = new LinkedHashMap<>();
         int totalMatches = 0;
         List<Category> categories = inventory.getCategories();

@@ -218,19 +218,18 @@ When the user enters an add command, the implementation performs the following s
 6. `AddItemCommandParser` creates an `Item` subtype and wraps it in an `AddItemCommand`.
 7. `InventoryDock` executes `AddItemCommand.execute(inventory, ui)`.
 8. `AddItemCommand` calls `inventory.findCategoryByName(categoryName)`.
-9. If the category exists, `AddItemCommand` computes a normalized batch-identity key for the new item.
-10. `AddItemCommand` scans existing items in the same category and compares normalized keys.
-11. The normalized key ignores `qty/` and `bin/`, and compares the remaining stored fields.
-12. If a duplicate batch is found, `AddItemCommand` throws `DuplicateItemException` with
+9. If the category exists, `AddItemCommand` calls `DuplicateIdentityParser.findDuplicateItem(category, item)`.
+10. The duplicate-batch check ignores `qty/` and `bin/`, and compares the remaining stored fields.
+11. If a duplicate batch is found, `AddItemCommand` throws `DuplicateItemException` with
     `Duplicate item found for category/<category> item/<item>.`.
-13. If no duplicate is found, `AddItemCommand` calls `category.addItem(item)`.
-14. `UI.showItemAdded(...)` displays the confirmation to the user.
+12. If no duplicate is found, `AddItemCommand` calls `category.addItem(item)`.
+13. `UI.showItemAdded(...)` displays the confirmation to the user.
 
 The execution logic in `AddItemCommand` keeps validation and mutation together:
 
 ```java
 Category category = inventory.findCategoryByName(categoryName);
-Item duplicateItem = findDuplicateItem(category, item);
+Item duplicateItem = DuplicateIdentityParser.findDuplicateItem(category, item);
 if (duplicateItem != null) {
     throw new DuplicateItemException("Duplicate item found for category/"
             + category.getName() + " item/" + item.getName() + ".");
@@ -570,7 +569,7 @@ Item item = category.getItem(itemIndex - 1);
 String originalName = item.getName();
 ItemSnapshot snapshot = ItemSnapshot.from(item);
 applyUpdates(item);
-Item duplicate = findDuplicateItem(category, item);
+Item duplicate = DuplicateIdentityParser.findDuplicateItem(category, item);
 if (duplicate != null && duplicate != item) {
    restoreFromSnapshot(item, snapshot);
    throw new DuplicateItemException("Duplicate item found for category/"
@@ -998,7 +997,7 @@ The main interaction for this flow is illustrated in below.
 #### Why the storage component is implemented this way
 
 A simple text-based format is used because it is lightweight, easy to inspect during debugging, and does not require 
-external libraries or database setup. Reusing the existing add-item parsing flow also avoids duplicating parsing 
+external libraries or database setup. Reusing the existing add item parsing flow also avoids duplicating parsing 
 logic and helps keep storage behaviour consistent with normal command handling.
 
 ### Delete Feature
@@ -1102,7 +1101,7 @@ Class and object diagrams:
   <img src="diagrams/object/HelpCommandObjectDiagram.png" width="200">
 </p>
 
-A possible future improvement is supporting `help COMMAND` to show detailed usage for a specific command.
+<div style="page-break-before: always;"></div>
 
 ## Product scope
 ### Target user profile
@@ -1385,11 +1384,3 @@ This section provides instructions for manually testing the application.
 10. Verify that the application shows `N/A` for the corresponding summary fields.
 11. Run `summary invalidType`. 
 12. Verify that the application shows the appropriate invalid summary type error message.
-
-
-
-
-
-
-
-
