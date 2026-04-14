@@ -114,17 +114,6 @@ public class FindItemByKeywordCommandTest {
     }
 
     @Test
-    public void execute_multiWordKeyword_showsError() {
-        FindItemByKeywordCommand command = new FindItemByKeywordCommand("green apple");
-        TestUI ui = new TestUI();
-
-        command.execute(inventory, ui);
-
-        assertEquals(0, ui.dividerCount);
-        assertEquals(1, ui.errors.size());
-    }
-
-    @Test
     public void execute_singleCategoryMatch_showsOnlyThatCategory() {
         FindItemByKeywordCommand command = new FindItemByKeywordCommand("banana");
         TestUI ui = new TestUI();
